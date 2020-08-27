@@ -1,0 +1,299 @@
+  .fz-6 {
+    font-size: 12rpx !important;
+  }
+  .fz-7 {
+    font-size: 14rpx !important;
+  }
+  .fz-8 {
+    font-size: 16rpx !important;
+  }
+  .fz-9 {
+    font-size: 18rpx !important;
+  }
+  .fz-10 {
+    font-size: 20rpx !important;
+  }
+  .fz-11 {
+    font-size: 22rpx !important;
+  }
+  .fz-12 {
+    font-size: 24rpx !important;
+  }
+  .fz-13 {
+    font-size: 26rpx !important;
+  }
+  .fz-14 {
+    font-size: 28rpx !important;
+  }
+  .fz-15 {
+    font-size: 30rpx !important;
+  }
+  .fz-16 {
+    font-size: 32rpx !important;
+  }
+  .fz-17 {
+    font-size: 34rpx !important;
+  }
+  .fz-18 {
+    font-size: 36rpx !important;
+  }
+  .fz-19 {
+    font-size: 38rpx !important;
+  }
+  .fz-20 {
+    font-size: 40rpx !important;
+  }
+  .fz-21 {
+    font-size: 42rpx !important;
+  }
+  .fz-22 {
+    font-size: 44rpx !important;
+  }
+  .fz-30 {
+    font-size: 60rpx !important;
+  }
+  .fz-35 {
+    font-size: 70rpx !important;
+  }
+  /* font color */
+  .fc-fff {
+    color: #fff !important;
+  }
+  .fc-333 {
+    color: #333 !important;
+  }
+  .fc-000 {
+    color: #000 !important;
+  }
+  .fc-999 {
+    color: #999 !important;
+  }
+  .fc-666 {
+    color: #666 !important;
+  }
+  .fc-89 {
+    color: #898989 !important;
+  }
+  .fc-7e {
+    color: #7E6B5A !important;
+  }
+  .fc-43 {
+    color: #434343 !important;
+  }
+  .fc-7d {
+    color: #7DCA91 !important;
+  }
+  .fc-5d {
+    color: #5D6983 !important;
+  }
+  .fc-f8 {
+    color: #f8f8f8 !important;
+  }
+  .fc-f1 {
+    color: #F11B20 !important;
+  }
+  .bg-fff{
+    background-color: #fff;
+  }
+  .fw-bold {
+    font-weight: bold;
+  }
+  .td-text{
+    text-decoration: line-through;
+  }
+  .fw-400 {
+    font-weight: 550;
+  }
+  /* 布局 */
+  .fl-ff {
+    display: flex;
+  }
+  .fl-al {
+    display: flex;
+    align-items: center;
+  }
+  .fl-cen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fl-bt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fl-btw {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fl-btc {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .fl-fc {
+    display: flex;
+    flex-direction: column;
+  }
+  .fl-fca {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .fl-co {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  /* margin */
+  
+  /* top */
+  .mr-t-10 {
+    margin-top: 10rpx;
+  }
+  .mr-t-2 {
+    margin-top: 2rpx;
+  }
+  .mr-t-4 {
+    margin-top: 4rpx;
+  }
+  .mr-t-6 {
+    margin-top: 6rpx;
+  }
+  .mr-t-16 {
+    margin-top: 16rpx;
+  }
+  .mr-t-20 {
+    margin-top: 20rpx;
+  }
+  .mr-t-30 {
+    margin-top: 30rpx;
+  }
+  .mr-t-40 {
+    margin-top: 40rpx;
+  }
+  .mr-t-44 {
+    margin-top: 44rpx;
+  }
+  .mr-t-50 {
+    margin-top: 50rpx;
+  }
+  .mr-t-60 {
+    margin-top: 60rpx;
+  }
+  .mr-t-70 {
+    margin-top: 70rpx;
+  }
+  /* left */
+  .mr-l-2 {
+    margin-left: 2rpx;
+  }
+  .mr-l-4 {
+    margin-left: 4rpx;
+  }
+  .mr-l-6 {
+    margin-left: 6rpx;
+  }
+  .mr-l-8 {
+    margin-left: 8rpx;
+  }
+  .mr-l-10 {
+    margin-left: 10rpx;
+  }
+  .mr-l-20 {
+    margin-left: 20rpx;
+  }
+  .mr-l-30 {
+    margin-left: 30rpx;
+  }
+  .mr-l-40 {
+    margin-left: 40rpx;
+  }
+  .mr-l-50 {
+    margin-left: 50rpx;
+  }
+  .mr-l-59 {
+    margin-left: 59rpx;
+  }
+  .mr-l-60 {
+    margin-left: 60rpx;
+  }
+  .mr-l-74 {
+    margin-left: 74rpx;
+  }
+  .mr-l-100 {
+    margin-left: 100rpx;
+  }
+  /* bottom */
+  .mr-b-10 {
+    margin-bottom: 10rpx;
+  }
+  .mr-b-20 {
+    margin-bottom: 20rpx;
+  }
+  .mr-b-30 {
+    margin-bottom: 30rpx;
+  }
+  .mr-b-40 {
+    margin-bottom: 40rpx;
+  }
+  .mr-b-50 {
+    margin-bottom: 50rpx;
+  }
+  /* right */
+  .mr-r-10 {
+    margin-right: 10rpx;
+  }
+  .mr-r-20 {
+    margin-right: 20rpx;
+  }
+  .mr-r-30 {
+    margin-right: 30rpx;
+  }
+  .mr-r-40 {
+    margin-right: 40rpx;
+  }
+  .mr-r-50 {
+    margin-right: 50rpx;
+  }
+  .mr-r-59 {
+    margin-right: 59rpx;
+  }
+  .mr-r-60 {
+    margin-right: 60rpx;
+  }
+  .mr-r-74 {
+    margin-right: 74rpx;
+  }
+
+/* 頁面複用樣式 */
+/* 沒有數據 */
+.no-data-content {
+  margin-top: 200rpx;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.no-data-img {
+  width: 340rpx;
+  height: 361rpx;
+}
+/* <div class="no-data-content">
+<image class="no-data-img" src="../../static/notdata.png" />
+</div> */
+
+/* 文字超長 ... */
+.text-lang-dian {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.text-lang-dian2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
