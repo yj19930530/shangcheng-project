@@ -19,25 +19,25 @@
           v-if="item.check===1"
           class="check-img mr-l-30"
           src="../../static/shop/yse.png"
-          @tap="checkChoose(index,0)"
+          @tap.native.stop="checkChoose(index,0)"
         />
         <image
           v-if="item.check===0"
           class="check-img mr-l-30"
           src="../../static/shop/no.png"
-          @tap="checkChoose(index,1)"
+          @tap.native.stop="checkChoose(index,1)"
         />
-        <image class="row-shop-img" src="../../static/home/9.png" />
-        <div class="row-right-content">
+        <image class="row-shop-img" src="../../static/home/9.png" @tap="navPathToGoods" />
+        <div class="row-right-content" @tap.native.stop="navPathToGoods">
           <div class="fz-15 text-width-row">初印象-多效修护精华水蓝铜胜肽</div>
           <text class="fz-14 fc-999 mr-t-20">已选02（浮雕版）</text>
           <div class="fl-al mr-t-20">
             <text class="fz-17 fw-bold fc-f1">¥{{item.pri}}</text>
             <text class="fz-14 fc-999 td-text mr-l-10">¥369</text>
             <div class="count-box fl-bt">
-              <div class="count-row fl-cen fz-14 fc-999" @tap="declineHandle(index)">-</div>
+              <div class="count-row fl-cen fz-14 fc-999" @tap.native.stop="declineHandle(index)">-</div>
               <div class="count-row2 fl-cen fz-14 fc-999">{{item.count}}</div>
-              <div class="count-row fl-cen fz-14 fc-999" @tap="inclineHandle(index)">+</div>
+              <div class="count-row fl-cen fz-14 fc-999" @tap.native.stop="inclineHandle(index)">+</div>
             </div>
           </div>
         </div>
@@ -154,6 +154,11 @@ export default {
     navPathTo() {
       uni.navigateTo({
         url: "/subPackages/shop/orderComfim",
+      });
+    },
+    navPathToGoods() {
+      uni.navigateTo({
+        url: "/subPackages/home/shopDetail",
       });
     },
   },

@@ -103,12 +103,6 @@
 					}
 				},
 				{
-					"path": "orderType",
-					"style": {
-						"navigationBarTitleText": "订单详情"
-					}
-				},
-				{
 					"path": "addGoodsAdress",
 					"style": {
 						"navigationBarTitleText": "编辑收货地址"
@@ -136,6 +130,36 @@
 					"path": "atcList",
 					"style": {
 						"navigationBarTitleText": "相关文章"
+					}
+				},
+				{
+					"path": "personEdit",
+					"style": {
+						"navigationBarTitleText": "完善个人信息"
+					}
+				},
+				{
+					"path": "wuliu",
+					"style": {
+						"navigationBarTitleText": "物流详情"
+					}
+				},
+				{
+					"path": "msgCenter",
+					"style": {
+						"navigationBarTitleText": "消息中心"
+					}
+				},
+				{
+					"path": "msgDetail",
+					"style": {
+						"navigationBarTitleText": "服务通知"
+					}
+				},
+				{
+					"path": "myCollection",
+					"style": {
+						"navigationBarTitleText": ""
 					}
 				}
 			]

@@ -11,7 +11,7 @@
           <image class="search-style mr-l-30" src="../../static/home/ss.png" />
           <text class="fz-12 fc-89 mr-l-10">请输入商品名称</text>
         </view>
-        <div class="message-content fl-al">
+        <div class="message-content fl-al" @tap="navToPathMsg">
           <view class="message-number fl-cen fz-10">2</view>
           <image class="right-message-btn mr-r-20" src="../../static/home/xinxi.png" />
         </div>
@@ -36,10 +36,10 @@
         <text class="fz-9 mr-t-10">Endless Exploration Long-lasting Beauty</text>
       </div>
       <div class="shops-list-content fl-btw">
-        <image class="shops-item-img" src="../../static/home/9.png" />
-        <image class="shops-item-img" src="../../static/home/9.png" />
-        <image class="shops-item-img" src="../../static/home/9.png" />
-        <image class="shops-item-img" src="../../static/home/9.png" />
+        <image @tap="navToDetail" class="shops-item-img" src="../../static/home/9.png" />
+        <image @tap="navToDetail" class="shops-item-img" src="../../static/home/9.png" />
+        <image @tap="navToDetail" class="shops-item-img" src="../../static/home/9.png" />
+        <image @tap="navToDetail" class="shops-item-img" src="../../static/home/9.png" />
       </div>
       <!-- 新品上线 -->
       <div class="fl-cen new-shop-tile">
@@ -47,7 +47,7 @@
         <text class="mr-l-10 fz-11 fc-fff">新品上线 惊喜大派送</text>
       </div>
       <div class="new-shop-list fl-co">
-        <image v-for="item in 3" :key="item" class="new-shop-img" src="../../static/home/9.png" />
+        <image @tap="navToDetail" v-for="item in 3" :key="item" class="new-shop-img" src="../../static/home/9.png" />
       </div>
     </div>
   </view>
@@ -60,6 +60,16 @@ export default {
       autoplay: true,
       interval: 3000,
       duration: 500,
+    };
+  },
+  onShareAppMessage(res) {
+    if (res.from === "button") {
+      // 来自页面内分享按钮
+      console.log(res.target);
+    }
+    return {
+      title: "自定义分享标题",
+      path: "/pages/page/home",
     };
   },
   computed: {
@@ -76,6 +86,11 @@ export default {
     navToPathSearch() {
       uni.navigateTo({
         url: "/subPackages/class/search",
+      });
+    },
+    navToPathMsg() {
+      uni.navigateTo({
+        url: "/subPackages/me/msgCenter",
       });
     },
   },

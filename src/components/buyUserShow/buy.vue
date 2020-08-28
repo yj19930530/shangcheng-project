@@ -1,5 +1,5 @@
 <template>
-  <div class="buy-item-box mr-t-20">
+  <div class="buy-item-box">
     <div class="fl-al">
       <image class="buy-header-img" src="../../static/me/me-bg.png" />
       <text class="fz-14">包***铺</text>
@@ -13,6 +13,9 @@
   </div>
 </template>
 <style scoped>
+.buy-item-box {
+  padding-top: 20rpx;
+}
 .buy-header-img {
   width: 60rpx;
   height: 60rpx;

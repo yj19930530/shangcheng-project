@@ -25,7 +25,7 @@
         <image class="row-title-icon" src="../../static/shop/home.png" />
         <text class="fz-15 fw-bold mr-l-10">初印象Firstyinas</text>
       </div>
-      <div class="comfirm-row-box fl-bt" v-for="item in 2" :key="item">
+      <div class="comfirm-row-box fl-bt" v-for="item in 2" :key="item" @tap="navToDetail">
         <image class="row-left-img mr-l-40" src="../../static/home/9.png" />
         <div class="row-right-box">
           <text class="fz-15">初印象-多效修护精华水（蓝铜胜肽）</text>
@@ -87,6 +87,11 @@ export default {
     chooseAddress() {
       uni.navigateTo({
         url: "/subPackages/me/goodsArdressList",
+      });
+    },
+    navToDetail() {
+      uni.navigateTo({
+        url: "/subPackages/home/shopDetail",
       });
     },
     // 跳转付款页面

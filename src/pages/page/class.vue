@@ -53,7 +53,12 @@
             <image class="shu-style mr-l-6" src="../../static/me/shu.png" />
           </div>
           <div class="commodity-bottom-box">
-            <div class="fl-co commodity-item-style" v-for="(i,n) in item.arr" :key="n">
+            <div
+              @tap="navToDetail"
+              class="fl-co commodity-item-style"
+              v-for="(i,n) in item.arr"
+              :key="n"
+            >
               <image class="commodity-shop-img" src="../../static/home/9.png" />
               <div class="commodity-shop-name fz-12">{{i}}</div>
             </div>
@@ -151,6 +156,11 @@ export default {
     this.getDomHeight();
   },
   methods: {
+    navToDetail() {
+      uni.navigateTo({
+        url: "/subPackages/home/shopDetail",
+      });
+    },
     navToPathSearch() {
       uni.navigateTo({
         url: "/subPackages/class/search",
