@@ -161,9 +161,9 @@ export default {
     return {
       commentType: false,
       commentHeight: 0,
-      atcId: 0,
-      atcObj: {},
-      userInfo: {},
+      atcId: 0, // 文章id
+      atcObj: {}, // 页面详情
+      userInfo: {}, // 用户info
       commentForm: {
         componentType: 1,
         componentInfo: "",
@@ -171,13 +171,13 @@ export default {
         componentObj: "artice",
         componentId: "",
         replyUserno: "",
-      },
-      commentImgList: [],
-      pageType: false,
-      commentPlace: "",
-      hType: true,
+      },// 评论表单
+      commentImgList: [], // 评论图片显示列表
+      pageType: false, // 页面显示状态
+      commentPlace: "",// 评论的默认文字
+      hType: true, // 评论上传图片type
       textLength: 0, // 评论文字长度
-      httpImg: atcImgUrl,
+      httpImg: atcImgUrl, // 图片显示
     };
   },
   onLoad(obj) {
