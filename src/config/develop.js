@@ -1,4 +1,4 @@
-let http = '', httpImg = '', httpDetailImg = '';
+let http = '', httpImg = '', httpDetailImg = '', uploadImgUrl = "", atcImgUrl = "", url = "http://192.168.1.72:9966";
 const env = process.env.NODE_ENV;
 switch (env) {
     case 'test': {
@@ -10,9 +10,11 @@ switch (env) {
         break;
     }
     default: {
-        http = 'http://192.168.1.72:9966/erpManageSystem';
-        httpImg = 'http://192.168.1.72:9966/erpManageSystem/static/images/upload/goods/';
-        httpDetailImg = 'http://192.168.1.72:9966/erpManageSystem/static/images/upload/goodDetails/';
+        http = url + '/erpManageSystem';
+        httpImg = url + '/erpManageSystem/static/images/upload/goods/';
+        httpDetailImg = url + '/erpManageSystem/static/images/upload/goodDetails/';
+        uploadImgUrl = url + '/erpManageSystem/static/images/upload/smallProgram/';
+        atcImgUrl = url + '/erpManageSystem/static/images/upload/smallProgram/article/';
         // http = 'https://www.chuyinxiang.net//erpManageSystem';
         // httpImg = 'https://www.chuyinxiang.net//erpManageSystem/static/images/upload/goods/';
         // httpDetailImg = 'https://www.chuyinxiang.net//erpManageSystem/static/images/upload/goodDetails/';
@@ -22,5 +24,7 @@ switch (env) {
 module.exports = {
     http,
     httpImg,
-    httpDetailImg
+    httpDetailImg,
+    uploadImgUrl,
+    atcImgUrl
 }

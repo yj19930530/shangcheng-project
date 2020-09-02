@@ -34,6 +34,7 @@ export default {
 /*每个页面公共css */
 @import "./styles/common.css";
 @import "./styles/iconfont/iconfont.css";
+/* @import url("./components/gaoyia-parse/parse.css"); */
 page {
   height: 100%;
   color: #333333;

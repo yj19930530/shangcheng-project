@@ -57,42 +57,36 @@ function getData(key) {
     return uni.getStorageSync(key)
 }
 // 上传图片
-function updataImg() {
+function updataImg(num) {
     return new Promise((resolve, reject) => {
         uni.showLoading({
             title: '上传中'
         });
         uni.chooseImage({
-            count: 5,
+            count: num,
             sizeType: 'compressed',
             success: res => {
                 let imgArr = [];
                 res.tempFilePaths.forEach(item => {
                     uni.uploadFile({
-                        url: http + '/wechatUpload/picture',
+                        url: http + '/smallprogramMain/handleUploadFileArticle',
                         name: 'file',
                         filePath: item,
                         header: { 'token': token },
+                        formData: {
+                            types: 'img'
+                        },
                         success: (r) => {
+                            let uploadData = JSON.parse(r.data);
                             uni.hideLoading();
-                            let resolveData = JSON.parse(r.data)
-                            if (resolveData.code === -100) {
-                                uni.showModal({
-                                    title: '提示',
-                                    content: resolveData.msg,
-                                    showCancel: false,
-                                    confirmText: '返回登录',
-                                    success: function () {
-                                        uni.reLaunch({
-                                            url: "/pages/page/login"
-                                        })
-                                    }
-                                });
+                            if (uploadData.state !== 200) {
+                                uni.showToast({
+                                    title: uploadData.message,
+                                })
                             } else {
-                                let imgObj = JSON.parse(r.data).body;
                                 imgArr.push({
                                     imgPath: item,
-                                    imgObj: imgObj[0].url
+                                    imgObj: uploadData.data
                                 })
                                 if (res.tempFilePaths.length === imgArr.length) {
                                     resolve(imgArr)

@@ -114,7 +114,6 @@ export default {
     },
     // 切换默认
     checkHandle() {
-      console.log(this.form.isdefault);
       if (this.form.isdefault === 1) {
         this.form.isdefault = 0;
       } else {
@@ -125,7 +124,6 @@ export default {
     saveAndUse() {
       const val = graceChecker.check(this.form, this.rules);
       if (val) {
-        console.log(this.form);
         if (this.addressVal === "省市区县、乡等")
           return toast.showToast("请选择所在地区");
         toast.showLoading("添加中");

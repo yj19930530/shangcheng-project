@@ -14,7 +14,21 @@ const editDefaultAddress = (data) => postRequest('/smallprogramMain/handleUpdate
 // 新增订单
 const addOrder = (data) => postRequest('/smallprogramMain/handleAddOrder', data);
 // 获取相关文章
-const getAboutAtc = (data) => postRequest('/sa/index/front/findIndexOrOtherArticlePage', data,'no');
+const getAboutAtc = (data) => postRequest('/sa/index/front/findIndexOrOtherArticlePage', data, 'no');
+// 文章点赞
+const articleDz = (data) => postRequest('/web/article/dz', data, 'no');
+// 文章评论
+const articlePl = (data) => postRequest('/web/article/pl', data, 'no');
+// 文章收藏
+const articleSc = (data) => postRequest('/web/article/sc', data, 'no');
+// 文章转发
+const articleZc = (data) => postRequest('/web/article/zf', data, 'no');
+// 关注
+const articleGz = (data) => postRequest('/smallprogramMain/handleAddFans', data, 'no');
+// 取消关注
+const articleCloseGz = (data) => postRequest('/smallprogramMain/handleDelFans', data, 'no');
+// 评论文章
+const atcPlRequest = (data) => postRequest('/web/article/pl', data, 'no');
 module.exports = {
     addShopCar,
     getShopCarList,
@@ -23,5 +37,12 @@ module.exports = {
     addAddress,
     editDefaultAddress,
     addOrder,
-    getAboutAtc
+    getAboutAtc,
+    articleDz,
+    articlePl,
+    articleSc,
+    articleZc,
+    articleGz,
+    articleCloseGz,
+    atcPlRequest
 }

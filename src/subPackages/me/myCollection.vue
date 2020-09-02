@@ -4,8 +4,8 @@
     <div class="detail-top-content">
       <div class="fl-bt">
         <div class="user-img-box fl-al">
-          <image class="detail-user-img" src="../../static/me/me-bg.png" />
-          <text class="mr-l-30 fz-15">微信名称</text>
+          <image class="detail-user-img" :src="form.avatarUrl" />
+          <text class="mr-l-30 fz-15">{{form.nickName}}</text>
         </div>
         <div class="fl-cen follow-btn">
           <text class="fz-12">已关注</text>
@@ -13,15 +13,15 @@
       </div>
       <div class="mr-t-50 fl-bt">
         <div class="fl-co detail-has-opt">
-          <text class="fz-17 fw-bold">25</text>
+          <text class="fz-17 fw-bold">{{follow}}</text>
           <text class="fz-13 fc-999">关注</text>
         </div>
         <div class="fl-co detail-has-opt">
-          <text class="fz-17 fw-bold">1080</text>
+          <text class="fz-17 fw-bold">{{fans}}</text>
           <text class="fz-13 fc-999">粉丝</text>
         </div>
         <div class="fl-co detail-has-opt">
-          <text class="fz-17 fw-bold">9</text>
+          <text class="fz-17 fw-bold">{{collection}}</text>
           <text class="fz-13 fc-999">收藏</text>
         </div>
       </div>
@@ -54,7 +54,7 @@
     <div class="collection-content-left">
       <div class="fl-al all-collection">
         <text class="iconfont iconjurassic_danju fz-11 fc-999"></text>
-        <text class="fz-12 mr-l-4">全部收藏(2)</text>
+        <text class="fz-12 mr-l-4">全部动态(2)</text>
       </div>
       <div class="note-center-box">
         <Atc v-for="item in 8" :key="item" :numIndex="item" />
@@ -73,9 +73,31 @@ export default {
   data() {
     return {
       checkType: "left",
+      userId: 0, // 用户id
+      follow: 0, // 关注
+      fans: 0, // 粉丝
+      collection: 0, // 收藏
+      form: {
+        avatarUrl: "",
+        nickName: "",
+      },
     };
   },
+  onLoad(obj) {
+    this.userId = obj.id;
+    this.getUserinfo();
+  },
   methods: {
+    // 获取用户
+    async getUserinfo() {
+      const { data } = await this.$api.getUserInfo();
+      this.userId = data.id;
+      this.form.avatarUrl = data.avatarUrl;
+      this.form.nickName = data.nickName;
+      this.follow = data.attentions ? data.attentions.length : 0;
+      this.fans = data.fans ? data.fans.length : 0;
+      this.collection = data.lsc ? data.lsc.length : 0;
+    },
     checkFunc(type) {
       this.checkType = type;
     },

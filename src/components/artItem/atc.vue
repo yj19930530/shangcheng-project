@@ -21,12 +21,12 @@
   </div>
 </template>
 <script>
-import { httpDetailImg, httpImg } from "../../config/develop";
+import { atcImgUrl, httpImg } from "../../config/develop";
 export default {
   data() {
     return {
       httpImg: httpImg, // 图片路径
-      httpDetailImg: httpDetailImg, // 图片路径
+      httpDetailImg: atcImgUrl, // 图片路径
     };
   },
   props: {
@@ -44,14 +44,13 @@ export default {
       return this.numIndex;
     },
     detailObj() {
-      console.log(this.objDetail)
       return this.objDetail;
     },
   },
   methods: {
     actDetailHandle() {
       uni.navigateTo({
-        url: "/subPackages/me/atcDetail",
+        url: `/subPackages/me/atcDetail?id=${this.detailObj.id}`,
       });
     },
   },
