@@ -21,16 +21,16 @@
       <div class="left-shop-box">
         <div
           class="fl-cen"
-          v-for="(item,index) in shopList"
+          v-for="(item,index) in classList"
           :key="index"
           @tap="checkInfo(item)"
-          :class="[item.id===viewInfo?'item-left-title':'item-left-title2']"
+          :class="[item.viewId===viewInfo?'item-left-title':'item-left-title2']"
         >
           <div
             class="fl-cen"
-            :class="[item.id===viewInfo?'left-class-center':'left-class-center2']"
+            :class="[item.viewId===viewInfo?'left-class-center':'left-class-center2']"
           >
-            <text class="fz-14">{{item.title}}</text>
+            <text class="fz-14">{{item.stringType}}</text>
           </div>
         </div>
       </div>
@@ -44,23 +44,23 @@
       >
         <div
           class="mr-t-50 commodity-height-box"
-          v-for="(item,index) in shopList"
+          v-for="(item,index) in classList"
           :key="index"
-          :id="item.id"
+          :id="item.viewId"
         >
           <div class="commodity-top-title fl-al">
-            <text class="fz-12">{{item.title}}</text>
+            <text class="fz-12">{{item.stringType}}</text>
             <image class="shu-style mr-l-6" src="../../static/me/shu.png" />
           </div>
           <div class="commodity-bottom-box">
             <div
-              @tap="navToDetail"
-              class="fl-co commodity-item-style"
-              v-for="(i,n) in item.arr"
+              class="commodity-item-style"
+              v-for="(i,n) in item.lg"
               :key="n"
+              @tap="navToDetail(i.gId)"
             >
-              <image class="commodity-shop-img" src="../../static/home/9.png" />
-              <div class="commodity-shop-name fz-12">{{i}}</div>
+              <image class="commodity-shop-img" :src="httpImg+i.gImg" />
+              <div class="commodity-shop-name fz-12">{{i.shortName}}</div>
             </div>
           </div>
         </div>
@@ -71,21 +71,21 @@
       <div class="fl-bt top-check-box">
         <text
           class="fz-14 mr-l-74"
-          :class="[allCheckType==='1'?'fc-333 fw-bold':'fc-999']"
-          @tap="allCheckTypeHandle('1')"
+          :class="[allCheckType===0?'fc-333 fw-bold':'fc-999']"
+          @tap="allCheckTypeHandle(0)"
         >全部</text>
         <text
           class="fz-14"
-          :class="[allCheckType==='2'?'fc-333 fw-bold':'fc-999']"
-          @tap="allCheckTypeHandle('2')"
+          :class="[allCheckType===1?'fc-333 fw-bold':'fc-999']"
+          @tap="allCheckTypeHandle(1)"
         >销量</text>
-        <div class="fl-al mr-r-74">
-          <text
-            class="fz-14"
-            :class="[allCheckType==='3'?'fc-333 fw-bold':'fc-999']"
-            @tap="allCheckTypeHandle('3')"
-          >价格</text>
-          <div class="fl-co mr-l-6">
+        <div class="fl-al mr-r-74" @tap="allCheckTypeHandle(2)">
+          <text class="fz-14" :class="[allCheckType===2?'fc-333 fw-bold':'fc-999']">价格</text>
+          <div class="fl-co mr-l-6" v-if="priceicon===1">
+            <image class="jiantou-style" src="../../static/class/top.png" />
+            <image class="jiantou-style mr-t-2" src="../../static/class/bottom.png" />
+          </div>
+          <div class="fl-co mr-l-6 sort-style-inline" v-if="priceicon===2">
             <image class="jiantou-style" src="../../static/class/top.png" />
             <image class="jiantou-style mr-t-2" src="../../static/class/bottom.png" />
           </div>
@@ -93,55 +93,33 @@
       </div>
       <scroll-view class="right-scroll-shop" :style="[{height:rightScrollHeight+'px'}]" scroll-y>
         <div class="scroll-shop-list fl-btw">
-          <ClassItem v-for="item in 2" :key="item" />
+          <ClassItem v-for="item in allList" :key="item" :objItem="item" />
         </div>
       </scroll-view>
     </div>
   </div>
 </template>
 <script>
+import { toast } from "../../utils/index";
+import { httpImg } from "../../config/develop";
 export default {
   data() {
     return {
-      shopList: [
-        {
-          title: "肌底精华",
-          id: "A",
-          arr: ["商品", "商品", "商品"],
-        },
-        {
-          title: "洁面水乳",
-          id: "B",
-          arr: ["商品", "商品", "商品"],
-        },
-        {
-          title: "热销套装",
-          id: "C",
-          arr: ["商品", "商品", "商品", "商品", "商品", "商品"],
-        },
-        {
-          title: "口碑面膜",
-          id: "D",
-          arr: ["商品", "商品", "商品"],
-        },
-        {
-          title: "印象精选",
-          id: "E",
-          arr: ["商品", "商品", "商品"],
-        },
-        {
-          title: "爆款囤货",
-          id: "F",
-          arr: ["商品", "商品", "商品"],
-        },
-      ],
+      allList: [], // 全部商品
+      classList: [], // 分类商品
       winnerHiehgt: 0, // 节点高度
       rightScrollHeight: 0,
       viewInfo: "A", // 当前节点显示
       heightArr: [], // 高度列表
       checkType: "all",
-      allCheckType: "1",
+      allCheckType: 0,
+      httpImg: httpImg, // 图片路径
+      priceicon: 1,
     };
+  },
+  async onLoad() {
+    await this.getTableList();
+    await this.getDomHeight();
   },
   computed: {
     windowHeight() {
@@ -151,14 +129,32 @@ export default {
       return getApp().globalData.navHeight;
     },
   },
-  onLoad() {},
-  mounted() {
-    this.getDomHeight();
-  },
   methods: {
-    navToDetail() {
+    // 获取商品列表
+    async getTableList() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getClassList();
+      this.allList = data.all;
+      data.category.forEach((item) => {
+        item.viewId = "ta" + item.id;
+      });
+      this.viewInfo = data.category[0].viewId;
+      this.classList = data.category;
+      uni.hideLoading();
+    },
+    // 获取all list
+    async getTableAll() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getClassAllList({
+        idx: this.allCheckType,
+        priceicon: this.priceicon,
+      });
+      this.allList = data;
+      uni.hideLoading();
+    },
+    navToDetail(gId) {
       uni.navigateTo({
-        url: "/subPackages/home/shopDetail",
+        url: `/subPackages/home/shopDetail?gId=${gId}`,
       });
     },
     navToPathSearch() {
@@ -172,15 +168,15 @@ export default {
       let scrollArr = this.heightArr;
       for (let i = 0; i < scrollArr.length; i++) {
         if (scrollTop >= scrollArr[i - 1] && scrollTop < scrollArr[i]) {
-          this.viewInfo = this.shopList[i].id;
+          this.viewInfo = this.classList[i].viewId;
         } else if (scrollTop >= 0 && scrollTop < scrollArr[0]) {
-          this.viewInfo = this.shopList[0].id;
+          this.viewInfo = this.classList[0].viewId;
         }
       }
     },
     // 切换
     checkInfo(row) {
-      this.viewInfo = row.id;
+      this.viewInfo = "ta" + row.id;
     },
     getRightDom() {
       this.rightScrollHeight = this.windowHeight;
@@ -236,7 +232,21 @@ export default {
       }
     },
     allCheckTypeHandle(type) {
-      this.allCheckType = type;
+      if (type === 2) {
+        if (this.allCheckType === type) {
+          if (this.priceicon === 1) {
+            this.priceicon = 2;
+          } else {
+            this.priceicon = 1;
+          }
+        }
+        this.allCheckType = type;
+        this.getTableAll();
+      } else {
+        if (this.allCheckType === type) return;
+        this.allCheckType = type;
+        this.getTableAll();
+      }
     },
   },
 };
@@ -303,12 +313,15 @@ export default {
   text-align: center;
 }
 .commodity-bottom-box {
-  margin-top: 30rpx;
   display: flex;
   flex-wrap: wrap;
 }
 .commodity-item-style {
+  margin-top: 20rpx;
   margin-right: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .top-check-box {
   width: 100%;
@@ -325,5 +338,8 @@ export default {
 .scroll-shop-list {
   margin: 0 auto 36rpx;
   width: 710rpx;
+}
+.sort-style-inline {
+  transform: rotate(180deg);
 }
 </style>

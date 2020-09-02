@@ -3,7 +3,9 @@
     <div class="address-input-row fl-bt">
       <text class="fz-15 mr-l-30">收货人</text>
       <input
+        name="userName"
         maxlength="12"
+        v-model="form.userName"
         type="text"
         class="fz-15 input-width-style mr-r-30"
         placeholder="请填写收货人姓名"
@@ -12,6 +14,8 @@
     <div class="address-input-row fl-bt">
       <text class="fz-15 mr-l-30">手机号码</text>
       <input
+        name="telNumber"
+        v-model="form.telNumber"
         maxlength="11"
         type="text"
         class="fz-15 input-width-style mr-r-30"
@@ -33,14 +37,15 @@
     <div class="address-detail-box">
       <text class="fz-15 mr-l-30 mr-t-30">详细地址</text>
       <textarea
+        name="detailInfo"
         maxlength="300"
         class="input-width-style2 fz-15 mr-t-30 mr-r-30"
-        v-model="textareaVal"
+        v-model="form.detailInfo"
         placeholder="请填写详细地址"
       />
     </div>
     <div class="address-input-row fl-al mr-t-20" @tap="checkHandle">
-      <image class="check-icon" v-if="isDefault" src="../../static/shop/yse.png" />
+      <image class="check-icon" v-if="form.isdefault===1" src="../../static/shop/yse.png" />
       <image class="check-icon" v-else src="../../static/shop/no.png" />
       <text class="fz-15">设置为默认地址</text>
     </div>
@@ -50,23 +55,97 @@
   </div>
 </template>
 <script>
+const graceChecker = require("../../utils/graceChecker");
+const { toast, common } = require("../../utils/index");
 export default {
   data() {
     return {
       addressVal: "省市区县、乡等",
-      textareaVal: "",
-      isDefault: false,
+      form: {
+        userName: "", // 姓名
+        telNumber: "", // 电话
+        cityName: "", // 城市
+        countyName: "", // 区
+        detailInfo: "", // 地址
+        isdefault: 0, // 是否默认
+        provinceName: "", //省
+      },
+      rules: [
+        {
+          name: "userName",
+          checkType: "notnull",
+          errorMsg: "请输入姓名",
+        },
+        {
+          name: "telNumber",
+          checkType: "phoneno",
+          errorMsg: "请输入正确的电话号码",
+        },
+        {
+          name: "detailInfo",
+          checkType: "notnull",
+          errorMsg: "请填写详细地址",
+        },
+      ],
     };
   },
+  onLoad(data) {
+    if (data.id) {
+      this.getAddressInfo(data.id);
+    }
+  },
   methods: {
+    // 获取地址详情
+    async getAddressInfo(id) {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getAddressList({
+        id: id,
+      });
+      this.form = common.objAss(this.form, data[0]);
+      this.addressVal = `${this.form.provinceName},${this.form.cityName},${this.form.countyName}`;
+      uni.hideLoading();
+    },
+    // 选择地区
     bindPickerChange(val) {
+      this.form.provinceName = val.detail.value[0];
+      this.form.cityName = val.detail.value[1];
+      this.form.countyName = val.detail.value[2];
       this.addressVal = val.detail.value.join(",");
     },
+    // 切换默认
     checkHandle() {
-      this.isDefault = !this.isDefault;
+      console.log(this.form.isdefault);
+      if (this.form.isdefault === 1) {
+        this.form.isdefault = 0;
+      } else {
+        this.form.isdefault = 1;
+      }
     },
+    // 保存
     saveAndUse() {
-      console.log("使用地址");
+      const val = graceChecker.check(this.form, this.rules);
+      if (val) {
+        console.log(this.form);
+        if (this.addressVal === "省市区县、乡等")
+          return toast.showToast("请选择所在地区");
+        toast.showLoading("添加中");
+        this.$api
+          .addAddress(this.form)
+          .then((res) => {
+            if (res.state === 200) {
+              toast.showToast("添加成功");
+              uni.navigateBack({
+                delta: 1,
+              });
+            }
+            uni.hideLoading();
+          })
+          .catch(() => {
+            uni.hideLoading();
+          });
+      } else {
+        toast.showToast(graceChecker.error);
+      }
     },
   },
 };

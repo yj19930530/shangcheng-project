@@ -3,10 +3,10 @@
     <image
       class="note-item-img"
       :class="[index===0?'note-item-height':'']"
-      src="../../static/me/me-bg.png"
+      :src="httpDetailImg+detailObj.displayimg"
     />
     <div class="note-item-bot">
-      <text class="fz-12">自从用了初印象之后，其他的护肤品可基本上都是摆设</text>
+      <text class="fz-12">{{objDetail.title}}</text>
       <div class="fl-bt mr-t-10">
         <div class="fl-al">
           <image class="note-item-header" src="../../static/me/me-bg.png" />
@@ -21,19 +21,31 @@
   </div>
 </template>
 <script>
+import { httpDetailImg, httpImg } from "../../config/develop";
 export default {
   data() {
-    return {};
+    return {
+      httpImg: httpImg, // 图片路径
+      httpDetailImg: httpDetailImg, // 图片路径
+    };
   },
   props: {
     numIndex: {
       type: Number,
       default: 1,
     },
+    objDetail: {
+      type: Object,
+      default: {},
+    },
   },
   computed: {
     index() {
       return this.numIndex;
+    },
+    detailObj() {
+      console.log(this.objDetail)
+      return this.objDetail;
     },
   },
   methods: {

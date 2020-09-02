@@ -6,23 +6,23 @@
       <div class="me-detail-center">
         <div class="fl-bt de-center-box">
           <div class="fl-al">
-            <image class="me-detail-header" src="../../static/home/9.png" />
-            <text class="fz-15 fc-fff mr-l-30">微信名称</text>
+            <image class="me-detail-header" :src="form.avatarUrl" @tap="NavPathTo('we')" />
+            <text class="fz-15 fc-fff mr-l-30">{{form.nickName}}</text>
             <text class="iconfont iconziyuan fz-17 fc-fff mr-l-20" @tap="NavPathTo('edit')"></text>
           </div>
           <text class="iconfont iconyoujiantou fc-fff fz-14 mr-r-60" @tap="NavPathTo('edit')"></text>
         </div>
         <div class="me-other-box fl-bt">
           <div class="fl-co" @tap="NavPathTo('guan')">
-            <text class="fz-17 fc-fff fw-bold">0</text>
+            <text class="fz-17 fc-fff fw-bold">{{follow}}</text>
             <text class="fz-13 fc-fff mr-t-6">关注</text>
           </div>
           <div class="fl-co" @tap="NavPathTo('fans')">
-            <text class="fz-17 fc-fff fw-bold">0</text>
+            <text class="fz-17 fc-fff fw-bold">{{fans}}</text>
             <text class="fz-13 fc-fff mr-t-6">粉丝</text>
           </div>
           <div class="fl-co" @tap="NavPathTo('cang')">
-            <text class="fz-17 fc-fff fw-bold">0</text>
+            <text class="fz-17 fc-fff fw-bold">{{collection}}</text>
             <text class="fz-13 fc-fff mr-t-6">收藏</text>
           </div>
         </div>
@@ -78,14 +78,36 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      form: {
+        avatarUrl: "",
+        nickName: "-",
+      },
+      follow: 0, // 关注
+      fans: 0, // 粉丝
+      collection: 0, // 收藏
+      userId: 0,
+    };
+  },
+  onShow() {
+    this.getUserinfo();
   },
   methods: {
+    // 获取用户
+    async getUserinfo() {
+      const { data } = await this.$api.getUserInfo();
+      this.userId = data.id;
+      this.form.avatarUrl = data.avatarUrl;
+      this.form.nickName = data.nickName;
+      this.follow = data.attentions ? data.attentions.length : 0;
+      this.fans = data.fans ? data.fans.length : 0;
+      this.collection = data.lsc ? data.lsc.length : 0;
+    },
     NavPathTo(name) {
       switch (name) {
         case "order": {
           uni.navigateTo({
-            url: "/subPackages/me/orderCenter",
+            url: "/subPackages/me/orderCenter?type=all",
           });
           break;
         }
@@ -97,49 +119,55 @@ export default {
         }
         case "guan": {
           uni.navigateTo({
-            url: "/subPackages/me/myCollection",
+            url: "/subPackages/me/myFollow",
           });
           break;
         }
         case "fans": {
           uni.navigateTo({
-            url: "/subPackages/me/myCollection",
+            url: "/subPackages/me/myFans",
           });
           break;
         }
         case "cang": {
           uni.navigateTo({
-            url: "/subPackages/me/myCollection",
+            url: "/subPackages/me/collection",
           });
           break;
         }
         case "pay": {
           uni.navigateTo({
-            url: "/subPackages/me/orderCenter",
+            url: "/subPackages/me/orderCenter?type=待填写",
           });
           break;
         }
         case "huo": {
           uni.navigateTo({
-            url: "/subPackages/me/orderCenter",
+            url: "/subPackages/me/orderCenter?type=已付款待审核",
           });
           break;
         }
         case "shou": {
           uni.navigateTo({
-            url: "/subPackages/me/orderCenter",
+            url: "/subPackages/me/orderCenter?type=已发货",
           });
           break;
         }
         case "ping": {
           uni.navigateTo({
-            url: "/subPackages/me/orderCenter",
+            url: "/subPackages/me/orderCenter?type=已审核待打印",
           });
           break;
         }
         case "dizhi": {
           uni.navigateTo({
             url: "/subPackages/me/goodsArdressList",
+          });
+          break;
+        }
+        case "we": {
+          uni.navigateTo({
+            url: `/subPackages/me/myCollection?id=${this.userId}`,
           });
           break;
         }
@@ -174,7 +202,7 @@ page {
   top: 0;
 }
 .me-other-box {
-  margin:50rpx auto 0;
+  margin: 50rpx auto 0;
   width: 592rpx;
 }
 .me-detail-header {

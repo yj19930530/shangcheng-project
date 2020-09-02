@@ -47,7 +47,13 @@
         <text class="mr-l-10 fz-11 fc-fff">新品上线 惊喜大派送</text>
       </div>
       <div class="new-shop-list fl-co">
-        <image @tap="navToDetail" v-for="item in 3" :key="item" class="new-shop-img" src="../../static/home/9.png" />
+        <image
+          @tap="navToDetail"
+          v-for="item in 3"
+          :key="item"
+          class="new-shop-img"
+          src="../../static/home/9.png"
+        />
       </div>
     </div>
   </view>

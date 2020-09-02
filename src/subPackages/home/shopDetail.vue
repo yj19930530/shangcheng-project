@@ -8,11 +8,8 @@
         :autoplay="autoplay"
         :duration="duration"
       >
-        <swiper-item>
-          <image class="swiper-row-img" src="../../static/me/me-bg.png" />
-        </swiper-item>
-        <swiper-item>
-          <image class="swiper-row-img" src="../../static/me/me-bg.png" />
+        <swiper-item v-for="(item,index) in swiperImg" :key="index">
+          <image class="swiper-row-img" @tap="prewImgFunc(index,swiperImg)" :src="item" />
         </swiper-item>
       </swiper>
     </div>
@@ -21,8 +18,8 @@
       <div class="fl-bt">
         <div class="fl-al">
           <text class="fz-15 fc-f1">¥</text>
-          <text class="fz-20 fc-f1 fw-bold">298</text>
-          <text class="fz-15 fc-999 td-text mr-l-20">¥399</text>
+          <text class="fz-20 fc-f1 fw-bold">{{detailObj.bPrice}}</text>
+          <text class="fz-15 fc-999 td-text mr-l-20">¥{{detailObj.price4}}</text>
         </div>
         <div class="share-box">
           <text class="iconfont iconfenxiang fz-18 fc-333"></text>
@@ -30,7 +27,7 @@
         </div>
       </div>
       <div class="goods-title-text mr-t-20">
-        <text class="fz-16 fw-bold">我是商品标题，我是商品标题，我是商品标题，我是商品标题，我是商品标题，</text>
+        <text class="fz-16 fw-bold">{{detailObj.gTitle}}</text>
       </div>
     </div>
     <!-- 买家秀 -->
@@ -45,7 +42,7 @@
       <Buy v-for="item in 2" :key="item" />
     </div>
     <!-- 相关文章 -->
-    <div class="about-arc-content">
+    <div class="about-arc-content" v-if="atcList.length">
       <div class="about-arc-box">
         <div class="about-arc-title fl-bt">
           <text class="fz-15 fw-bold">相关文章</text>
@@ -55,7 +52,7 @@
           </div>
         </div>
         <div class="fl-btw" style="padding-bottom:10rpx">
-          <Atc v-for="item in 2" :key="item" />
+          <Atc v-for="(item,index) in atcList" :key="index" :objDetail="item" />
         </div>
       </div>
     </div>
@@ -67,9 +64,11 @@
         </div>
         <image
           class="goods-details-img-show"
-          v-for="item in 5"
-          :key="item"
-          src="../../static/me/me-bg.png"
+          mode="widthFix"
+          v-for="(item,index) in goodsImgs"
+          :key="index"
+          :src="item"
+          @tap="prewImgFunc(index,goodsImgs)"
         />
       </div>
     </div>
@@ -98,18 +97,62 @@
       </div>
     </div>
     <div class="zhezhao-bg" v-if="buyType" @tap="closeType"></div>
-    <div class="by-box-handle" v-if="buyType" :style="[{bottom:buyType?'0':'-700rpx'}]"></div>
+    <div class="by-box-handle" v-if="buyType" :style="[{bottom:buyType?'0':'-864rpx'}]">
+      <div class="by-top-goods-style fl-al">
+        <image class="mr-l-20 by-top-goods-img" :src="httpImg+detailObj.gImg" />
+        <div class="by-top-goods-title">
+          <text class="fz-15">{{detailObj.gTitle}}</text>
+          <text class="fz-20 fw-bold fc-f1 mr-t-10">¥289</text>
+        </div>
+        <image class="close-by-box" @tap="closeType" src="../../static/shop/close.png" />
+      </div>
+      <div class="mr-t-30 box-botoom-border">
+        <text class="fz-15 mr-l-20">颜色规格</text>
+        <div class="mr-t-20 grid-list-box">
+          <div
+            class="grid-list-style fl-cen"
+            :key="index"
+            :class="[goodsCheckType?'box-bg-f1':'box-bg-border']"
+            @tap="checkTypeFunc"
+          >
+            <text class="fz-14" :class="[goodsCheckType?'fc-fff':'']">{{detailObj.gSpec}}</text>
+          </div>
+        </div>
+      </div>
+      <div class="fl-bt mr-t-20">
+        <text class="fz-15 mr-l-20">购买数量</text>
+        <div class="count-box fl-bt mr-r-20">
+          <div class="count-row fl-cen fz-14 fc-999" @tap.native.stop="declineHandle()">-</div>
+          <div class="count-row2 fl-cen fz-14 fc-999">{{goodsCount}}</div>
+          <div class="count-row fl-cen fz-14 fc-999" @tap.native.stop="inclineHandle()">+</div>
+        </div>
+      </div>
+      <div class="fl-cen box-bg-f1 buy-comfirm-btn" @tap="buyHandleClick">
+        <text class="fz-20 fc-fff fw-bold">{{btnName}}</text>
+      </div>
+    </div>
   </div>
 </template>
 <script>
+import { httpDetailImg, httpImg } from "../../config/develop";
+import { toast } from "../../utils/index";
 export default {
   data() {
     return {
-      indicatorDots: false,
+      indicatorDots: true,
       autoplay: false,
       duration: 500,
       buyType: false,
-      animationData: {},
+      goodsId: "",
+      httpImg: httpImg, // 图片路径
+      httpDetailImg: httpDetailImg, // 图片路径
+      detailObj: {}, // 商品详情
+      swiperImg: [], // 轮播图列表
+      goodsImgs: [], // 商品详情图列表
+      goodsCount: 1, // 商品数量
+      btnName: "立即购买",
+      goodsCheckType: false,
+      atcList: [], // 文章列表
     };
   },
   onShareAppMessage(res) {
@@ -122,9 +165,53 @@ export default {
       path: "/pages/page/home",
     };
   },
+  onLoad(data) {
+    this.goodsId = data.gId;
+    this.getDetail();
+  },
   methods: {
+    // 获取详情
+    async getDetail() {
+      const { data } = await this.$api.getGoodsDetail({
+        gId: this.goodsId,
+      });
+      this.aboutAtc(data.gBrand);
+      this.detailObj = data;
+      this.swiperImg = data.gImg.split(",");
+      this.swiperImg = this.swiperImg.map((item) => {
+        return this.httpImg + item;
+      });
+      if (data.detailimg) {
+        this.goodsImgs = data.detailimg.split(",");
+        this.goodsImgs = this.goodsImgs.map((item) => {
+          return this.httpDetailImg + item;
+        });
+      }
+    },
+    // 获取相关文章
+    async aboutAtc(text) {
+      const { data } = await this.$api.getAboutAtc({
+        pageNo: 1,
+        pageSize: 2,
+        brand: text,
+      });
+      this.atcList = data.list;
+    },
     closeType() {
       this.buyType = false;
+      this.goodsCheckType = false;
+      this.goodsCount = 1;
+    },
+    checkTypeFunc() {
+      this.goodsCheckType = !this.goodsCheckType;
+    },
+    // 查看大图
+    prewImgFunc(index, list) {
+      uni.previewImage({
+        current: index,
+        urls: list,
+        longPressActions: {},
+      });
     },
     navPathTo(name) {
       switch (name) {
@@ -153,12 +240,15 @@ export default {
           break;
         }
         case "dai": {
-          uni.switchTab({
-            url: "/pages/page/shop",
-          });
+          this.btnName = "加入购物车";
+          this.buyType = true;
+          // uni.switchTab({
+          //   url: "/pages/page/shop",
+          // });
           break;
         }
         case "buy": {
+          this.btnName = "立即购买";
           this.buyType = true;
           break;
         }
@@ -166,6 +256,37 @@ export default {
           break;
         }
       }
+    },
+    // 购买 或者 加入购物车 按钮
+    async buyHandleClick() {
+      if (!this.goodsCheckType) return toast.showToast("请选择规格");
+      if (this.btnName === "立即购买") {
+        const objDetail = {
+          count: this.goodsCount,
+          data: this.detailObj,
+          type: "buy",
+        };
+        uni.navigateTo({
+          url: `/subPackages/shop/orderComfim?obj=${JSON.stringify(objDetail)}`,
+        });
+      } else {
+        toast.showLoading("添加中");
+        await this.$api.addShopCar({
+          gid: this.detailObj.gId,
+          spec: this.detailObj.gSpec,
+          cartQty: this.goodsCount,
+        });
+        toast.showToast("添加成功");
+        uni.hideLoading();
+        this.closeType();
+      }
+    },
+    declineHandle() {
+      if (this.goodsCount === 1) return;
+      this.goodsCount--;
+    },
+    inclineHandle() {
+      this.goodsCount++;
     },
   },
 };
@@ -305,5 +426,72 @@ page {
   background-color: #fff;
   z-index: 99999;
   transition: all 0.5s;
+}
+.by-top-goods-style {
+  position: relative;
+  width: 100%;
+  height: 264rpx;
+  border-bottom: 1rpx solid #999999;
+}
+.by-top-goods-title {
+  display: flex;
+  flex-direction: column;
+  margin-left: 48rpx;
+  width: 290rpx;
+}
+.by-top-goods-img {
+  width: 240rpx;
+  height: 240rpx;
+}
+.close-by-box {
+  position: absolute;
+  right: 20rpx;
+  top: 20rpx;
+  width: 40rpx;
+  height: 40rpx;
+}
+.grid-list-box {
+  display: flex;
+  flex-wrap: wrap;
+}
+.grid-list-style {
+  margin-left: 20rpx;
+  margin-bottom: 20rpx;
+  border-radius: 10rpx;
+  padding: 10rpx 20rpx;
+  border: 1rpx solid #ffffff;
+}
+.box-bg-f1 {
+  background-color: #f11b20;
+}
+.box-bg-border {
+  border: 1rpx solid #979797 !important;
+}
+.box-botoom-border {
+  border-bottom: 1rpx solid #999999;
+}
+.count-box {
+  margin-left: 54rpx;
+  width: 166rpx;
+  height: 50rpx;
+  border-radius: 10rpx;
+  border: 1rpx solid #cccccc;
+}
+.count-row {
+  width: 55rpx;
+  height: 50rpx;
+}
+.count-row2 {
+  width: 55rpx;
+  height: 50rpx;
+  border-left: 1rpx solid #cccccc;
+  border-right: 1rpx solid #cccccc;
+}
+.buy-comfirm-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 106rpx;
 }
 </style>

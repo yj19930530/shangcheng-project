@@ -28,7 +28,7 @@
     </div>
     <!-- 订单列表 -->
     <div class="order-list-coentent">
-      <div class="order-row-box fl-bt" v-for="item in 4" :key="item">
+      <div class="order-row-box fl-bt" v-for="(item,index) in orderListData" :key="index">
         <div class="order-row-left fl-fc">
           <image class="row-left-img" src="../../static/me/me-bg.png" />
           <text class="fz-12 fc-f1 mr-t-30">等待您的付款</text>
@@ -55,20 +55,91 @@
         </div>
       </div>
     </div>
+    <div class="fl-cen mr-t-30" v-if="!orderListData.length">
+      <text class="fz-15 fc-999">没有订单</text>
+    </div>
   </div>
 </template>
 <script>
+const { toast } = require("../../utils/index");
 export default {
   data() {
     return {
       type: "all",
+      status: "",
+      orderListData: [],
     };
   },
+  onLoad(obj) {
+    if (obj.type) {
+      switch (obj.type) {
+        case "待填写": {
+          this.type = "pay";
+          this.status = obj.type;
+          break;
+        }
+        case "已付款待审核": {
+          this.type = "send";
+          this.status = obj.type;
+          break;
+        }
+        case "已发货": {
+          this.type = "shou";
+          this.status = obj.type;
+          break;
+        }
+        case "已审核待打印": {
+          this.type = "ping";
+          this.status = obj.type;
+          break;
+        }
+        default: {
+          this.type = "all";
+          this.status = null;
+          break;
+        }
+      }
+      this.getList();
+    }
+  },
   methods: {
+    // 获取订单列表]
+    async getList() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getOrderList({
+        type: "小程序订单",
+        status: this.status,
+      });
+      this.orderListData = data;
+      uni.hideLoading();
+    },
     // tar 切换type
     checkType(type) {
       this.type = type;
-    },
+      switch (type) {
+        case "pay": {
+          this.status = "待填写";
+          break;
+        }
+        case "send": {
+          this.status = "已付款待审核";
+          break;
+        }
+        case "shou": {
+          this.status = "已发货";
+          break;
+        }
+        case "ping": {
+          this.status = "已审核待打印";
+          break;
+        }
+        case "all": {
+          this.status = null;
+          break;
+        }
+      }
+      this.getList();
+    }, 
     navPathTo(name) {
       switch (name) {
         case "log": {

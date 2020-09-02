@@ -45,20 +45,30 @@ export default {
                   .userLoginGetOpenId({
                     code: loginRes.code,
                   })
-                  .then((res) => {
-                    let opId = "";
-                    if (res.data) {
+                  .then(async (res) => {
+                    let opId = "",
+                      dataObj = null,
+                      token = "",
+                      userInfo = null;
+                    if (res.state !== 500) {
                       opId = res.data.openid;
+                      dataObj = res.data.user;
+                      token = res.data.token;
                     } else {
-                      opId = res.message;
-                      _this.$api.addUserInfo({
+                      opId = res.data.openid;
+                      const { data } = await _this.$api.addUserInfo({
                         openid: opId,
                         nickName: userData.nickName,
                         avatarUrl: userData.avatarUrl,
                         gender: userData.gender,
                       });
+                      dataObj = data.user;
+                      token = data.token;
                     }
                     uni.setStorageSync("opId", opId);
+                    uni.setStorageSync("userno", dataObj.userno);
+                    uni.setStorageSync("userInfo", dataObj);
+                    uni.setStorageSync("token", token);
                     uni.switchTab({
                       url: "/pages/page/home",
                     });

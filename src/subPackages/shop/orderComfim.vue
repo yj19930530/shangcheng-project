@@ -5,14 +5,16 @@
     <div class="fl-fc address-edit-box">
       <div class="fl-bt address-top-box" @tap="chooseAddress">
         <image class="address-icon" src="../../static/shop/dizhi.png" />
-        <!-- <div class="fl-fc">
-          <div class="fz-15 fw-bold address-title text-lang-dian">四川省成都市双流区天府五街地铁口天四川省成都市双流区天府五街地铁口</div>
+        <div class="fl-fc" v-if="addressListData.length">
+          <div
+            class="fz-15 fw-bold address-title text-lang-dian"
+          >{{addressListData[0].provinceName}}{{addressListData[0].cityName}}{{addressListData[0].countyName}}{{addressListData[0].detailInfo}}</div>
           <div class="fl-al mr-t-10">
-            <text class="fz-15">王甜甜</text>
-            <text class="fz-15 mr-l-50">18202841598</text>
+            <text class="fz-15">{{addressListData[0].userName}}</text>
+            <text class="fz-15 mr-l-50">{{addressListData[0].telNumber}}</text>
           </div>
-        </div>-->
-        <div class="fl-al address-title">
+        </div>
+        <div class="fl-al address-title" v-else>
           <text class="fz-15 fw-bold">宝贝还没有收货地址哦~</text>
         </div>
         <text class="iconfont iconyoujiantou fz-14 fc-999 mr-r-20"></text>
@@ -25,17 +27,22 @@
         <image class="row-title-icon" src="../../static/shop/home.png" />
         <text class="fz-15 fw-bold mr-l-10">初印象Firstyinas</text>
       </div>
-      <div class="comfirm-row-box fl-bt" v-for="item in 2" :key="item" @tap="navToDetail">
-        <image class="row-left-img mr-l-40" src="../../static/home/9.png" />
+      <div
+        class="comfirm-row-box fl-bt"
+        v-for="(item,index) in shopList"
+        :key="index"
+        @tap="navToDetail"
+      >
+        <image class="row-left-img mr-l-40" :src="httpImg+item.good.gImg" />
         <div class="row-right-box">
-          <text class="fz-15">初印象-多效修护精华水（蓝铜胜肽）</text>
+          <text class="fz-15">{{item.good.gName}}</text>
           <div class="fl-bt mr-t-20">
-            <text class="fz-14 fc-999">已选02（浮雕版）</text>
-            <text class="fz-14 fc-999">x1</text>
+            <text class="fz-14 fc-999">已选 {{item.good.gSpec}}</text>
+            <text class="fz-14 fc-999">x{{item.cartQty}}</text>
           </div>
           <div class="mr-t-20">
-            <text class="fz-17 fc-f1 fw-bold">¥289</text>
-            <text class="fz-14 fc-999 mr-l-10">¥369</text>
+            <text class="fz-17 fc-f1 fw-bold">¥{{item.good.bPrice}}</text>
+            <text class="fz-14 fc-999 mr-l-10">¥{{item.good.price4}}</text>
           </div>
         </div>
       </div>
@@ -43,11 +50,11 @@
     <div class="order-detail-box">
       <div class="order-detail-row fl-bt">
         <text class="fz-15 fc-666 mr-l-40">商品数</text>
-        <text class="fz-15 fw-bold mr-r-40">2</text>
+        <text class="fz-15 fw-bold mr-r-40">{{totalNumber}}</text>
       </div>
       <div class="order-detail-row fl-bt">
         <text class="fz-15 fc-666 mr-l-40">商品金额</text>
-        <text class="fz-15 fw-bold mr-r-40 fc-f1">¥596</text>
+        <text class="fz-15 fw-bold mr-r-40 fc-f1">¥{{totalPrice}}</text>
       </div>
       <div class="order-detail-row fl-bt">
         <text class="fz-15 fc-666 mr-l-40">运费</text>
@@ -67,7 +74,7 @@
     <div class="fl-bt bottom-btn-box">
       <div class="fl-al mr-l-30">
         <text class="fz-15">合计</text>
-        <text class="fz-17 fc-f1 fw-bold mr-l-10">¥596</text>
+        <text class="fz-17 fc-f1 fw-bold mr-l-10">¥{{totalPrice}}</text>
       </div>
       <div class="fl-cen right-btn-submit" @tap="submtPay">
         <text class="fc-fff fz-14">提交订单</text>
@@ -76,13 +83,51 @@
   </div>
 </template>
 <script>
+import { httpImg } from "../../config/develop";
 export default {
   data() {
     return {
       detal: "",
+      httpImg: httpImg, // 图片路径
+      shopList: [], // 商品列表
+      totalPrice: 0, // 总价
+      totalNumber: 0, // 总数
+      addressListData: [], // 收货地址
     };
   },
+  onLoad(data) {
+    let objData = JSON.parse(data.obj);
+    if (objData.type === "car") {
+      this.shopList = objData.data;
+    } else {
+      let buyData = objData.data;
+      this.shopList = [
+        {
+          cartQty: objData.count,
+          good: objData.data,
+        },
+      ];
+    }
+    this.priceCompute();
+  },
+  onShow() {
+    this.addressList();
+  },
   methods: {
+    // 获取收货地址
+    async addressList() {
+      const { data } = await this.$api.getAddressList({
+        isdefault: 1,
+      });
+      this.addressListData = data;
+    },
+    // 计算价格
+    priceCompute() {
+      this.shopList.forEach((item) => {
+        this.totalPrice += item.good.bPrice * item.cartQty;
+        this.totalNumber += item.cartQty;
+      });
+    },
     // 选择收货地址
     chooseAddress() {
       uni.navigateTo({
@@ -96,9 +141,25 @@ export default {
     },
     // 跳转付款页面
     submtPay() {
-      uni.navigateTo({
-        url: "/subPackages/shop/payment",
-      });
+      this.$api
+        .addOrder({
+          OrderInfo: JSON.stringify({
+            smallAddress: this.addressListData[0],
+            lsc: this.shopList,
+            os: {
+              postage: 0,
+              reducePrice: 0,
+              sumGood: this.totalNumber,
+              sumPrice: this.totalPrice,
+            },
+          }),
+        })
+        .then((res) => {
+          console.log(res);
+        });
+      // uni.navigateTo({
+      //   url: "/subPackages/shop/payment",
+      // });
     },
   },
 };

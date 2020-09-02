@@ -1,21 +1,29 @@
 <template>
   <div class="address-container">
-    <div class="fl-fc address-edit-box" v-for="item in 10" :key="item" @tap="editAddress">
-      <div class="fl-bt address-top-box">
+    <div class="fl-fc address-edit-box" v-for="(item,index) in addressList" :key="index">
+      <div class="fl-bt address-top-box" @tap="editAddressType(item)">
         <image class="address-icon" src="../../static/shop/dizhi.png" />
         <div class="fl-fc">
-          <div class="fz-15 fw-bold address-title text-lang-dian">四川省成都市双流区天府五街地铁口天四川省成都市双流区天府五街地铁口</div>
+          <div
+            class="fz-15 fw-bold address-title text-lang-dian"
+          >{{item.provinceName}}{{item.cityName}}{{item.countyName}}{{item.detailInfo}}</div>
           <div class="fl-al mr-t-10">
-            <text class="fz-15">王甜甜</text>
-            <text class="fz-15 mr-l-50">18202841598</text>
+            <text class="fz-15">{{item.userName}}</text>
+            <text class="fz-15 mr-l-50">{{item.telNumber}}</text>
           </div>
         </div>
-        <text class="iconfont iconziyuan fz-17 fc-999 mr-r-20"></text>
-        <div class="default-icon fl-cen">
+        <text
+          class="iconfont iconziyuan fz-17 fc-999 mr-r-20"
+          @tap.native.stop="editAddress2(item.id)"
+        ></text>
+        <div class="default-icon fl-cen" v-if="item.isdefault===1">
           <text class="fz-11 fc-fff">默认</text>
         </div>
       </div>
       <image class="heng-style" src="../../static/shop/heng.png" />
+    </div>
+    <div v-if="!addressList.length" class="fl-cen">
+      <text class="fz-15 fc-999 mr-t-30">没有地址</text>
     </div>
     <div class="add-address-btn fl-cen" @tap="editAddress">
       <text class="fz-20 fc-fff fw-bold">新增地址</text>
@@ -23,14 +31,45 @@
   </div>
 </template>
 <script>
+const { toast } = require("../../utils/index");
 export default {
   data() {
-    return {};
+    return {
+      addressList: [],
+    };
+  },
+  onShow() {
+    this.getAddressData();
   },
   methods: {
+    // 修改默认地址
+    async editAddressType(row) {
+      if (row.isdefault === 1) return;
+      toast.showLoading("加载中");
+      await this.$api.editDefaultAddress({
+        id: row.id,
+        isdefault: 1,
+      });
+      uni.hideLoading();
+      this.getAddressData();
+    },
+    // 获取收货地址列表
+    async getAddressData() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getAddressList();
+      this.addressList = data;
+      uni.hideLoading();
+    },
+    // 新增地址
     editAddress() {
       uni.navigateTo({
         url: "/subPackages/me/addGoodsAdress",
+      });
+    },
+    // 修改地址
+    editAddress2(id) {
+      uni.navigateTo({
+        url: `/subPackages/me/addGoodsAdress?id=${id}`,
       });
     },
   },

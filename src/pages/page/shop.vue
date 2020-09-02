@@ -1,6 +1,6 @@
 <template>
-  <div class="shop-car-container">
-    <div class="fl-fca bg-fff" v-if="!dataType" :style="[{height:windowHeight+'px'}]">
+  <div :class="[dataType?'shop-car-container':'shop-car-container2']">
+    <div class="fl-fca bg-fff" v-if="!dataType">
       <text class="fc-7e fz-15 no-shop-title">购物袋空荡荡的~赶紧去装满~</text>
       <image class="no-shop-car" src="../../static/shop/guang.png" />
     </div>
@@ -16,27 +16,27 @@
       <!-- 购物车 row -->
       <div class="shop-car-row fl-al" v-for="(item,index) in shopList" :key="index">
         <image
-          v-if="item.check===1"
+          v-if="item.pick===1"
           class="check-img mr-l-30"
           src="../../static/shop/yse.png"
           @tap.native.stop="checkChoose(index,0)"
         />
         <image
-          v-if="item.check===0"
+          v-if="item.pick===0"
           class="check-img mr-l-30"
           src="../../static/shop/no.png"
           @tap.native.stop="checkChoose(index,1)"
         />
-        <image class="row-shop-img" src="../../static/home/9.png" @tap="navPathToGoods" />
-        <div class="row-right-content" @tap.native.stop="navPathToGoods">
-          <div class="fz-15 text-width-row">初印象-多效修护精华水蓝铜胜肽</div>
-          <text class="fz-14 fc-999 mr-t-20">已选02（浮雕版）</text>
+        <image class="row-shop-img" :src="httpImg+item.good.gImg" @tap="navPathToGoods(item.gid)" />
+        <div class="row-right-content" @tap.native.stop="navPathToGoods(item.gid)">
+          <div class="fz-15 text-width-row">{{item.good.gName}}</div>
+          <text class="fz-14 fc-999 mr-t-20">已选 {{item.good.gSpec}}</text>
           <div class="fl-al mr-t-20">
-            <text class="fz-17 fw-bold fc-f1">¥{{item.pri}}</text>
-            <text class="fz-14 fc-999 td-text mr-l-10">¥369</text>
+            <text class="fz-17 fw-bold fc-f1">¥{{item.good.bPrice}}</text>
+            <text class="fz-14 fc-999 td-text mr-l-10">¥{{item.good.price4}}</text>
             <div class="count-box fl-bt">
               <div class="count-row fl-cen fz-14 fc-999" @tap.native.stop="declineHandle(index)">-</div>
-              <div class="count-row2 fl-cen fz-14 fc-999">{{item.count}}</div>
+              <div class="count-row2 fl-cen fz-14 fc-999">{{item.cartQty}}</div>
               <div class="count-row fl-cen fz-14 fc-999" @tap.native.stop="inclineHandle(index)">+</div>
             </div>
           </div>
@@ -54,7 +54,10 @@
             <text class="fz-15">合计</text>
             <text class="fz-17 fw-bold fc-f1 mr-l-10">¥{{allTotal}}</text>
           </div>
-          <div class="jiesuan-btn fl-cen" @tap="navPathTo">
+          <div v-if="allCheckType" class="jiesuan-btn fl-cen" @tap="navPathTo">
+            <text class="fz-14 fc-fff">结算</text>
+          </div>
+          <div v-else class="jiesuan-btn2 fl-cen">
             <text class="fz-14 fc-fff">结算</text>
           </div>
         </div>
@@ -63,24 +66,17 @@
   </div>
 </template>
 <script>
+import { toast } from "../../utils/index";
+import { httpImg } from "../../config/develop";
 export default {
   data() {
     return {
       dataType: true,
-      shopList: [
-        {
-          check: 1,
-          count: 1,
-          pri: 289,
-        },
-        {
-          check: 1,
-          count: 1,
-          pri: 289,
-        },
-      ],
+      shopList: [],
       allCheckType: false,
       allTotal: 0,
+      httpImg: httpImg,
+      checkList: [], // 选中的列表
     };
   },
   computed: {
@@ -88,53 +84,73 @@ export default {
       return getApp().globalData.windowHeight;
     },
   },
-  onLoad() {
+  async onShow() {
+    await this.getTableList();
     this.getAllCheckType();
     this.allPrice();
   },
   methods: {
+    // 获取购物车列表
+    async getTableList() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getShopCarList();
+      this.shopList = data;
+      this.shopList.length ? (this.dataType = true) : (this.dataType = false);
+      uni.hideLoading();
+    },
     // 旋转切换
     checkChoose(i, t) {
-      this.shopList[i].check = t;
+      this.shopList[i].pick = t;
+      this.$api.shopCheckType({
+        id: this.shopList[i].id,
+        pick: t,
+      });
       this.getAllCheckType();
       this.allPrice();
     },
     // 递增
     inclineHandle(i) {
-      this.shopList[i].count += 1;
+      this.shopList[i].cartQty += 1;
+      this.$api.shopCheckType({
+        id: this.shopList[i].id,
+        cartQty: this.shopList[i].cartQty,
+      });
       this.allPrice();
     },
     // 递减
     declineHandle(i) {
-      if (this.shopList[i].count === 1) return;
-      this.shopList[i].count -= 1;
+      if (this.shopList[i].cartQty === 1) return;
+      this.shopList[i].cartQty -= 1;
+      this.$api.shopCheckType({
+        id: this.shopList[i].id,
+        cartQty: this.shopList[i].cartQty,
+      });
       this.allPrice();
     },
     // 获取全选状态
     getAllCheckType() {
       let arrCheck = [];
+      this.allTotal = 0;
       this.shopList.forEach((item) => {
         // 按钮type 判断
-        arrCheck.push(item.check);
-        let t = arrCheck.indexOf(0);
-        if (t === -1) {
-          this.allCheckType = true;
-        } else {
-          this.allCheckType = false;
-        }
-        // 计算总价格
-        if (item.check === 1) {
-          this.allTotal += item.pri;
-        }
+        arrCheck.push(item.pick);
       });
+      let t = arrCheck.indexOf(0);
+      if (t === -1) {
+        this.allCheckType = true;
+      } else {
+        this.allCheckType = false;
+      }
     },
     // 计算总价格
     allPrice() {
       this.allTotal = 0;
+      this.checkList = [];
       this.shopList.forEach((item) => {
         // 计算总价格
-        if (item.check === 1) {
-          this.allTotal += item.pri * item.count;
+        if (item.pick === 1) {
+          this.allTotal += item.good.bPrice * item.cartQty;
+          this.checkList.push(item);
         }
       });
     },
@@ -143,22 +159,35 @@ export default {
       this.allCheckType = !type;
       this.shopList.forEach((item) => {
         if (!type) {
-          item.check = 1;
+          item.pick = 1;
+          this.$api.shopCheckType({
+            id: item.id,
+            pick: 1,
+          });
         } else {
-          item.check = 0;
+          item.pick = 0;
+          this.$api.shopCheckType({
+            id: item.id,
+            pick: 0,
+          });
         }
       });
       this.allPrice();
     },
     // 跳转结算页面
     navPathTo() {
+      const objDetail = {
+        data: this.checkList,
+        type: "car",
+      };
+      console.log(this.checkList);
       uni.navigateTo({
-        url: "/subPackages/shop/orderComfim",
+        url: `/subPackages/shop/orderComfim?obj=${JSON.stringify(objDetail)}`,
       });
     },
-    navPathToGoods() {
+    navPathToGoods(gId) {
       uni.navigateTo({
-        url: "/subPackages/home/shopDetail",
+        url: `/subPackages/home/shopDetail?gId=${gId}`,
       });
     },
   },
@@ -170,6 +199,13 @@ page {
 }
 </style>
 <style scoped>
+.shop-car-container {
+  padding-bottom: 108rpx;
+}
+.shop-car-container2 {
+  height: 100%;
+  background-color: #fff;
+}
 .no-shop-car {
   margin-top: 172rpx;
   width: 340rpx;
@@ -247,5 +283,10 @@ page {
   width: 220rpx;
   height: 98rpx;
   background-color: #f11b20;
+}
+.jiesuan-btn2 {
+  width: 220rpx;
+  height: 98rpx;
+  background-color: #999;
 }
 </style>

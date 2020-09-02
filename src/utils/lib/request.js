@@ -9,15 +9,19 @@ uniRequest._extend = function (copy) {
 }
 uniRequest._extend({
     postRequest(url, data = {}, type) {
+        const opId = common.getData('opId');
+        const token = common.getData('token');
+        const userno = common.getData('userno');
         let header = {
             'Content-Type': 'application/x-www-form-urlencoded',
+            'token': token
         };
-        const opId = common.getData('opId');
         if (!opId) {
             uni.reLaunch({
                 url: "/pages/page/login"
             })
         }
+        if (userno) data.userno = userno;
         if (type !== 'no') data.openId = opId;
         return new Promise((resolve, reject) => {
             uni.request({

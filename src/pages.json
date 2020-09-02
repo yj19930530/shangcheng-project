@@ -161,6 +161,30 @@
 					"style": {
 						"navigationBarTitleText": ""
 					}
+				},
+				{
+					"path": "comment",
+					"style": {
+						"navigationBarTitleText": "发布评论"
+					}
+				},
+				{
+					"path": "myFans",
+					"style": {
+						"navigationBarTitleText": "我的粉丝"
+					}
+				},
+				{
+					"path": "myFollow",
+					"style": {
+						"navigationBarTitleText": "我的关注"
+					}
+				},
+				{
+					"path": "collection",
+					"style": {
+						"navigationBarTitleText": "我的收藏"
+					}
 				}
 			]
 		}
