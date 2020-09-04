@@ -37,6 +37,7 @@
     "@dcloudio/uni-cli-shared": "^2.0.0-27920200618002",
     "@dcloudio/uni-migration": "^2.0.0-27920200618002",
     "@dcloudio/uni-template-compiler": "^2.0.0-27920200618002",
+    "@dcloudio/uni-ui": "^1.2.5",
     "@dcloudio/vue-cli-plugin-hbuilderx": "^2.0.0-27920200618002",
     "@dcloudio/vue-cli-plugin-uni": "^2.0.0-27920200618002",
     "@dcloudio/vue-cli-plugin-uni-optimize": "^2.0.0-27920200618002",
@@ -58,5 +59,18 @@
   ],
   "uni-app": {
     "scripts": {}
-  }
+  },
+  "description": "```\r yarn install\r ```",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yj19930530/shopping-wexin-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yj19930530/shopping-wexin-project/issues"
+  },
+  "homepage": "https://github.com/yj19930530/shopping-wexin-project#readme"
 }

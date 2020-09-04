@@ -30,7 +30,7 @@ uniRequest._extend({
                 method: 'post',
                 header: header,
                 success: (res) => {
-                    switch (res.data.code) {
+                    switch (res.data.state) {
                         case 200: {
                             resolve(res.data);
                             break
@@ -38,7 +38,7 @@ uniRequest._extend({
                         case 201: {
                             uni.showModal({
                                 title: '提示',
-                                content: res.data.msg,
+                                content: res.data.message,
                                 showCancel: false,
                                 confirmText: '返回登录',
                                 success: function () {
@@ -50,8 +50,8 @@ uniRequest._extend({
                             break
                         }
                         default: {
-                            toast.showToast(res.data.msg)
-                            resolve(res.data);
+                            toast.showToast(res.data.message);
+                            resolve({});
                             break
                         }
                     }

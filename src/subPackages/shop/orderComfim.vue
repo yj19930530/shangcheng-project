@@ -103,8 +103,10 @@ export default {
       let buyData = objData.data;
       this.shopList = [
         {
-          cartQty: objData.count,
-          good: objData.data,
+          cartQty: buyData.count,
+          good: buyData,
+          spec: buyData.gSpec,
+          gid: buyData.gId,
         },
       ];
     }
@@ -141,18 +143,23 @@ export default {
     },
     // 跳转付款页面
     submtPay() {
+      let goodsArr = [];
+      this.shopList.forEach((item) => {
+        goodsArr.push({
+          gId: item.gid,
+          cId: item.id ? item.id : "",
+          gQty: item.cartQty,
+          gSpec: item.spec,
+        });
+      });
       this.$api
         .addOrder({
-          OrderInfo: JSON.stringify({
-            smallAddress: this.addressListData[0],
-            lsc: this.shopList,
-            os: {
-              postage: 0,
-              reducePrice: 0,
-              sumGood: this.totalNumber,
-              sumPrice: this.totalPrice,
-            },
-          }),
+          channel: 2,
+          postage: 0,
+          sumPrice: this.totalPrice,
+          remark: this.detal,
+          sumPrice: this.totalPrice,
+          listOrderGoodInfo: JSON.stringify(goodsArr),
         })
         .then((res) => {
           console.log(res);

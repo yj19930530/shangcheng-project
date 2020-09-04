@@ -30,7 +30,7 @@ export default {
     },
   },
   methods: {
-    navToDetail() {
+    navToDetail(gId) {
       uni.navigateTo({
         url: `/subPackages/home/shopDetail?gId=${gId}`,
       });

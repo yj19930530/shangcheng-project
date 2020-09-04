@@ -49,7 +49,10 @@
       <image class="check-icon" v-else src="../../static/shop/no.png" />
       <text class="fz-15">设置为默认地址</text>
     </div>
-    <div class="add-address-btn fl-cen" @tap="saveAndUse">
+    <div class="add-address-btn fl-cen" @tap="editAndUse" v-if="editType">
+      <text class="fz-20 fc-fff fw-bold">修改</text>
+    </div>
+    <div class="add-address-btn fl-cen" @tap="saveAndUse" v-else>
       <text class="fz-20 fc-fff fw-bold">保存并使用</text>
     </div>
   </div>
@@ -87,10 +90,12 @@ export default {
           errorMsg: "请填写详细地址",
         },
       ],
+      editType: false,
     };
   },
   onLoad(data) {
     if (data.id) {
+      this.editType = true;
       this.getAddressInfo(data.id);
     }
   },
@@ -132,6 +137,30 @@ export default {
           .then((res) => {
             if (res.state === 200) {
               toast.showToast("添加成功");
+              uni.navigateBack({
+                delta: 1,
+              });
+            }
+            uni.hideLoading();
+          })
+          .catch(() => {
+            uni.hideLoading();
+          });
+      } else {
+        toast.showToast(graceChecker.error);
+      }
+    },
+    editAndUse() {
+      const val = graceChecker.check(this.form, this.rules);
+      if (val) {
+        if (this.addressVal === "省市区县、乡等")
+          return toast.showToast("请选择所在地区");
+        toast.showLoading("修改中");
+        this.$api
+          .editAddressData(this.form)
+          .then((res) => {
+            if (res.state === 200) {
+              toast.showToast("修改成功");
               uni.navigateBack({
                 delta: 1,
               });

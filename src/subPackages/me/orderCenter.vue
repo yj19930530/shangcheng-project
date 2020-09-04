@@ -28,27 +28,39 @@
     </div>
     <!-- 订单列表 -->
     <div class="order-list-coentent">
-      <div class="order-row-box fl-bt" v-for="(item,index) in orderListData" :key="index">
-        <div class="order-row-left fl-fc">
-          <image class="row-left-img" src="../../static/me/me-bg.png" />
-          <text class="fz-12 fc-f1 mr-t-30">等待您的付款</text>
-        </div>
-        <div class="order-row-right">
-          <text class="fz-15">初印象-多效修护精华水（蓝铜胜肽）</text>
-          <div class="fl-bt mr-t-10">
-            <text class="fz-14 fc-999">已选02（浮雕版）</text>
-            <text class="fz-14 fc-999 mr-r-24">x1</text>
+      <div v-for="(item,index) in orderListData" :key="index">
+        <div
+          class="order-row-box fl-bt"
+          v-for="(orderRow,orderIndex) in item.items"
+          :key="orderIndex"
+        >
+          <div class="order-row-left fl-fc">
+            <image class="row-left-img" @tap="navPathTo('goods',orderRow)" :src="httpImg+orderRow.pic" />
+            <text class="fz-12 fc-f1 mr-t-30" v-if="orderRow.status==='待填写'">等待您的付款</text>
           </div>
-          <div class="mr-t-10">
-            <text class="fz-17">总价：¥289</text>
-          </div>
-          <div class="border-btn-list">
-            <div class="border-btn-list-center fl-bt">
-              <div class="fl-cen order-comfirm-btn btn-border-999" @tap="navPathTo('log')">
-                <text class="fz-14">查看物流</text>
-              </div>
-              <div class="fl-cen order-comfirm-btn btn-border-f1">
-                <text class="fz-14 fc-f1">去支付</text>
+          <div class="order-row-right" @tap="navPathTo('log')">
+            <text class="fz-15">{{orderRow.gTitle}}</text>
+            <div class="fl-bt mr-t-10">
+              <text class="fz-14 fc-999">已选 {{orderRow.propertiesValue}}</text>
+              <text class="fz-14 fc-999 mr-r-24">x{{orderRow.qty}}</text>
+            </div>
+            <div class="mr-t-10">
+              <text class="fz-17">总价：¥{{orderRow.amount}}</text>
+            </div>
+            <div class="border-btn-list">
+              <div class="border-btn-list-center fl-bt">
+                <div
+                  class="fl-cen order-comfirm-btn btn-border-999"
+                  @tap.native.stop="navPathTo('del',orderRow)"
+                >
+                  <text class="fz-14">取消订单</text>
+                </div>
+                <div class="fl-cen order-comfirm-btn btn-border-999" @tap="navPathTo('tk')">
+                  <text class="fz-14">申请退款</text>
+                </div>
+                <div class="fl-cen order-comfirm-btn btn-border-f1" v-if="orderRow.status==='待填写'">
+                  <text class="fz-14 fc-f1">去支付</text>
+                </div>
               </div>
             </div>
           </div>
@@ -62,12 +74,14 @@
 </template>
 <script>
 const { toast } = require("../../utils/index");
+import { httpImg } from "../../config/develop";
 export default {
   data() {
     return {
       type: "all",
-      status: "",
-      orderListData: [],
+      status: "", // 订单状态
+      orderListData: [], // 订单处理列表
+      httpImg: httpImg, // 图片url
     };
   },
   onLoad(obj) {
@@ -139,13 +153,35 @@ export default {
         }
       }
       this.getList();
-    }, 
-    navPathTo(name) {
+    },
+    async navPathTo(name, row) {
       switch (name) {
         case "log": {
           uni.navigateTo({
             url: "/subPackages/me/orderDetail",
           });
+          break; 
+        }
+        case "goods": {
+          uni.navigateTo({
+            url: `/subPackages/home/shopDetail?gId=${row.gId}`,
+          });
+          break;
+        }
+        case "tk": {
+          uni.navigateTo({
+            url: `/subPackages/me/refund`,
+          });
+          break;
+        }
+        case "del": {
+          toast.showLoading("删除中");
+          await this.$api.deleteOrder({
+            id: row.gId,
+          });
+          toast.showToast("删除成功");
+          this.getList();
+          uni.hideLoading();
           break;
         }
         default: {

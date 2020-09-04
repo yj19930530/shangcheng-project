@@ -13,7 +13,7 @@
       <text class="fz-12 fc-999 mr-l-20" v-if="inputVal!==''" @tap="clearVal">清除</text>
     </div>
     <!-- 历史搜索列表 -->
-    <!-- <div class="history-box">
+    <div class="history-box" v-if="!goodsList.length">
       <div class="fl-bt">
         <text class="fz-15 fw-bold">历史搜索</text>
         <div class="fl-al">
@@ -31,21 +31,23 @@
           <text class="fz-14 fc-999">{{item}}</text>
         </div>
       </div>
-    </div>-->
+    </div>
     <!-- 搜索列表 -->
-    <div class="goods-list">
+    <div class="goods-list" v-else>
       <div class="goods-center-box fl-btw">
-        <ClassItem v-for="item in 2" :key="item" />
+        <ClassItem v-for="(item,index) in goodsList" :key="index" :objItem="item" />
       </div>
     </div>
   </div>
 </template>
 <script>
+const { toast } = require("../../utils/index");
 export default {
   data() {
     return {
       inputVal: "",
       searchList: [],
+      goodsList: [],
     };
   },
   onLoad() {
@@ -55,14 +57,27 @@ export default {
   methods: {
     clearVal() {
       this.inputVal = "";
+      this.goodsList.length = 0;
     },
-    searchHandle() {
+    async searchHandle() {
       this.searchList.push(this.inputVal);
+      this.searchList = [...new Set(this.searchList)];
       uni.setStorageSync("search", JSON.stringify(this.searchList));
+      this.getList();
+    },
+    async getList() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getClassAllList({
+        gName: this.inputVal,
+        idx: 1,
+      });
+      this.goodsList = data;
+      uni.hideLoading();
     },
     // 历史搜索
     hisValSearch(val) {
       this.inputVal = val;
+      this.getList();
     },
   },
 };

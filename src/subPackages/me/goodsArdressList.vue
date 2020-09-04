@@ -1,27 +1,40 @@
 <template>
   <div class="address-container">
-    <div class="fl-fc address-edit-box" v-for="(item,index) in addressList" :key="index">
-      <div class="fl-bt address-top-box" @tap="editAddressType(item)">
-        <image class="address-icon" src="../../static/shop/dizhi.png" />
-        <div class="fl-fc">
-          <div
-            class="fz-15 fw-bold address-title text-lang-dian"
-          >{{item.provinceName}}{{item.cityName}}{{item.countyName}}{{item.detailInfo}}</div>
-          <div class="fl-al mr-t-10">
-            <text class="fz-15">{{item.userName}}</text>
-            <text class="fz-15 mr-l-50">{{item.telNumber}}</text>
-          </div>
-        </div>
-        <text
-          class="iconfont iconziyuan fz-17 fc-999 mr-r-20"
-          @tap.native.stop="editAddress2(item.id)"
-        ></text>
-        <div class="default-icon fl-cen" v-if="item.isdefault===1">
-          <text class="fz-11 fc-fff">默认</text>
-        </div>
+    <div class="swipe-action-width">
+      <div class="fl-fo" v-for="(item,index) in addressList" :key="index">
+        <div class="heng-box-style"></div>
+        <uni-swipe-action>
+          <uni-swipe-action-item
+            :options="goodsOption"
+            @click="swipeClick(item)"
+          >
+            <div class="fl-fc address-edit-box">
+              <div class="fl-bt address-top-box" @tap="editAddressType(item)">
+                <image class="address-icon" src="../../static/shop/dizhi.png" />
+                <div class="fl-fc">
+                  <div
+                    class="fz-15 fw-bold address-title text-lang-dian"
+                  >{{item.provinceName}}{{item.cityName}}{{item.countyName}}{{item.detailInfo}}</div>
+                  <div class="fl-al mr-t-10">
+                    <text class="fz-15">{{item.userName}}</text>
+                    <text class="fz-15 mr-l-50">{{item.telNumber}}</text>
+                  </div>
+                </div>
+                <text
+                  class="iconfont iconziyuan fz-17 fc-999 mr-r-20"
+                  @tap.native.stop="editAddress2(item.id)"
+                ></text>
+                <div class="default-icon fl-cen" v-if="item.isdefault===1">
+                  <text class="fz-11 fc-fff">默认</text>
+                </div>
+              </div>
+              <image class="heng-style" src="../../static/shop/heng.png" />
+            </div>
+          </uni-swipe-action-item>
+        </uni-swipe-action>
       </div>
-      <image class="heng-style" src="../../static/shop/heng.png" />
     </div>
+
     <div v-if="!addressList.length" class="fl-cen">
       <text class="fz-15 fc-999 mr-t-30">没有地址</text>
     </div>
@@ -36,12 +49,27 @@ export default {
   data() {
     return {
       addressList: [],
+      goodsOption: [
+        {
+          text: "删除",
+          style: {
+            backgroundColor: "#F11B20",
+          },
+        },
+      ],
     };
   },
   onShow() {
     this.getAddressData();
   },
   methods: {
+    // 删除
+    async swipeClick(row) {
+      await this.$api.deleteAddress({
+        id: row.id,
+      });
+      this.getAddressData();
+    },
     // 修改默认地址
     async editAddressType(row) {
       if (row.isdefault === 1) return;
@@ -81,12 +109,16 @@ page {
 }
 </style>
 <style scoped>
+.swipe-action-width {
+  margin: auto;
+  width: 710rpx;
+}
 .address-container {
+  padding-top: 10rpx;
   padding-bottom: 128rpx;
 }
 .address-edit-box {
   overflow: hidden;
-  margin: 20rpx auto 0;
   width: 710rpx;
   height: 160rpx;
   background-color: #fff;
@@ -125,5 +157,10 @@ page {
   height: 30rpx;
   border-radius: 10rpx 0 20rpx 0;
   background-color: #7e6b5a;
+}
+.heng-box-style {
+  width: 100%;
+  height: 20rpx;
+  background-color: #f8f8f8;
 }
 </style>

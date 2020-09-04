@@ -12,7 +12,7 @@
           <text class="fz-12 fc-89 mr-l-10">请输入商品名称</text>
         </view>
         <div class="message-content fl-al" @tap="navToPathMsg">
-          <view class="message-number fl-cen fz-10">2</view>
+          <view class="message-number fl-cen fz-10" v-if="msgNumber>0">{{msgNumber}}</view>
           <image class="right-message-btn mr-r-20" src="../../static/home/xinxi.png" />
         </div>
       </view>
@@ -59,6 +59,7 @@
   </view>
 </template>
 <script>
+const { toast } = require("../../utils/index");
 export default {
   data() {
     return {
@@ -66,6 +67,8 @@ export default {
       autoplay: true,
       interval: 3000,
       duration: 500,
+      homePageData: {}, // 首页数据
+      msgNumber: 0,
     };
   },
   onShareAppMessage(res) {
@@ -78,12 +81,30 @@ export default {
       path: "/pages/page/home",
     };
   },
+  onLoad() {
+    this.getHomePageData();
+  },
+  onShow() {
+    this.getMsgNumber();
+  },
   computed: {
     navHeight() {
       return getApp().globalData.navHeight;
     },
   },
   methods: {
+    // 获取消息数量
+    async getMsgNumber() {
+      const { data } = await this.$api.getMessageCount();
+      this.msgNumber = data;
+    },
+    // 获取首页数据
+    async getHomePageData() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getHomePage();
+      this.homePageData = data;
+      uni.hideLoading();
+    },
     navToDetail() {
       uni.navigateTo({
         url: "/subPackages/home/shopDetail",

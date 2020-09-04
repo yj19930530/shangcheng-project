@@ -14,34 +14,53 @@
         <text class="fz-14 fc-999 mr-r-40">管理</text>
       </div>
       <!-- 购物车 row -->
-      <div class="shop-car-row fl-al" v-for="(item,index) in shopList" :key="index">
-        <image
-          v-if="item.pick===1"
-          class="check-img mr-l-30"
-          src="../../static/shop/yse.png"
-          @tap.native.stop="checkChoose(index,0)"
-        />
-        <image
-          v-if="item.pick===0"
-          class="check-img mr-l-30"
-          src="../../static/shop/no.png"
-          @tap.native.stop="checkChoose(index,1)"
-        />
-        <image class="row-shop-img" :src="httpImg+item.good.gImg" @tap="navPathToGoods(item.gid)" />
-        <div class="row-right-content" @tap.native.stop="navPathToGoods(item.gid)">
-          <div class="fz-15 text-width-row">{{item.good.gName}}</div>
-          <text class="fz-14 fc-999 mr-t-20">已选 {{item.good.gSpec}}</text>
-          <div class="fl-al mr-t-20">
-            <text class="fz-17 fw-bold fc-f1">¥{{item.good.bPrice}}</text>
-            <text class="fz-14 fc-999 td-text mr-l-10">¥{{item.good.price4}}</text>
-            <div class="count-box fl-bt">
-              <div class="count-row fl-cen fz-14 fc-999" @tap.native.stop="declineHandle(index)">-</div>
-              <div class="count-row2 fl-cen fz-14 fc-999">{{item.cartQty}}</div>
-              <div class="count-row fl-cen fz-14 fc-999" @tap.native.stop="inclineHandle(index)">+</div>
+      <uni-swipe-action>
+        <uni-swipe-action-item
+          v-for="(item,index) in shopList"
+          :key="index"
+          :options="goodsOption"
+          @click="swipeClick(item)"
+        >
+          <div class="shop-car-row fl-al">
+            <image
+              v-if="item.pick===1"
+              class="check-img mr-l-30"
+              src="../../static/shop/yse.png"
+              @tap.native.stop="checkChoose(index,0)"
+            />
+            <image
+              v-if="item.pick===0"
+              class="check-img mr-l-30"
+              src="../../static/shop/no.png"
+              @tap.native.stop="checkChoose(index,1)"
+            />
+            <image
+              class="row-shop-img"
+              :src="httpImg+item.good.gImg"
+              @tap="navPathToGoods(item.gid)"
+            />
+            <div class="row-right-content" @tap.native.stop="navPathToGoods(item.gid)">
+              <div class="fz-15 text-width-row">{{item.good.gName}}</div>
+              <text class="fz-14 fc-999 mr-t-20">已选 {{item.good.gSpec}}</text>
+              <div class="fl-al mr-t-20">
+                <text class="fz-17 fw-bold fc-f1">¥{{item.good.bPrice}}</text>
+                <text class="fz-14 fc-999 td-text mr-l-10">¥{{item.good.price4}}</text>
+                <div class="count-box fl-bt">
+                  <div
+                    class="count-row fl-cen fz-14 fc-999"
+                    @tap.native.stop="declineHandle(index)"
+                  >-</div>
+                  <div class="count-row2 fl-cen fz-14 fc-999">{{item.cartQty}}</div>
+                  <div
+                    class="count-row fl-cen fz-14 fc-999"
+                    @tap.native.stop="inclineHandle(index)"
+                  >+</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </uni-swipe-action-item>
+      </uni-swipe-action>
       <!-- 底部结算 -->
       <div class="car-bottom-content fl-bt">
         <div class="fl-al mr-l-30" @tap="allCheckTypeHandle(allCheckType)">
@@ -77,6 +96,14 @@ export default {
       allTotal: 0,
       httpImg: httpImg,
       checkList: [], // 选中的列表
+      goodsOption: [
+        {
+          text: "删除",
+          style: {
+            backgroundColor: "#F11B20",
+          },
+        },
+      ],
     };
   },
   computed: {
@@ -90,6 +117,13 @@ export default {
     this.allPrice();
   },
   methods: {
+    // 删除
+    async swipeClick(row) {
+      await this.$api.deleteCarGoods({
+        id: row.id,
+      });
+      this.getTableList();
+    },
     // 获取购物车列表
     async getTableList() {
       toast.showLoading("加载中");

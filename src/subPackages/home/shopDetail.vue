@@ -111,7 +111,6 @@
         <div class="mr-t-20 grid-list-box">
           <div
             class="grid-list-style fl-cen"
-            :key="index"
             :class="[goodsCheckType?'box-bg-f1':'box-bg-border']"
             @tap="checkTypeFunc"
           >

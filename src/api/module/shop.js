@@ -11,8 +11,12 @@ const getAddressList = (data) => postRequest('/smallprogramMain/handleGetAddress
 const addAddress = (data) => postRequest('/smallprogramMain/handleRequestBaseAddAddress', data);
 // 切换默认地址
 const editDefaultAddress = (data) => postRequest('/smallprogramMain/handleUpdateAddressDefult', data);
+// 修改地址
+const editAddressData = (data) => postRequest('/smallprogramMain/handleUpdateAddress', data);
 // 新增订单
-const addOrder = (data) => postRequest('/smallprogramMain/handleAddOrder', data);
+const addOrder = (data) => postRequest('/smallprogramMain/handleWebAddOrder', data);
+// 删除订单
+const deleteOrder = (data) => postRequest('/smallprogramMain/handleCancelOrder', data);
 // 获取相关文章
 const getAboutAtc = (data) => postRequest('/sa/index/front/findIndexOrOtherArticlePage', data, 'no');
 // 文章点赞
@@ -29,6 +33,10 @@ const articleGz = (data) => postRequest('/smallprogramMain/handleAddFans', data,
 const articleCloseGz = (data) => postRequest('/smallprogramMain/handleDelFans', data, 'no');
 // 评论文章
 const atcPlRequest = (data) => postRequest('/web/article/pl', data, 'no');
+// 删除购物车商品
+const deleteCarGoods = (data) => postRequest('/smallprogramMain/handleRequestBaseDeleteCart', data, 'no');
+// 删除地址
+const deleteAddress = (data) => postRequest('/smallprogramMain/handleRequestBaseDelAddress', data, 'no');
 module.exports = {
     addShopCar,
     getShopCarList,
@@ -44,5 +52,9 @@ module.exports = {
     articleZc,
     articleGz,
     articleCloseGz,
-    atcPlRequest
+    atcPlRequest,
+    deleteOrder,
+    deleteCarGoods,
+    deleteAddress,
+    editAddressData
 }
