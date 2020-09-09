@@ -33,15 +33,15 @@
         :key="index"
         @tap="navToDetail"
       >
-        <image class="row-left-img mr-l-40" :src="httpImg+item.good.gImg" />
+        <image class="row-left-img mr-l-40" :src="httpImg+item.good.gimg" />
         <div class="row-right-box">
-          <text class="fz-15">{{item.good.gName}}</text>
+          <text class="fz-15">{{item.good.gname}}</text>
           <div class="fl-bt mr-t-20">
-            <text class="fz-14 fc-999">已选 {{item.good.gSpec}}</text>
+            <text class="fz-14 fc-999">已选 {{item.good.gspec}}</text>
             <text class="fz-14 fc-999">x{{item.cartQty}}</text>
           </div>
           <div class="mr-t-20">
-            <text class="fz-17 fc-f1 fw-bold">¥{{item.good.bPrice}}</text>
+            <text class="fz-17 fc-f1 fw-bold">¥{{item.good.bprice}}</text>
             <text class="fz-14 fc-999 mr-l-10">¥{{item.good.price4}}</text>
           </div>
         </div>
@@ -83,7 +83,8 @@
   </div>
 </template>
 <script>
-import { httpImg } from "../../config/develop";
+const { httpImg } = require("../../config/develop");
+const { toast } = require("../../utils/index");
 export default {
   data() {
     return {
@@ -100,13 +101,13 @@ export default {
     if (objData.type === "car") {
       this.shopList = objData.data;
     } else {
-      let buyData = objData.data;
+      const buyData = objData.data;
       this.shopList = [
         {
-          cartQty: buyData.count,
+          cartQty: objData.count,
           good: buyData,
-          spec: buyData.gSpec,
-          gid: buyData.gId,
+          spec: buyData.gspec,
+          gid: buyData.gid,
         },
       ];
     }
@@ -126,7 +127,7 @@ export default {
     // 计算价格
     priceCompute() {
       this.shopList.forEach((item) => {
-        this.totalPrice += item.good.bPrice * item.cartQty;
+        this.totalPrice += item.good.bprice * item.cartQty;
         this.totalNumber += item.cartQty;
       });
     },
@@ -152,21 +153,26 @@ export default {
           gSpec: item.spec,
         });
       });
+      toast.showLoading("提交中");
       this.$api
         .addOrder({
           channel: 2,
           postage: 0,
           sumPrice: this.totalPrice,
           remark: this.detal,
-          sumPrice: this.totalPrice,
+          payPrice: this.totalPrice,
           listOrderGoodInfo: JSON.stringify(goodsArr),
+          addressId: this.addressListData[0].id,
         })
         .then((res) => {
-          console.log(res);
+          uni.hideLoading();
+          uni.navigateTo({
+            url: `/subPackages/shop/payment?soId=${res.data.code}&state=1`,
+          });
+        })
+        .catch(() => {
+          uni.hideLoading();
         });
-      // uni.navigateTo({
-      //   url: "/subPackages/shop/payment",
-      // });
     },
   },
 };

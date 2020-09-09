@@ -12,7 +12,7 @@
           </div>
           <text class="iconfont iconyoujiantou fc-fff fz-14 mr-r-60" @tap="NavPathTo('edit')"></text>
         </div>
-        <div class="me-other-box fl-bt">
+        <!-- <div class="me-other-box fl-bt">
           <div class="fl-co" @tap="NavPathTo('guan')">
             <text class="fz-17 fc-fff fw-bold">{{follow}}</text>
             <text class="fz-13 fc-fff mr-t-6">关注</text>
@@ -25,7 +25,7 @@
             <text class="fz-17 fc-fff fw-bold">{{collection}}</text>
             <text class="fz-13 fc-fff mr-t-6">收藏</text>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
     <!-- 订单 icon  -->
@@ -90,12 +90,15 @@ export default {
     };
   },
   onShow() {
+    this.opId = uni.getStorageSync("opId");
     this.getUserinfo();
   },
   methods: {
     // 获取用户
     async getUserinfo() {
-      const { data } = await this.$api.getUserInfo();
+      const { data } = await this.$api.getUserInfo({
+        openid: this.opId,
+      });
       this.userId = data.id;
       this.form.avatarUrl = data.avatarUrl;
       this.form.nickName = data.nickName;
@@ -137,25 +140,25 @@ export default {
         }
         case "pay": {
           uni.navigateTo({
-            url: "/subPackages/me/orderCenter?type=待填写",
+            url: `/subPackages/me/orderCenter?type=${1}`,
           });
           break;
         }
         case "huo": {
           uni.navigateTo({
-            url: "/subPackages/me/orderCenter?type=已付款待审核",
+            url: `/subPackages/me/orderCenter?type=${2}`,
           });
           break;
         }
         case "shou": {
           uni.navigateTo({
-            url: "/subPackages/me/orderCenter?type=已发货",
+            url: `/subPackages/me/orderCenter?type=${3}`,
           });
           break;
         }
         case "ping": {
           uni.navigateTo({
-            url: "/subPackages/me/orderCenter?type=已审核待打印",
+            url: `/subPackages/me/orderCenter?type=${4}`,
           });
           break;
         }
@@ -217,7 +220,7 @@ page {
 }
 .oder-content {
   position: relative;
-  top: -50rpx;
+  top: -150rpx;
   width: 100%;
   height: 274rpx;
   border-radius: 44rpx 44rpx 0 0;
@@ -239,7 +242,7 @@ page {
 }
 .other-content {
   position: relative;
-  top: -24rpx;
+  top: -124rpx;
   background-color: #fff;
 }
 .icon-left-style {

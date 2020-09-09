@@ -84,6 +84,12 @@
 					"style": {
 						"navigationBarTitleText": "支付信息"
 					}
+				},
+				{
+					"path": "swpDemo",
+					"style": {
+						"navigationBarTitleText": "测试"
+					}
 				}
 			]
 		},
@@ -123,13 +129,15 @@
 				{
 					"path": "buyShow",
 					"style": {
-						"navigationBarTitleText": "买家秀"
+						"navigationBarTitleText": "买家秀",
+						"enablePullDownRefresh": true
 					}
 				},
 				{
 					"path": "atcList",
 					"style": {
-						"navigationBarTitleText": "相关文章"
+						"navigationBarTitleText": "相关文章",
+						"enablePullDownRefresh": true
 					}
 				},
 				{

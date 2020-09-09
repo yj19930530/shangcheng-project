@@ -9,7 +9,7 @@
       </div>
     </div>
     <!-- 内容 -->
-    <div class="atc-detail-content fl-co">
+    <div class="atc-detail-content">
       <Uparse :content="atcObj.contens" />
     </div>
     <!-- 用户 -->

@@ -1,10 +1,10 @@
 <template>
-  <div class="row-details-box fl-fc" @tap="navToDetail(dataRow.gId)">
-    <image class="row-details-img" :src="httpImg+dataRow.gImg" />
+  <div class="row-details-box fl-fc" @tap="navToDetail(dataRow.gid)">
+    <image class="row-details-img" :src="httpImg+dataRow.gimg" />
     <div class="row-details-bottom">
-      <div class="fz-15 title-height">{{dataRow.gName}}</div>
+      <div class="fz-15 title-height">{{dataRow.gname}}</div>
       <div class="mr-t-40">
-        <text class="fc-f1 fz-17 fw-bold">¥{{dataRow.bPrice}}</text>
+        <text class="fc-f1 fz-17 fw-bold">¥{{dataRow.bprice}}</text>
         <text class="fz-14 fc-999 td-text mr-l-20">¥{{dataRow.price4}}</text>
       </div>
     </div>

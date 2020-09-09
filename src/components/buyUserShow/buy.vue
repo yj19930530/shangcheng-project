@@ -1,17 +1,58 @@
 <template>
   <div class="buy-item-box">
     <div class="fl-al">
-      <image class="buy-header-img" src="../../static/me/me-bg.png" />
-      <text class="fz-14">包***铺</text>
+      <image class="buy-header-img" :src="detailData.publishAvatarUrl" />
+      <text class="fz-14">{{detailData.publishUserNickName}}</text>
     </div>
     <div class="buy-text-box">
-      <text class="fz-14">太好看了吧！颜色太爱了！</text>
+      <text class="fz-14">{{detailData.content}}</text>
     </div>
     <div class="buy-show-img">
-      <image class="show-img-item" src="../../static/me/me-bg.png" v-for="item in 5" :key="item" />
+      <image
+        class="show-img-item"
+        v-for="(item,index) in detailData.imageUrl"
+        :key="index"
+        :src="httpDetailImg+item"
+        @tap="prewImgFunc(index,detailData.imageUrl)"
+      />
     </div>
   </div>
 </template>
+<script>
+const { httpDetailImg } = require("../../config/develop");
+export default {
+  data() {
+    return {
+      httpDetailImg: httpDetailImg,
+    };
+  },
+  props: {
+    showObj: {
+      type: Object,
+      default: {},
+    },
+  },
+  computed: {
+    detailData() {
+      this.showObj.imageUrl = this.showObj.imageUrl.split(",");
+      return this.showObj;
+    },
+  },
+  methods: {
+    prewImgFunc(index, list) {
+      let arrList = [];
+      list.forEach((item) => {
+        arrList.push(this.httpDetailImg + item);
+      });
+      uni.previewImage({
+        current: index,
+        urls: arrList,
+        longPressActions: {},
+      });
+    },
+  },
+};
+</script>
 <style scoped>
 .buy-item-box {
   padding-top: 20rpx;

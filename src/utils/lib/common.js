@@ -48,6 +48,21 @@ function cloneData(data) {
     }
     return data;
 }
+// 时间转换
+function dateTime(time) {
+    if (!time) return '-';
+    let date = new Date(time);
+    let year = date.getFullYear();
+    let month =
+        date.getMonth() + 1 >= 10 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1);
+    let day = date.getDate() >= 10 ? date.getDate() : "0" + date.getDate();
+    let h = date.getHours() >= 10 ? date.getHours() : "0" + date.getHours();
+    let m =
+        date.getMinutes() >= 10 ? date.getMinutes() : "0" + date.getMinutes();
+    let s =
+        date.getSeconds() >= 10 ? date.getSeconds() : "0" + date.getSeconds();
+    return `${year}-${month}-${day} ${h}:${m}:${s}`;
+}
 // 缓存数据
 function saveData(key, data) {
     uni.setStorageSync(key, data);
@@ -57,7 +72,7 @@ function getData(key) {
     return uni.getStorageSync(key)
 }
 // 上传图片
-function updataImg(num) {
+function updataImg(num, type) {
     return new Promise((resolve, reject) => {
         uni.showLoading({
             title: '上传中'
@@ -69,12 +84,12 @@ function updataImg(num) {
                 let imgArr = [];
                 res.tempFilePaths.forEach(item => {
                     uni.uploadFile({
-                        url: http + '/smallprogramMain/handleUploadFileArticle',
+                        url: http + '/smallprogramMain/uploadImg',
                         name: 'file',
                         filePath: item,
                         header: { 'token': token },
                         formData: {
-                            types: 'img'
+                            uploadFilePlateType: type
                         },
                         success: (r) => {
                             let uploadData = JSON.parse(r.data);
@@ -189,6 +204,29 @@ function updataVideo() {
     })
 
 }
+// 小程序支付
+function weCatPay(obj) {
+    return new Promise((resolve, reject) => {
+        uni.requestPayment({
+            provider: 'wxpay',
+            timeStamp: obj.timeStamp,
+            nonceStr: obj.nonceStr,
+            package: obj.package,
+            signType: obj.signType,
+            paySign: obj.paySign,
+            success: function (res) {
+                uni.navigateTo({
+                    url: '/subPackages/shop/paymentMsg?type=success',
+                })
+            },
+            fail: function (err) {
+                uni.navigateTo({
+                    url: '/subPackages/shop/paymentMsg?type=err',
+                })
+            }
+        });
+    })
+}
 module.exports = {
     objCopy,
     cloneData,
@@ -199,5 +237,7 @@ module.exports = {
     updataVideo,
     objAss,
     updataImgOnce,
+    weCatPay,
+    dateTime,
     _,
 }

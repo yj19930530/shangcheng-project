@@ -84,13 +84,16 @@ export default {
     };
   },
   onLoad(obj) {
+    this.opId = uni.getStorageSync("opId");
     this.userId = obj.id;
     this.getUserinfo();
   },
   methods: {
     // 获取用户
     async getUserinfo() {
-      const { data } = await this.$api.getUserInfo();
+      const { data } = await this.$api.getUserInfo({
+        openid: this.opId,
+      });
       this.userId = data.id;
       this.form.avatarUrl = data.avatarUrl;
       this.form.nickName = data.nickName;

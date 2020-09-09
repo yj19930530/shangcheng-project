@@ -57,9 +57,9 @@
               class="commodity-item-style"
               v-for="(i,n) in item.lg"
               :key="n"
-              @tap="navToDetail(i.gId)"
+              @tap="navToDetail(i.gid)"
             >
-              <image class="commodity-shop-img" :src="httpImg+i.gImg" />
+              <image class="commodity-shop-img" :src="httpImg+i.gimg" />
               <div class="commodity-shop-name fz-12">{{i.shortName}}</div>
             </div>
           </div>

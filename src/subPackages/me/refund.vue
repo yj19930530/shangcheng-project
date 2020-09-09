@@ -1,15 +1,15 @@
 <template>
   <div class="refund-container">
     <div class="zhan-box"></div>
-    <div class="refund-goods-row fl-cen">
-      <image class="refund-left-img" src="../../static/me/me-bg.png" />
+    <div class="refund-goods-row fl-cen" v-for="(item,index) in orderData.items" :key="index">
+      <image class="refund-left-img" :src="httpImg+item.pic" />
       <div class="refund-right-box mr-l-60">
-        <text class="fz-15">初印象-多效修护精华水（蓝 铜胜肽）</text>
+        <text class="fz-15">{{item.name}}</text>
         <div class="fl-bt mr-t-10">
-          <text class="fz-14 fc-999">已选02（浮雕版）</text>
-          <text class="fz-14 fc-999">x1</text>
+          <text class="fz-14 fc-999">已选{{item.propertiesValue}}</text>
+          <text class="fz-14 fc-999">x{{item.qty}}</text>
         </div>
-        <text class="mr-t-10 fz-17">总价：¥289</text>
+        <text class="mr-t-10 fz-17">总价：¥{{item.basePrice}}</text>
       </div>
     </div>
     <picker @change="bindPickerChange" :value="index" :range="reasonList">
@@ -23,20 +23,24 @@
     </picker>
     <div class="refund-item-box fl-al">
       <text class="fz-15 mr-l-30">退款金额：</text>
-      <text class="fz-17 fc-f1">¥289</text>
+      <text class="fz-17 fc-f1">¥{{totalPrice}}</text>
     </div>
     <div class="refund-item-box fl-al">
       <text class="fz-15 mr-l-30">退款说明：</text>
-      <input class="refund-input-style fz-15" placeholder="选填" />
+      <input v-model="orderRefund.remark" class="refund-input-style fz-15" placeholder="选填" />
     </div>
     <div class="upload-pingzheng mr-t-30">
       <text class="fz-15 mr-l-30">上传凭证</text>
       <div class="mr-l-40 mr-t-40 img-list-content">
-        <div class="ping-img-box">
-          <image class="ping-img-item" src="../../static/me/me-bg.png" />
-          <image class="delete-img-style" src="../../static/shop/delete.png" />
+        <div class="ping-img-box" v-for="(item,index) in imgList" :key="index">
+          <image class="ping-img-item" :src="item.imgPath" />
+          <image
+            class="delete-img-style"
+            src="../../static/shop/delete.png"
+            @tap="deleteImg(index)"
+          />
         </div>
-        <div class="fl-co img-choose-box">
+        <div class="fl-co img-choose-box" @tap="uploadPing" v-if="imgList.length<6">
           <image class="xiangji-icon" src="../../static/me/xiangji.png" />
           <text class="fz-12 fc-999">上传凭证</text>
         </div>
@@ -48,21 +52,82 @@
   </div>
 </template>
 <script>
+const { toast, common } = require("../../utils/index");
+const { httpImg } = require("../../config/develop");
 export default {
   data() {
     return {
-      index: 0,
-      reasonList: [],
+      index: "",
+      reasonList: ["商品无货", "不想要了", "地址信息填写错误"],
+      oid: "",
+      totalPrice: 0,
+      orderData: {},
+      httpImg: httpImg,
+      orderRefund: {
+        orderNo: "",
+        applyUserNo: "",
+        returnReason: "", //退款原因
+        remark: "", // 退款说明
+        returnAmount: "", // 申请退款金额
+        imgUrls: "",
+      },
+      imgList: [],
     };
   },
+  onLoad(obj) {
+    this.oid = obj.id;
+    const userno = common.getData("userno");
+    this.orderRefund.applyUserNo = userno;
+    this.getDetail();
+  },
   methods: {
-    bindPickerChange() {
+    // 获取详情
+    async getDetail() {
+      toast.showLoading("加载中");
+      const { data } = await this.$api.getOrderInfo({
+        id: this.oid,
+      });
+      data.items.forEach((item) => {
+        this.totalPrice += item.qty * item.basePrice;
+      });
+      this.orderData = data;
+      this.orderRefund.orderNo = data.oid;
+      this.orderRefund.returnAmount = this.totalPrice;
+      uni.hideLoading();
+    },
+    // 删除
+    deleteImg(i) {
+      this.imgList.splice(i, 1);
+    },
+    bindPickerChange(e) {
       this.index = e.target.value;
+      this.orderRefund.returnReason = this.reasonList[this.index];
     },
     submitBtnHandle() {
-      uni.navigateTo({
-        url: "/subPackages/me/refundDetail",
+      if (this.orderRefund.returnReason === "")
+        return toast.showToast("请选择退款原因");
+      toast.showLoading("提交中");
+      let imgArr = [];
+      this.imgList.forEach((item) => {
+        imgArr.push(item.imgObj);
       });
+      this.orderRefund.imgUrls = imgArr.join(",");
+      this.$api
+        .payWechatRefund(this.orderRefund)
+        .then((res) => {
+          uni.navigateTo({
+            url: "/subPackages/me/refundDetail",
+          });
+          uni.hideLoading();
+        })
+        .catch(() => {
+          uni.hideLoading();
+        });
+    },
+    // 上传凭证
+    async uploadPing() {
+      const imgObj = await common.updataImg(6, "商品详情初始化");
+      this.imgList = this.imgList.concat(imgObj);
     },
   },
 };
@@ -79,6 +144,7 @@ page {
 }
 .refund-container {
   padding-top: 20rpx;
+  padding-bottom: 70rpx;
   background-color: #fff;
 }
 .refund-left-img {

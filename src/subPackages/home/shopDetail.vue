@@ -18,7 +18,7 @@
       <div class="fl-bt">
         <div class="fl-al">
           <text class="fz-15 fc-f1">¥</text>
-          <text class="fz-20 fc-f1 fw-bold">{{detailObj.bPrice}}</text>
+          <text class="fz-20 fc-f1 fw-bold">{{detailObj.bprice}}</text>
           <text class="fz-15 fc-999 td-text mr-l-20">¥{{detailObj.price4}}</text>
         </div>
         <div class="share-box">
@@ -27,11 +27,11 @@
         </div>
       </div>
       <div class="goods-title-text mr-t-20">
-        <text class="fz-16 fw-bold">{{detailObj.gTitle}}</text>
+        <text class="fz-16 fw-bold">{{detailObj.gtitle}}</text>
       </div>
     </div>
     <!-- 买家秀 -->
-    <div class="buy-box mr-t-20">
+    <div class="buy-box mr-t-20" v-if="showList.length">
       <div class="buy-title-top fl-bt">
         <text class="fz-15 fw-bold">精选买家秀</text>
         <div class="fl-al" @tap="navPathTo('show')">
@@ -39,7 +39,7 @@
           <text class="iconfont iconyoujiantou fz-12 fc-999"></text>
         </div>
       </div>
-      <Buy v-for="item in 2" :key="item" />
+      <Buy v-for="(item,index) in showList" :key="index" :showObj="item" />
     </div>
     <!-- 相关文章 -->
     <div class="about-arc-content" v-if="atcList.length">
@@ -57,7 +57,7 @@
       </div>
     </div>
     <!-- 商品详情 -->
-    <div class="goods-detail-imgs">
+    <div class="goods-detail-imgs" v-if="goodsImgs.length">
       <div class="detail-imgs-center">
         <div class="imgs-title-box fl-al">
           <text class="fz-15 fw-bold">商品详情</text>
@@ -99,9 +99,9 @@
     <div class="zhezhao-bg" v-if="buyType" @tap="closeType"></div>
     <div class="by-box-handle" v-if="buyType" :style="[{bottom:buyType?'0':'-864rpx'}]">
       <div class="by-top-goods-style fl-al">
-        <image class="mr-l-20 by-top-goods-img" :src="httpImg+detailObj.gImg" />
+        <image class="mr-l-20 by-top-goods-img" :src="httpImg+detailObj.gimg" />
         <div class="by-top-goods-title">
-          <text class="fz-15">{{detailObj.gTitle}}</text>
+          <text class="fz-15">{{detailObj.gtitle}}</text>
           <text class="fz-20 fw-bold fc-f1 mr-t-10">¥289</text>
         </div>
         <image class="close-by-box" @tap="closeType" src="../../static/shop/close.png" />
@@ -114,7 +114,7 @@
             :class="[goodsCheckType?'box-bg-f1':'box-bg-border']"
             @tap="checkTypeFunc"
           >
-            <text class="fz-14" :class="[goodsCheckType?'fc-fff':'']">{{detailObj.gSpec}}</text>
+            <text class="fz-14" :class="[goodsCheckType?'fc-fff':'']">{{detailObj.gspec}}</text>
           </div>
         </div>
       </div>
@@ -152,6 +152,7 @@ export default {
       btnName: "立即购买",
       goodsCheckType: false,
       atcList: [], // 文章列表
+      showList: [], // 买家秀列表
     };
   },
   onShareAppMessage(res) {
@@ -174,9 +175,10 @@ export default {
       const { data } = await this.$api.getGoodsDetail({
         gId: this.goodsId,
       });
-      this.aboutAtc(data.gBrand);
+      this.aboutAtc(data.gbrand);
       this.detailObj = data;
-      this.swiperImg = data.gImg.split(",");
+      this.getCommentPage(this.detailObj);
+      this.swiperImg = data.gimg.split(",");
       this.swiperImg = this.swiperImg.map((item) => {
         return this.httpImg + item;
       });
@@ -186,6 +188,17 @@ export default {
           return this.httpDetailImg + item;
         });
       }
+    },
+    // 获取买家秀
+    async getCommentPage(row) {
+      console.log(row)
+      const { data } = await this.$api.findGoodCommentPage({
+        pageNo: 1,
+        pageSize: 3,
+        authState: 2,
+        goodId: row.gid,
+      });
+      this.showList = data.list;
     },
     // 获取相关文章
     async aboutAtc(text) {
@@ -216,13 +229,13 @@ export default {
       switch (name) {
         case "show": {
           uni.navigateTo({
-            url: "/subPackages/me/buyShow",
+            url: `/subPackages/me/buyShow?id=${this.detailObj.gid}`,
           });
           break;
         }
         case "atc": {
           uni.navigateTo({
-            url: "/subPackages/me/atcList",
+            url: `/subPackages/me/atcList?brand=${this.detailObj.gbrand}`,
           });
           break;
         }
@@ -241,9 +254,6 @@ export default {
         case "dai": {
           this.btnName = "加入购物车";
           this.buyType = true;
-          // uni.switchTab({
-          //   url: "/pages/page/shop",
-          // });
           break;
         }
         case "buy": {

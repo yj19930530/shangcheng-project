@@ -32,31 +32,49 @@
         @confirm="getText"
       />
       <div class="camerer-box-style">
-        <div class="choose-img-box" v-for="item in 5" :key="item">
-          <image class="choose-img-style" mode="aspectFit" src="../../static/me/me-bg.png" />
-          <image class="cloose-icon" src="../../static/shop/delete.png" />
+        <div class="choose-img-box" v-for="(item,index) in imgList" :key="index">
+          <image class="choose-img-style" mode="aspectFit" :src="item.imgPath" />
+          <image class="cloose-icon" src="../../static/shop/delete.png" @tap="deleteImg(index)" />
         </div>
-        <div class="comment-img-list">
+        <div class="comment-img-list" @tap="uploadPing" v-if="imgList.length<6">
           <image class="xiangji-icon" src="../../static/me/xiangji.png" />
           <text class="fz-12 fc-999 mr-t-10">添加图片</text>
         </div>
       </div>
     </div>
+    <div class="submit-btn-box fl-cen" @tap="submitBtnHandle">
+      <text class="fz-20 fc-fff fw-bold">发布</text>
+    </div>
   </div>
 </template>
 <script>
+const { toast, common } = require("../../utils/index");
+const { httpImg } = require("../../config/develop");
 export default {
   data() {
     return {
       cStar: 0,
       star: 5,
+      goodId: "",
+      commentValue: "",
+      imgList: [],
+      publishUserNo: "",
     };
+  },
+  onLoad(obj) {
+    const userno = common.getData("userno");
+    this.publishUserNo = userno;
+    this.goodId = obj.id;
   },
   methods: {
     // 点赞 星星
     starRowHandle(i) {
       this.star = this.star - (i + 1);
       this.cStar = this.cStar + (i + 1);
+    },
+    // 删除
+    deleteImg(i) {
+      this.imgList.splice(i, 1);
     },
     starRowHandle2(i) {
       if (this.cStar === i + 1) {
@@ -66,6 +84,34 @@ export default {
       }
       this.cStar = i + 1;
       this.star = 5 - (i + 1);
+    },
+    submitBtnHandle() {
+      if (this.cStar === 0)return toast.showToast("请打分");
+      let imgArr = [];
+      this.imgList.forEach((item) => {
+        imgArr.push(item.imgObj);
+      });
+      toast.showLoading("发布中");
+      this.$api
+        .publishGoodComment({
+          commentImgs: imgArr.join(","),
+          descStart: this.cStar,
+          content: this.commentValue,
+          goodId: this.goodId,
+          publishUserNo: this.publishUserNo,
+        })
+        .then((res) => {
+          uni.hideLoading();
+          toast.showToast("发布成功");
+          uni.navigateBack();
+        })
+        .catch(() => {
+          uni.hideLoading();
+        });
+    },
+    async uploadPing() {
+      const imgObj = await common.updataImg(6, "商品详情初始化");
+      this.imgList = this.imgList.concat(imgObj);
     },
   },
 };
@@ -131,8 +177,16 @@ page {
   height: 30rpx;
 }
 .camerer-box-style {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.submit-btn-box {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 108rpx;
+  background: linear-gradient(to right, #333333, #666666);
 }
 </style>

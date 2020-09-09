@@ -46,12 +46,18 @@
   </div>
 </template>
 <script>
+const { toast } = require("../../utils/index");
 export default {
   data() {
     return {
       index: 0,
       reasonList: [],
+      orderId: "",
+      orderData: {},
     };
+  },
+  onLoad(obj) {
+
   },
   methods: {
     submitBtnHandle() {

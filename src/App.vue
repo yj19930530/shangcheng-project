@@ -46,4 +46,7 @@ page {
   width: 100%;
   z-index: 99999;
 }
+scroll-view [style*="overflow"]::-webkit-scrollbar {
+  display: none;
+}
 </style>

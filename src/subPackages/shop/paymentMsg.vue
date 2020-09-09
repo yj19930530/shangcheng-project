@@ -1,6 +1,6 @@
 <template>
   <div class="pay-msg-container">
-    <!-- <div class="pay-msg-success fl-co">
+    <div class="pay-msg-success fl-co" v-if="type==='success'">
       <div class="fl-co">
         <image class="pay-success-img" src="../../static/shop/cg.png" />
         <text class="fz-18 mr-t-10">支付成功</text>
@@ -13,8 +13,8 @@
           <text class="fz-15">返回首页</text>
         </div>
       </div>
-    </div>-->
-    <div class="pay-msg-success fl-co">
+    </div>
+    <div class="pay-msg-success fl-co" v-else>
       <div class="fl-co">
         <image class="pay-success-img" src="../../static/shop/sb.png" />
         <text class="fz-18 mr-t-10">支付失败</text>
@@ -33,7 +33,12 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      type: "err",
+    };
+  },
+  onLoad(obj) {
+    this.type = obj.type;
   },
   methods: {
     navGetPath(name) {

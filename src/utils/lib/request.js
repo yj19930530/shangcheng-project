@@ -51,7 +51,6 @@ uniRequest._extend({
                         }
                         default: {
                             toast.showToast(res.data.message);
-                            resolve({});
                             break
                         }
                     }

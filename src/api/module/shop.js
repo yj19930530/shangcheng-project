@@ -1,4 +1,8 @@
 const { postRequest } = require('../../utils/lib/request');
+// 小程序预支付
+const wecatPayHandle = (data) => postRequest('/web/pay/payWechatBefore', data);
+// 获取支付凭证
+const getWxPaySign = (data) => postRequest('/web/pay/getWxPaySign', data,'no');
 // 加入购物车
 const addShopCar = (data) => postRequest('/smallprogramMain/handleGoodAddCart', data);
 // 获取购物车list
@@ -14,9 +18,11 @@ const editDefaultAddress = (data) => postRequest('/smallprogramMain/handleUpdate
 // 修改地址
 const editAddressData = (data) => postRequest('/smallprogramMain/handleUpdateAddress', data);
 // 新增订单
-const addOrder = (data) => postRequest('/smallprogramMain/handleWebAddOrder', data);
+const addOrder = (data) => postRequest('/smallprogramMain/handleWebAddOrder', data, 'no');
 // 删除订单
 const deleteOrder = (data) => postRequest('/smallprogramMain/handleCancelOrder', data);
+// 获取订单详情
+const getOrderInfo = (data) => postRequest('/smallprogramMain/handleGetOrderDetails', data);
 // 获取相关文章
 const getAboutAtc = (data) => postRequest('/sa/index/front/findIndexOrOtherArticlePage', data, 'no');
 // 文章点赞
@@ -56,5 +62,8 @@ module.exports = {
     deleteOrder,
     deleteCarGoods,
     deleteAddress,
-    editAddressData
+    editAddressData,
+    wecatPayHandle,
+    getWxPaySign,
+    getOrderInfo
 }

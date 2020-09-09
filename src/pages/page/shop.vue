@@ -2,7 +2,7 @@
   <div :class="[dataType?'shop-car-container':'shop-car-container2']">
     <div class="fl-fca bg-fff" v-if="!dataType">
       <text class="fc-7e fz-15 no-shop-title">购物袋空荡荡的~赶紧去装满~</text>
-      <image class="no-shop-car" src="../../static/shop/guang.png" />
+      <image class="no-shop-car" src="../../static/shop/guang.png" @tap="buyGoodsNext" />
     </div>
     <div style="height:30rpx" v-if="dataType"></div>
     <div class="car-content-style" v-if="dataType">
@@ -117,6 +117,11 @@ export default {
     this.allPrice();
   },
   methods: {
+    buyGoodsNext() {
+      uni.switchTab({
+        url: "/pages/page/class",
+      });
+    },
     // 删除
     async swipeClick(row) {
       await this.$api.deleteCarGoods({
