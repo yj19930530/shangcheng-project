@@ -9,6 +9,7 @@ import Uparse from './components/gaoyia-parse/parse.vue';
 import uniSection from './components/uni-section/uni-section.vue';
 import uniSwipeAction from './components/uni-swipe-action/uni-swipe-action.vue';
 import uniSwipeActionItem from './components/uni-swipe-action-item/uni-swipe-action-item.vue'
+import uniSteps from './components/uni-steps/uni-steps.vue';
 Vue.component('Nav', Nav); // 导航组件
 Vue.component('ClassItem', ClassItem); // 分类组件
 Vue.component('Buy', Buy); // 买家秀组件
@@ -17,6 +18,7 @@ Vue.component('Uparse', Uparse); // 富文本显示组件
 Vue.component('uniSection', uniSection);
 Vue.component('uniSwipeAction', uniSwipeAction);
 Vue.component('uniSwipeActionItem', uniSwipeActionItem);
+Vue.component('uniSteps', uniSteps); // 步骤组件
 
 Vue.config.productionTip = false;
 Vue.prototype.$api = api;

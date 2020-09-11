@@ -179,7 +179,7 @@ export default {
       this.viewInfo = "ta" + row.id;
     },
     getRightDom() {
-      this.rightScrollHeight = this.windowHeight;
+      this.rightScrollHeight = this.windowHeight - 4;
       // 获取滚动区域高度
       uni
         .createSelectorQuery()
@@ -207,7 +207,8 @@ export default {
           this.winnerHiehgt =
             parseInt(this.windowHeight) -
             parseInt(res.height) -
-            parseInt(this.navHeight);
+            parseInt(this.navHeight) -
+            4;
         })
         .exec();
       uni

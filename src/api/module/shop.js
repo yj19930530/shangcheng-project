@@ -2,7 +2,7 @@ const { postRequest } = require('../../utils/lib/request');
 // 小程序预支付
 const wecatPayHandle = (data) => postRequest('/web/pay/payWechatBefore', data);
 // 获取支付凭证
-const getWxPaySign = (data) => postRequest('/web/pay/getWxPaySign', data,'no');
+const getWxPaySign = (data) => postRequest('/web/pay/getWxPaySign', data, 'no');
 // 加入购物车
 const addShopCar = (data) => postRequest('/smallprogramMain/handleGoodAddCart', data);
 // 获取购物车list
@@ -32,7 +32,7 @@ const articlePl = (data) => postRequest('/web/article/pl', data, 'no');
 // 文章收藏
 const articleSc = (data) => postRequest('/web/article/sc', data, 'no');
 // 文章转发
-const articleZc = (data) => postRequest('/web/article/zf', data, 'no');
+const articleZc = (data) => postRequest('/web/article/zf', data, 'no', 'no');
 // 关注
 const articleGz = (data) => postRequest('/smallprogramMain/handleAddFans', data, 'no');
 // 取消关注

@@ -4,13 +4,13 @@
     <div class="me-detail-content">
       <image class="me-detail-bg" src="../../static/me/me-bg.png" />
       <div class="me-detail-center">
-        <div class="fl-bt de-center-box">
+        <div class="fl-bt de-center-box" @tap="NavPathTo('edit')">
           <div class="fl-al">
-            <image class="me-detail-header" :src="form.avatarUrl" @tap="NavPathTo('we')" />
+            <image class="me-detail-header" :src="form.avatarUrl" />
             <text class="fz-15 fc-fff mr-l-30">{{form.nickName}}</text>
-            <text class="iconfont iconziyuan fz-17 fc-fff mr-l-20" @tap="NavPathTo('edit')"></text>
+            <text class="iconfont iconziyuan fz-17 fc-fff mr-l-20"></text>
           </div>
-          <text class="iconfont iconyoujiantou fc-fff fz-14 mr-r-60" @tap="NavPathTo('edit')"></text>
+          <text class="iconfont iconyoujiantou fc-fff fz-14 mr-r-60"></text>
         </div>
         <!-- <div class="me-other-box fl-bt">
           <div class="fl-co" @tap="NavPathTo('guan')">

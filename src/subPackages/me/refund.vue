@@ -91,7 +91,7 @@ export default {
         this.totalPrice += item.qty * item.basePrice;
       });
       this.orderData = data;
-      this.orderRefund.orderNo = data.oid;
+      this.orderRefund.orderNo = data.soId;
       this.orderRefund.returnAmount = this.totalPrice;
       uni.hideLoading();
     },
@@ -115,9 +115,7 @@ export default {
       this.$api
         .payWechatRefund(this.orderRefund)
         .then((res) => {
-          uni.navigateTo({
-            url: "/subPackages/me/refundDetail",
-          });
+          uni.navigateBack();
           uni.hideLoading();
         })
         .catch(() => {

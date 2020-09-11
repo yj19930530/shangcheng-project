@@ -136,7 +136,7 @@ function updataImgOnce() {
                         title: '上传中'
                     });
                     uni.uploadFile({
-                        url: http + '/skin/uploadImg',
+                        url: http + '/web/skin/uploadImg',
                         name: 'image',
                         header: {
                             'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryJ0BstsRQ55xWJzBB'

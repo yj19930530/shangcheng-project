@@ -86,7 +86,7 @@ export default {
       this.star = 5 - (i + 1);
     },
     submitBtnHandle() {
-      if (this.cStar === 0)return toast.showToast("请打分");
+      if (this.cStar === 0) return toast.showToast("请打分");
       let imgArr = [];
       this.imgList.forEach((item) => {
         imgArr.push(item.imgObj);
@@ -103,7 +103,10 @@ export default {
         .then((res) => {
           uni.hideLoading();
           toast.showToast("发布成功");
-          uni.navigateBack();
+          const timer = setTimeout(() => {
+            uni.navigateBack();
+            clearTimeout(timer)
+          },1000);
         })
         .catch(() => {
           uni.hideLoading();

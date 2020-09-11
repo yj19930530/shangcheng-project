@@ -42,7 +42,7 @@
       <Buy v-for="(item,index) in showList" :key="index" :showObj="item" />
     </div>
     <!-- 相关文章 -->
-    <div class="about-arc-content" v-if="atcList.length">
+    <!-- <div class="about-arc-content" v-if="atcList.length">
       <div class="about-arc-box">
         <div class="about-arc-title fl-bt">
           <text class="fz-15 fw-bold">相关文章</text>
@@ -55,7 +55,7 @@
           <Atc v-for="(item,index) in atcList" :key="index" :objDetail="item" />
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- 商品详情 -->
     <div class="goods-detail-imgs" v-if="goodsImgs.length">
       <div class="detail-imgs-center">
@@ -175,7 +175,7 @@ export default {
       const { data } = await this.$api.getGoodsDetail({
         gId: this.goodsId,
       });
-      this.aboutAtc(data.gbrand);
+      // this.aboutAtc(data.gbrand);
       this.detailObj = data;
       this.getCommentPage(this.detailObj);
       this.swiperImg = data.gimg.split(",");
@@ -201,14 +201,14 @@ export default {
       this.showList = data.list;
     },
     // 获取相关文章
-    async aboutAtc(text) {
-      const { data } = await this.$api.getAboutAtc({
-        pageNo: 1,
-        pageSize: 2,
-        brand: text,
-      });
-      this.atcList = data.list;
-    },
+    // async aboutAtc(text) {
+    //   const { data } = await this.$api.getAboutAtc({
+    //     pageNo: 1,
+    //     pageSize: 2,
+    //     brand: text,
+    //   });
+    //   this.atcList = data.list;
+    // },
     closeType() {
       this.buyType = false;
       this.goodsCheckType = false;
@@ -281,8 +281,8 @@ export default {
       } else {
         toast.showLoading("添加中");
         await this.$api.addShopCar({
-          gid: this.detailObj.gId,
-          spec: this.detailObj.gSpec,
+          gid: this.detailObj.gid,
+          spec: this.detailObj.gspec,
           cartQty: this.goodsCount,
         });
         toast.showToast("添加成功");

@@ -16,7 +16,7 @@
     <div class="history-box" v-if="!goodsList.length">
       <div class="fl-bt">
         <text class="fz-15 fw-bold">历史搜索</text>
-        <div class="fl-al">
+        <div class="fl-al" @tap="clearHistory">
           <image class="suosuo-icon" src="../../static/class/sousuo.png" />
           <text class="fz-12 fc-999 mr-l-4">清空历史记录</text>
         </div>
@@ -55,6 +55,13 @@ export default {
     if (val) this.searchList = JSON.parse(val);
   },
   methods: {
+    // 清空历史记录
+    clearHistory() {
+      this.inputVal = "";
+      this.goodsList.length = 0;
+      this.searchList.length = 0;
+      uni.removeStorageSync("search");
+    },
     clearVal() {
       this.inputVal = "";
       this.goodsList.length = 0;

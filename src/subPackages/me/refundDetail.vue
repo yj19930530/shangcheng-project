@@ -54,15 +54,37 @@ export default {
       reasonList: [],
       orderId: "",
       orderData: {},
+      frontReturnNo: "",
+      returnData: {},
     };
   },
   onLoad(obj) {
-
+    this.frontReturnNo = obj.id;
+    this.getReturnData();
   },
   methods: {
+    // 获取退款详情
+    async getReturnData() {
+      const { data } = await this.$api.findOneReturnApply({
+        returnNo: 'F1304317045118210048rfu69fh4duz',
+      });
+      this.returnData = data;
+      console.log(data);
+    },
     submitBtnHandle() {
-      uni.navigateTo({
-        url: "/subPackages/me/refundDetail",
+      uni.showModal({
+        title: "提示",
+        content: "是否要撤销订单",
+        success: async function (res) {
+          if (res.confirm) {
+            toast.showLoading("撤销中");
+            await _this.$api.findReturnApplyPage({
+              returnNo: this.frontReturnNo,
+            });
+            toast.showToast("撤销成功");
+            uni.navigateBack();
+          }
+        },
       });
     },
   },

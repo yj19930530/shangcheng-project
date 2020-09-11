@@ -44,7 +44,12 @@
                       :src="httpImg+item.items[0].pic"
                     />
                     <text class="fz-12 fc-f1 mr-t-30" v-if="item.state===1">等待您的付款</text>
-                    <text class="fz-12 fc-f1 mr-t-30" v-else-if="item.state===8">交易关闭</text>
+                    <text class="fz-12 fc-999 mr-t-30" v-else-if="item.state===6">已取消</text>
+                    <text class="fz-12 fc-999 mr-t-30" v-else-if="item.state===8">已退款</text>
+                    <text class="fz-12 fc-f1 mr-t-30" v-else-if="item.state===2">待发货</text>
+                    <text class="fz-12 fc-f1 mr-t-30" v-else-if="item.state===3">已发货</text>
+                    <text class="fz-12 fc-f1 mr-t-30" v-else-if="item.state===4">待评价</text>
+                    <text class="fz-12 fc-f1 mr-t-30" v-else-if="item.state===7">退款中</text>
                     <text class="fz-12 fc-fff mr-t-30" v-else>站位</text>
                   </div>
                   <div class="order-row-right" @tap="navPathTo('log',item)">
@@ -65,21 +70,14 @@
                         >
                           <text class="fz-14">取消订单</text>
                         </div>
-                        <!-- <div
-                  v-if="item.state===8||item.state===6"
-                  class="fl-cen order-comfirm-btn btn-border-999"
-                  @tap.native.stop="navPathTo('del',item)"
-                >
-                  <text class="fz-14">删除订单</text>
-                        </div>-->
-                        <div v-if="item.state===6" class="fl-cen order-comfirm-btn btn-border-999">
+                        <div v-if="item.state===6" class="fl-cen order-comfirm-btn visibility-show btn-border-999">
                           <text class="fz-14">已取消</text>
                         </div>
-                        <div v-if="item.state===8" class="fl-cen order-comfirm-btn btn-border-999">
+                        <!-- <div v-if="item.state===8" class="fl-cen order-comfirm-btn btn-border-999">
                           <text class="fz-14">已退款</text>
-                        </div>
+                        </div> -->
                         <div
-                          v-if="item.state===5"
+                          v-if="item.state===2"
                           class="fl-cen order-comfirm-btn btn-border-999"
                           @tap.native.stop="navPathTo('tk',item)"
                         >
@@ -88,39 +86,45 @@
                         <div v-if="item.state===3" class="fl-cen order-comfirm-btn btn-border-999">
                           <text class="fz-14">查看物流</text>
                         </div>
-                        <div
+                        <!-- <div
                           @tap="navPathTo('tk',item)"
                           v-if="item.state===9"
                           class="fl-cen order-comfirm-btn btn-border-999"
                         >
                           <text class="fz-14">重新申请</text>
-                        </div>
+                        </div> -->
                         <div
-                          @tap="navPathTo('close',item)"
+                          @tap.native.stop="navPathTo('close',item)"
                           v-if="item.state===7"
-                          class="fl-cen order-comfirm-btn btn-border-999"
+                          class="fl-cen order-comfirm-btn btn-border-f1"
                         >
-                          <text class="fz-14">取消退款</text>
+                          <text class="fz-14 fc-f1">取消退款</text>
                         </div>
-                        <div v-if="item.state===9" class="fl-cen order-comfirm-btn btn-border-f1">
+                        <!-- <div v-if="item.state===9" class="fl-cen order-comfirm-btn btn-border-f1">
                           <text class="fz-14 fc-f1">退款失败</text>
-                        </div>
+                        </div> -->
                         <div
                           v-if="item.state===3"
                           class="fl-cen order-comfirm-btn btn-border-f1"
-                          @tap="navPathTo('confrim',item)"
+                          @tap.native.stop="navPathTo('confrim',item)"
                         >
                           <text class="fz-14 fc-f1">确认收货</text>
                         </div>
-                        <div v-if="item.state===7" class="fl-cen order-comfirm-btn btn-border-f1">
+                        <!-- <div v-if="item.state===7" class="fl-cen order-comfirm-btn btn-border-f1">
                           <text class="fz-14 fc-f1">退款中</text>
-                        </div>
+                        </div> -->
                         <div
                           v-if="item.state===1"
                           class="fl-cen order-comfirm-btn btn-border-f1"
                           @tap="navPathTo('pay',item)"
                         >
                           <text class="fz-14 fc-f1">去支付</text>
+                        </div>
+                        <div
+                          v-if="item.state===4"
+                          class="fl-cen order-comfirm-btn btn-border-f1"
+                        >
+                          <text class="fz-14 fc-f1">评价晒单</text>
                         </div>
                       </div>
                     </div>
@@ -152,27 +156,27 @@ export default {
       const orderType = parseInt(obj.type);
       switch (orderType) {
         case 1: {
-          this.type = "pay";
+          this.curr = 1;
           this.status = obj.type;
           break;
         }
         case 2: {
-          this.type = "send";
+          this.curr = 2;
           this.status = obj.type;
           break;
         }
         case 3: {
-          this.type = "shou";
+          this.curr = 3;
           this.status = obj.type;
           break;
         }
         case 4: {
-          this.type = "ping";
+          this.curr = 4;
           this.status = obj.type;
           break;
         }
         default: {
-          this.type = "all";
+          this.curr = 0;
           this.status = "";
           break;
         }
@@ -185,6 +189,7 @@ export default {
   },
   methods: {
     setCurr(e) {
+      this.orderListData = [];
       let thisCurr = e.detail.current || e.currentTarget.dataset.index || 0;
       this.curr = thisCurr;
       this.status = thisCurr ? thisCurr : "";
@@ -248,6 +253,12 @@ export default {
           });
           break;
         }
+        case "wuliu": {
+          uni.navigateTo({
+            url: `/subPackages/me/wuliu?id=${row.lid}&name=${row.logisticsCompany}`,
+          });
+          break;
+        }
         case "tk": {
           uni.navigateTo({
             url: `/subPackages/me/refund?id=${row.oid}`,
@@ -292,10 +303,28 @@ export default {
           break;
         }
         case "confrim": {
-          console.log("确认收货");
+          let _this = this;
+          uni.showModal({
+            title: "提示",
+            content: "是否确认收货",
+            success: async function (res) {
+              if (res.confirm) {
+                toast.showLoading("确认中");
+                await _this.$api.confirmReceipt({
+                  orderNo: row.soId,
+                });
+                toast.showToast("确认成功");
+                _this.getList();
+                uni.hideLoading();
+              }
+            },
+          });
           break;
         }
         case "close": {
+           uni.navigateTo({
+            url: `/subPackages/me/refundDetail?id=${row.frontReturnNo}`,
+          });
           console.log("取消退款");
           break;
         }
@@ -380,5 +409,8 @@ page {
 }
 .order-row-style {
   height: 900rpx;
+}
+.visibility-show {
+  visibility: hidden;
 }
 </style>

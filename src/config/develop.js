@@ -1,4 +1,4 @@
-let http = '', httpImg = '', httpDetailImg = '', uploadImgUrl = "", atcImgUrl = "", url = "http://47.114.135.205:9966";
+let http = '', httpImg = '', httpDetailImg = '', uploadImgUrl = "", atcImgUrl = "", url = "https://test.chuyinxiang.net";
 const env = process.env.NODE_ENV;
 switch (env) {
     case 'test': {

@@ -31,7 +31,7 @@
         class="comfirm-row-box fl-bt"
         v-for="(item,index) in shopList"
         :key="index"
-        @tap="navToDetail"
+        @tap="navToDetail(item.good.gid)"
       >
         <image class="row-left-img mr-l-40" :src="httpImg+item.good.gimg" />
         <div class="row-right-box">
@@ -137,9 +137,10 @@ export default {
         url: "/subPackages/me/goodsArdressList",
       });
     },
-    navToDetail() {
+    navToDetail(id) {
+      console.log(id)
       uni.navigateTo({
-        url: "/subPackages/home/shopDetail",
+        url: `/subPackages/home/shopDetail?gId=${id}`,
       });
     },
     // 跳转付款页面

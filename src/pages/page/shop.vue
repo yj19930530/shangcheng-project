@@ -36,14 +36,14 @@
             />
             <image
               class="row-shop-img"
-              :src="httpImg+item.good.gImg"
+              :src="httpImg+item.good.gimg"
               @tap="navPathToGoods(item.gid)"
             />
             <div class="row-right-content" @tap.native.stop="navPathToGoods(item.gid)">
-              <div class="fz-15 text-width-row">{{item.good.gName}}</div>
-              <text class="fz-14 fc-999 mr-t-20">已选 {{item.good.gSpec}}</text>
+              <div class="fz-15 text-width-row">{{item.good.gname}}</div>
+              <text class="fz-14 fc-999 mr-t-20">已选 {{item.good.gspec}}</text>
               <div class="fl-al mr-t-20">
-                <text class="fz-17 fw-bold fc-f1">¥{{item.good.bPrice}}</text>
+                <text class="fz-17 fw-bold fc-f1">¥{{item.good.bprice}}</text>
                 <text class="fz-14 fc-999 td-text mr-l-10">¥{{item.good.price4}}</text>
                 <div class="count-box fl-bt">
                   <div
@@ -188,7 +188,7 @@ export default {
       this.shopList.forEach((item) => {
         // 计算总价格
         if (item.pick === 1) {
-          this.allTotal += item.good.bPrice * item.cartQty;
+          this.allTotal += item.good.bprice * item.cartQty;
           this.checkList.push(item);
         }
       });
@@ -219,7 +219,6 @@ export default {
         data: this.checkList,
         type: "car",
       };
-      console.log(this.checkList);
       uni.navigateTo({
         url: `/subPackages/shop/orderComfim?obj=${JSON.stringify(objDetail)}`,
       });

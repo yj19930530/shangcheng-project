@@ -1,6 +1,13 @@
 const path = require('path')
 module.exports = {
   parser: require('postcss-comment'),
+  css: {
+    loaderOptions: {
+      sass: {
+        prependData: `@import "./src/uni.scss";`
+      }
+    }
+  },
   plugins: [
     require('postcss-import')({
       resolve (id, basedir, importOptions) {

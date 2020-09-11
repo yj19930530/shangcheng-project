@@ -12,7 +12,7 @@
           <image class="fk-success-icon mr-l-20" src="../../static/me/dfh2.png" />
           <text class="fz-15 fc-fff mr-l-20">付款成功</text>
         </div>
-        <div class="fl-al" v-if="orderData.state===5">
+        <div class="fl-al" v-if="orderData.state===5||orderData.state===4">
           <image class="fk-success-icon mr-l-20" src="../../static/me/ok.png" />
           <text class="fz-15 fc-fff mr-l-20">交易成功</text>
         </div>
@@ -64,13 +64,17 @@
           <div class="mr-t-10">
             <text class="fz-17">总价：¥{{item.basePrice}}</text>
           </div>
-          <div class="border-btn-list" v-if="orderData.state===5">
-            <div class="border-btn-list-center fl-bt">
+          <div class="border-btn-list" v-if="orderData.state===4">
+            <div class="border-btn-list-center">
               <div
-                @tap.native.stop="navPathTo('show',orderData)"
-                class="fl-cen order-comfirm-btn btn-border-f1"
+                v-if="item.commentState===0"
+                @tap.native.stop="navPathTo('show',item)"
+                class="fl-cen order-comfirm-btn btn-border-999"
               >
-                <text class="fz-14 fc-f1">评价晒单</text>
+                <text class="fz-14 fc-999">评价</text>
+              </div>
+              <div v-else class="fl-cen order-comfirm-btn btn-border-999">
+                <text class="fz-14 fc-999">已评价</text>
               </div>
             </div>
           </div>
@@ -183,6 +187,9 @@ export default {
     this.orderId = obj.id;
     this.getDetail();
   },
+  onShow() {
+    this.getDetail();
+  },
   methods: {
     // 获取详情
     async getDetail() {
@@ -220,7 +227,7 @@ export default {
         }
         case "show": {
           uni.navigateTo({
-            url: `/subPackages/me/comment?id=${row.gid}`,
+            url: `/subPackages/me/comment?id=${row.gId}`,
           });
           break;
         }
@@ -265,7 +272,22 @@ export default {
           break;
         }
         case "confrim": {
-          console.log("确认收货");
+          let _this = this;
+          uni.showModal({
+            title: "提示",
+            content: "是否确认收货",
+            success: async function (res) {
+              if (res.confirm) {
+                toast.showLoading("确认中");
+                await _this.$api.confirmReceipt({
+                  orderNo: row.soId,
+                });
+                toast.showToast("确认成功");
+                _this.getList();
+                uni.hideLoading();
+              }
+            },
+          });
           break;
         }
         case "close": {
@@ -274,6 +296,12 @@ export default {
         }
         case "payFinish": {
           console.log("申请售后");
+          break;
+        }
+        case "wuliu": {
+          uni.navigateTo({
+            url: `/subPackages/me/wuliu?id=${this.orderData.lid}&name=${this.orderData.logisticsCompany}`,
+          });
           break;
         }
         default: {
@@ -316,6 +344,7 @@ page {
   width: 398rpx;
 }
 .order-comfirm-btn {
+  margin-left: 28rpx;
   width: 160rpx;
   height: 48rpx;
   border-radius: 24rpx 24rpx;
@@ -334,6 +363,9 @@ page {
 }
 .border-btn-list-center {
   width: 350rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 .border-btn-list-center2 {
   width: 370rpx;
