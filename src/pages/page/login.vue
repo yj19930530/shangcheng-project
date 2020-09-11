@@ -44,6 +44,7 @@ export default {
                 _this.$api
                   .userLoginGetOpenId({
                     code: loginRes.code,
+                    type:1
                   })
                   .then(async (res) => {
                     let opId = "",

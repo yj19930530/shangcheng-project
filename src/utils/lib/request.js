@@ -39,7 +39,7 @@ uniRequest._extend({
                             resolve(res.data);
                             break
                         }
-                        case 201: {
+                        case -100: {
                             uni.showModal({
                                 title: '提示',
                                 content: res.data.message,
