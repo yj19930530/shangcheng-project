@@ -138,13 +138,13 @@ export default {
       });
     },
     navToDetail(id) {
-      console.log(id)
       uni.navigateTo({
         url: `/subPackages/home/shopDetail?gId=${id}`,
       });
     },
     // 跳转付款页面
     submtPay() {
+      if (!this.addressListData.length) return toast.showToast("请添加收货地址");
       let goodsArr = [];
       this.shopList.forEach((item) => {
         goodsArr.push({

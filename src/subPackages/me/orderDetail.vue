@@ -38,7 +38,7 @@
           <image class="wuliu-icon" src="../../static/me/dizhi2.png" />
           <div class="wuliu-title-box">
             <div class="fl-al">
-              <text class="fz-14 fw-bold">王甜甜</text>
+              <text class="fz-14 fw-bold">{{orderData.receiverName}}</text>
               <text class="fz-14 fw-bold mr-l-60">{{orderData.mobile}}</text>
             </div>
             <text class="fz-12 mr-t-10">{{orderData.address}}</text>
@@ -127,7 +127,7 @@
       </div>
     </div>
     <!-- 底部按钮 -->
-    <div class="pay-bottom-box">
+    <div class="pay-bottom-box" v-if="orderData.state===2||orderData.state===5||orderData.state===3||orderData.state===1">
       <div class="border-btn-list-center2 fl-bt">
         <div
           @tap.native.stop="navPathTo('car',orderData)"
@@ -227,7 +227,7 @@ export default {
         }
         case "show": {
           uni.navigateTo({
-            url: `/subPackages/me/comment?id=${row.gId}`,
+            url: `/subPackages/me/comment?id=${row.oiId}&soId=${this.orderData.soId}`,
           });
           break;
         }
@@ -253,9 +253,7 @@ export default {
                 toast.showToast("取消成功");
                 uni.navigateBack();
                 uni.hideLoading();
-              } else if (res.cancel) {
-                console.log("用户点击取消");
-              }
+              } 
             },
           });
 
@@ -269,6 +267,22 @@ export default {
         }
         case "car": {
           // 添加购物车
+          row.items.forEach((item) => {
+            this.$api
+              .addShopCar({
+                gid: item.gId,
+                spec: item.propertiesValue,
+                cartQty: item.qty,
+              })
+              .then((res) => {
+                if (res.state === 200) {
+                  toast.showToast("添加成功");
+                } else {
+                  toast.showToast(res.message);
+                }
+              });
+          });
+
           break;
         }
         case "confrim": {
@@ -283,7 +297,7 @@ export default {
                   orderNo: row.soId,
                 });
                 toast.showToast("确认成功");
-                _this.getList();
+                 uni.navigateBack();
                 uni.hideLoading();
               }
             },
@@ -291,11 +305,9 @@ export default {
           break;
         }
         case "close": {
-          console.log("取消退款");
           break;
         }
         case "payFinish": {
-          console.log("申请售后");
           break;
         }
         case "wuliu": {

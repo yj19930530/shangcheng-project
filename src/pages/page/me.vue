@@ -6,8 +6,12 @@
       <div class="me-detail-center">
         <div class="fl-bt de-center-box" @tap="NavPathTo('edit')">
           <div class="fl-al">
-            <image class="me-detail-header" :src="form.avatarUrl" />
-            <text class="fz-15 fc-fff mr-l-30">{{form.nickName}}</text>
+            <div v-if="noLoginType" class="me-top-header" style="margin-left:34rpx">
+              <open-data class="me-top-header" type="userAvatarUrl"></open-data>
+            </div>
+            <image class="me-detail-header" v-if="!noLoginType" :src="userImgUrl+form.avatarUrl" />
+            <text class="fz-15 fc-fff mr-l-30" v-if="!noLoginType">{{form.nickName}}</text>
+            <text class="fz-15 fc-fff mr-l-30" v-if="noLoginType">未登陆</text>
             <text class="iconfont iconziyuan fz-17 fc-fff mr-l-20"></text>
           </div>
           <text class="iconfont iconyoujiantou fc-fff fz-14 mr-r-60"></text>
@@ -76,6 +80,7 @@
   </div>
 </template>
 <script>
+const { userImgUrl } = require("../../config/develop");
 export default {
   data() {
     return {
@@ -87,17 +92,28 @@ export default {
       fans: 0, // 粉丝
       collection: 0, // 收藏
       userId: 0,
+      userno: "",
+      noLoginType: false,
+      userImgUrl:userImgUrl
     };
   },
+  onLoad() {
+    this.userno = uni.getStorageSync("userno");
+    if (this.userno) {
+      this.noLoginType = false;
+    } else {
+      this.noLoginType = true;
+    }
+  },
   onShow() {
-    this.opId = uni.getStorageSync("opId");
     this.getUserinfo();
   },
   methods: {
     // 获取用户
     async getUserinfo() {
-      const { data } = await this.$api.getUserInfo({
-        openid: this.opId,
+      if (!this.userno) return;
+      const { data } = await this.$api.getAllUserInfo({
+        userNo: this.userno,
       });
       this.userId = data.id;
       this.form.avatarUrl = data.avatarUrl;
@@ -107,6 +123,12 @@ export default {
       this.collection = data.lsc ? data.lsc.length : 0;
     },
     NavPathTo(name) {
+      if (!this.userno) {
+        uni.reLaunch({
+          url: "/pages/page/login",
+        });
+        return;
+      }
       switch (name) {
         case "order": {
           uni.navigateTo({
@@ -260,5 +282,11 @@ page {
   height: 120rpx;
   border-bottom: 1rpx solid #f8f8f8;
   background-color: #fff;
+}
+.me-top-header {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  overflow: hidden;
 }
 </style>

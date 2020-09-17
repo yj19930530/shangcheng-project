@@ -35,6 +35,7 @@
               @tap.native.stop="checkChoose(index,1)"
             />
             <image
+              mode="aspectFill"
               class="row-shop-img"
               :src="httpImg+item.good.gimg"
               @tap="navPathToGoods(item.gid)"

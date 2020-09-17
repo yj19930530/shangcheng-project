@@ -1,6 +1,6 @@
 <template>
   <div class="buy-contianer">
-    <div class="buy-row-show" v-for="item in 2" :key="item">
+    <div class="buy-row-show">
       <div class="buy-row-show-center">
         <Buy v-for="(item,index) in showList" :key="index" :showObj="item" />
       </div>
@@ -52,8 +52,7 @@ export default {
       const { data } = await this.$api.findGoodCommentPage({
         pageNo: 1,
         pageSize: 3,
-        authState: 2,
-        goodId: this.gid,
+        oiId: this.gid,
       });
       this.showList = this.showList.concat(data.list);
       if (

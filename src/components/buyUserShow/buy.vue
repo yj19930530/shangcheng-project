@@ -1,7 +1,7 @@
 <template>
   <div class="buy-item-box">
     <div class="fl-al">
-      <image class="buy-header-img" :src="detailData.publishAvatarUrl" />
+      <image class="buy-header-img" :src="userImgUrl+detailData.publishAvatarUrl" />
       <text class="fz-14">{{detailData.publishUserNickName}}</text>
     </div>
     <div class="buy-text-box">
@@ -9,6 +9,7 @@
     </div>
     <div class="buy-show-img">
       <image
+        mode="aspectFill"
         class="show-img-item"
         v-for="(item,index) in detailData.imageUrl"
         :key="index"
@@ -19,11 +20,12 @@
   </div>
 </template>
 <script>
-const { httpDetailImg } = require("../../config/develop");
+const { httpDetailImg, userImgUrl } = require("../../config/develop");
 export default {
   data() {
     return {
       httpDetailImg: httpDetailImg,
+      userImgUrl: userImgUrl,
     };
   },
   props: {

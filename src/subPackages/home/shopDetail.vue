@@ -55,7 +55,7 @@
           <Atc v-for="(item,index) in atcList" :key="index" :objDetail="item" />
         </div>
       </div>
-    </div> -->
+    </div>-->
     <!-- 商品详情 -->
     <div class="goods-detail-imgs" v-if="goodsImgs.length">
       <div class="detail-imgs-center">
@@ -153,19 +153,17 @@ export default {
       goodsCheckType: false,
       atcList: [], // 文章列表
       showList: [], // 买家秀列表
+      userno: "",
     };
   },
   onShareAppMessage(res) {
-    if (res.from === "button") {
-      // 来自页面内分享按钮
-      console.log(res.target);
-    }
     return {
-      title: "自定义分享标题",
-      path: "/pages/page/home",
+      title: this.detailObj.gtitle,
+      path: `/subPackages/home/shopDetail?gId=${this.detailObj.gid}`,
     };
   },
   onLoad(data) {
+    this.userno = uni.getStorageSync("userno");
     this.goodsId = data.gId;
     this.getDetail();
   },
@@ -191,12 +189,10 @@ export default {
     },
     // 获取买家秀
     async getCommentPage(row) {
-      console.log(row)
       const { data } = await this.$api.findGoodCommentPage({
         pageNo: 1,
         pageSize: 3,
-        authState: 2,
-        goodId: row.gid,
+        oiId: row.gid,
       });
       this.showList = data.list;
     },
@@ -252,11 +248,23 @@ export default {
           break;
         }
         case "dai": {
+          if (!this.userno) {
+            uni.reLaunch({
+              url: "/pages/page/login",
+            });
+            return;
+          }
           this.btnName = "加入购物车";
           this.buyType = true;
           break;
         }
         case "buy": {
+          if (!this.userno) {
+            uni.reLaunch({
+              url: "/pages/page/login",
+            });
+            return;
+          }
           this.btnName = "立即购买";
           this.buyType = true;
           break;

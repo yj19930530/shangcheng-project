@@ -273,7 +273,6 @@ export default {
             success: async function (res) {
               if (res.confirm) {
                 toast.showLoading("取消中");
-                console.log(row);
                 await _this.$api.deleteOrder({
                   oid: row.oid,
                   state: 6,
@@ -282,8 +281,6 @@ export default {
                 toast.showToast("取消成功");
                 _this.getList();
                 uni.hideLoading();
-              } else if (res.cancel) {
-                console.log("用户点击取消");
               }
             },
           });
@@ -325,7 +322,6 @@ export default {
            uni.navigateTo({
             url: `/subPackages/me/refundDetail?id=${row.frontReturnNo}`,
           });
-          console.log("取消退款");
           break;
         }
         default: {

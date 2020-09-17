@@ -33,7 +33,7 @@
       />
       <div class="camerer-box-style">
         <div class="choose-img-box" v-for="(item,index) in imgList" :key="index">
-          <image class="choose-img-style" mode="aspectFit" :src="item.imgPath" />
+          <image class="choose-img-style" mode="aspectFill" :src="item.imgPath" />
           <image class="cloose-icon" src="../../static/shop/delete.png" @tap="deleteImg(index)" />
         </div>
         <div class="comment-img-list" @tap="uploadPing" v-if="imgList.length<6">
@@ -59,12 +59,14 @@ export default {
       commentValue: "",
       imgList: [],
       publishUserNo: "",
+      soId:''
     };
   },
   onLoad(obj) {
     const userno = common.getData("userno");
     this.publishUserNo = userno;
     this.goodId = obj.id;
+    this.soId = obj.soId;
   },
   methods: {
     // 点赞 星星
@@ -97,8 +99,9 @@ export default {
           commentImgs: imgArr.join(","),
           descStart: this.cStar,
           content: this.commentValue,
-          goodId: this.goodId,
+          oiId: this.goodId,
           publishUserNo: this.publishUserNo,
+          orderNo:this.soId
         })
         .then((res) => {
           uni.hideLoading();

@@ -4,7 +4,7 @@
     <div class="person-edit-item fl-bt" @tap="uploadImgFunc">
       <text class="fz-15 mr-l-30">修改头像</text>
       <div class="fl-al mr-r-30">
-        <image class="edit-item-img" :src="form.avatarUrl" />
+        <image class="edit-item-img" :src="userImgUrl+form.avatarUrl" />
         <text class="iconfont iconyoujiantou fz-14 fc-999 mr-l-4"></text>
       </div>
     </div>
@@ -48,6 +48,7 @@
 </template>
 <script>
 const { toast, common } = require("../../utils/index");
+const { userImgUrl } = require("../../config/develop");
 export default {
   data() {
     return {
@@ -68,15 +69,20 @@ export default {
         avatarUrl: "",
         telNumber: "",
       },
+      userno: "",
+      userImgUrl: userImgUrl,
     };
   },
   onLoad() {
+    this.userno = uni.getStorageSync("userno");
     this.getUserinfo();
   },
   methods: {
     // 获取详情
     async getUserinfo() {
-      const { data } = await this.$api.getUserInfo();
+      const { data } = await this.$api.getAllUserInfo({
+        userNo: this.userno,
+      });
       this.sexIndex = data.gender - 1;
       this.form.gender = data.gender;
       this.form.avatarUrl = data.avatarUrl;
@@ -90,14 +96,14 @@ export default {
     },
     // 上传图片
     async uploadImgFunc() {
-      const data = await common.updataImgOnce();
-      this.form.avatarUrl = data.imgPath;
+      const data = await common.updataImg(1, "用户初始化");
+      this.form.avatarUrl = data[0].imgObj;
     },
     // 提交
     submitHandle() {
       toast.showLoading("修改中");
       this.$api
-        .editUserInfo(this.form)
+        .editUserInfo(this.form) 
         .then((res) => {
           toast.showToast("修改成功");
           uni.hideLoading();

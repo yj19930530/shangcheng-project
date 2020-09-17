@@ -34,7 +34,6 @@ export default {
   methods: {
     swiperChange(e) {
       this.swiperIndex = e.detail.current;
-      console.log(this.swiperIndex)
     },
   },
 };

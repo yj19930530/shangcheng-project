@@ -5,6 +5,8 @@ const userLoginGetOpenId = (data) => postRequest('/smallprogramMain/getSmallUser
 const addUserInfo = (data) => postRequest('/smallprogramMain/handleInsertUserInfo', data, 'no');
 // 获取用户信息
 const getUserInfo = (data) => postRequest('/smallprogramMain/handleGetUserInfo', data);
+// 获取完善用户信息
+const getAllUserInfo = (data) => postRequest('/sa/index/getAllUserInfo', data, 'no', 'no');
 // 修改用户
 const editUserInfo = (data) => postRequest('/smallprogramMain/handleUpdateSmallUser', data);
 // 获取订单
@@ -25,8 +27,15 @@ const getKuaidiInfo = (data) => postRequest('/web/order/getKuaidiInfo', data, 'n
 const findOneReturnApply = (data) => postRequest('/web/order/findOneReturnApply', data, 'no', 'no');
 // 退款申请
 const findReturnApplyPage = (data) => postRequest('/web/order/findReturnApplyPage', data, 'no', 'no');
+// 撤销申请
+const cancelReturnApply = (data) => postRequest('/web/order/cancelReturnApply', data, 'no', 'no');
+// 获取用户文章
+const findNotifyRemindPage = (data) => postRequest('/sa/index/front/findNotifyRemindPage', data, 'no', 'no');
+// 清空消息数量
+const readAll = (data) => postRequest('/sa/index/front/readAll', data, 'no','no');
 module.exports = {
     userLoginGetOpenId,
+    getAllUserInfo,
     addUserInfo,
     editUserInfo,
     getOrderList,
@@ -38,5 +47,8 @@ module.exports = {
     getUserInfo,
     getKuaidiInfo,
     findOneReturnApply,
-    findReturnApplyPage
+    findReturnApplyPage,
+    findNotifyRemindPage,
+    cancelReturnApply,
+    readAll
 }

@@ -33,7 +33,7 @@
       <text class="fz-15 mr-l-30">上传凭证</text>
       <div class="mr-l-40 mr-t-40 img-list-content">
         <div class="ping-img-box" v-for="(item,index) in imgList" :key="index">
-          <image class="ping-img-item" :src="item.imgPath" />
+          <image class="ping-img-item" mode="aspectFill" :src="item.imgPath" />
           <image
             class="delete-img-style"
             src="../../static/shop/delete.png"
@@ -112,6 +112,7 @@ export default {
         imgArr.push(item.imgObj);
       });
       this.orderRefund.imgUrls = imgArr.join(",");
+      if (this.orderRefund.imgUrls === "") return toast.showToast("请上传凭证");
       this.$api
         .payWechatRefund(this.orderRefund)
         .then((res) => {

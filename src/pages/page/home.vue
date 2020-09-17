@@ -6,60 +6,72 @@
     <!-- 搜索 -->
     <view class="top-search-opt">
       <view class="fl-bt">
-        <image class="left-img-btn mr-l-20" src="../../static/home/liwu.png" />
+        <image class="left-img-btn mr-l-20" @tap="toHufuPath" src="../../static/home/liwu.png" />
         <view class="fl-al search-content" @tap="navToPathSearch">
           <image class="search-style mr-l-30" src="../../static/home/ss.png" />
           <text class="fz-12 fc-89 mr-l-10">请输入商品名称</text>
         </view>
-        <div class="message-content fl-al" @tap="navToPathMsg">
+        <div class="message-content fl-al">
           <view class="message-number fl-cen fz-10" v-if="msgNumber>0">{{msgNumber}}</view>
           <image class="right-message-btn mr-r-20" src="../../static/home/xinxi.png" />
         </div>
       </view>
     </view>
     <!-- 轮播图 -->
-    <swiper
-      class="swiper swiper-container"
-      :indicator-dots="indicatorDots"
-      :autoplay="autoplay"
-      :interval="interval"
-      :duration="duration"
-    >
-      <swiper-item>
-        <image @tap="navToDetail" class="swiper-item-img" src="../../static/home/9.png" />
-      </swiper-item>
-    </swiper>
-    <!-- 商品内容 -->
-    <div class="best-container">
-      <div class="fl-co best-title-box">
-        <text class="fz-14">BEST SELLERS</text>
-        <text class="fz-9 mr-t-10">Endless Exploration Long-lasting Beauty</text>
-      </div>
-      <div class="shops-list-content fl-btw">
-        <image @tap="navToDetail" class="shops-item-img" src="../../static/home/9.png" />
-        <image @tap="navToDetail" class="shops-item-img" src="../../static/home/9.png" />
-        <image @tap="navToDetail" class="shops-item-img" src="../../static/home/9.png" />
-        <image @tap="navToDetail" class="shops-item-img" src="../../static/home/9.png" />
-      </div>
-      <!-- 新品上线 -->
-      <div class="fl-cen new-shop-tile">
-        <image src="../../static/home/laba.png" />
-        <text class="mr-l-10 fz-11 fc-fff">新品上线 惊喜大派送</text>
-      </div>
-      <div class="new-shop-list fl-co">
-        <image
-          @tap="navToDetail"
-          v-for="item in 3"
-          :key="item"
-          class="new-shop-img"
-          src="../../static/home/9.png"
-        />
+    <div style="margin-top:-100rpx;padding-bottom:30rpx">
+      <swiper
+        class="swiper swiper-container"
+        :indicator-dots="indicatorDots"
+        :autoplay="autoplay"
+        :interval="interval"
+        :duration="duration"
+      >
+        <swiper-item v-for="(item,index) in homePageData[2].emsModalGoodVo" :key="index">
+          <image
+            mode="aspectFill"
+            @tap="navToDetail(item)"
+            class="swiper-item-img"
+            :src="httpImg+item.gimg"
+          />
+        </swiper-item>
+      </swiper>
+      <!-- 商品内容 -->
+      <div class="best-container">
+        <div class="fl-co best-title-box">
+          <text class="fz-14">BEST SELLERS</text>
+          <text class="fz-9 mr-t-10">Endless Exploration Long-lasting Beauty</text>
+        </div>
+        <div class="shops-list-content fl-btw">
+          <image
+            @tap="navToDetail(item)"
+            v-for="item in homePageData[0].emsModalGoodVo"
+            :key="item.id"
+            class="shops-item-img"
+            :src="httpImg+item.gimg"
+          />
+        </div>
+        <!-- 新品上线 -->
+        <div class="fl-cen new-shop-tile">
+          <image src="../../static/home/laba.png" />
+          <text class="mr-l-10 fz-11 fc-fff">新品上线 惊喜大派送</text>
+        </div>
+        <div class="new-shop-list fl-co">
+          <image
+            mode="aspectFill"
+            @tap="navToDetail(item)"
+            v-for="item in homePageData[1].emsModalGoodVo"
+            :key="item.id"
+            class="new-shop-img"
+            :src="httpImg+item.gimg"
+          />
+        </div>
       </div>
     </div>
   </view>
 </template>
 <script>
 const { toast } = require("../../utils/index");
+const { httpImg } = require("../../config/develop");
 export default {
   data() {
     return {
@@ -69,19 +81,21 @@ export default {
       duration: 500,
       homePageData: {}, // 首页数据
       msgNumber: 0,
+      httpImg: httpImg,
     };
   },
-  onShareAppMessage(res) {
-    if (res.from === "button") {
-      // 来自页面内分享按钮
-      console.log(res.target);
-    }
-    return {
-      title: "自定义分享标题",
-      path: "/pages/page/home",
-    };
-  },
+  // onShareAppMessage(res) {
+  //   if (res.from === "button") {
+  //     // 来自页面内分享按钮
+  //     console.log(res.target);
+  //   }
+  //   return {
+  //     title: "自定义分享标题",
+  //     path: "/pages/page/home",
+  //   };
+  // },
   onLoad() {
+    this.userno = uni.getStorageSync("userno");
     this.getHomePageData();
   },
   onShow() {
@@ -98,6 +112,11 @@ export default {
       const { data } = await this.$api.getMessageCount();
       this.msgNumber = data;
     },
+    toHufuPath() {
+      uni.navigateToMiniProgram({
+        appId: "wx75b592d44ba30eaf",
+      });
+    },
     // 获取首页数据
     async getHomePageData() {
       toast.showLoading("加载中");
@@ -105,9 +124,9 @@ export default {
       this.homePageData = data;
       uni.hideLoading();
     },
-    navToDetail() {
+    navToDetail(row) {
       uni.navigateTo({
-        url: "/subPackages/home/shopDetail",
+        url: `/subPackages/home/shopDetail?gId=${row.goodId}`,
       });
     },
     navToPathSearch() {
@@ -116,8 +135,11 @@ export default {
       });
     },
     navToPathMsg() {
+      this.$api.readAll({
+        currentUserNo: this.userno,
+      });
       uni.navigateTo({
-        url: "/subPackages/me/msgCenter",
+        url: "/subPackages/me/msgDetail",
       });
     },
   },
@@ -163,7 +185,7 @@ export default {
 }
 .swiper-container {
   position: relative;
-  top: -100rpx;
+  /* top: -100rpx; */
   margin: auto;
   width: 710rpx;
   height: 416rpx;
@@ -175,7 +197,7 @@ export default {
 }
 .best-container {
   position: relative;
-  top: -100rpx;
+  /* top: -100rpx; */
 }
 .best-title-box {
   width: 100%;

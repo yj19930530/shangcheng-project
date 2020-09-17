@@ -1,52 +1,64 @@
 <template>
   <div class="refund-container">
     <div class="zhan-box"></div>
-    <div class="refund-top-timer">
-      <text class="fz-12 fc-fff mr-t-30 mr-l-30">等待商家处理</text>
-      <text class="fz-12 fc-fff mr-t-20 mr-l-30">还剩1天23小时57分</text>
+    <div class="refund-top-timer fl-al">
+      <text class="fz-12 fc-fff mr-l-30" v-if="returnData.authState===0">等待商家处理</text>
+      <text class="fz-12 fc-fff mr-l-30" v-if="returnData.authState===1">退款成功</text>
+      <text class="fz-12 fc-fff mr-l-30" v-if="returnData.authState===-1">退款关闭</text>
+      <!-- <text class="fz-12 fc-fff mr-t-20 mr-l-30">还剩1天23小时57分</text> -->
     </div>
-    <div class="refund-text-box fl-al">
-      <text class="mr-l-20 fz-14">您已成功发起退款申请，请耐心等待商家处理</text>
+    <div class="refund-text-box fl-al" v-if="returnData.authState!==1">
+      <text class="mr-l-20 fz-14" v-if="returnData.authState===0">您已成功发起退款申请，请耐心等待商家处理</text>
+      <text class="mr-l-20 fz-14" v-if="returnData.authState===-1">您已成功发起退款申请由于不符合要求已被驳回</text>
     </div>
-    <div class="refund-goods-row fl-cen">
-      <image class="refund-left-img" src="../../static/me/me-bg.png" />
+    <div class="refund-goods-row fl-cen" v-for="(item,index) in returnData.orderGoods" :key="index">
+      <image class="refund-left-img" :src="httpImg+item.pic" />
       <div class="refund-right-box mr-l-60">
-        <text class="fz-15">初印象-多效修护精华水（蓝 铜胜肽）</text>
+        <text class="fz-15">{{item.name}}</text>
         <div class="fl-bt mr-t-10">
-          <text class="fz-14 fc-999">已选02（浮雕版）</text>
+          <text class="fz-14 fc-999">已选{{item.skuType}}</text>
           <text class="fz-14 fc-999">x1</text>
         </div>
-        <text class="mr-t-10 fz-17">总价：￥289</text>
+        <text class="mr-t-10 fz-17">总价：￥{{item.amount}}</text>
       </div>
     </div>
     <div class="refund-item-box fl-al">
-      <text class="fz-15 mr-l-30">退款原因：</text>
+      <text class="fz-15 mr-l-30">{{returnData.returnReason}}：</text>
       <text class="fz-17">不想要了</text>
     </div>
     <div class="refund-item-box fl-al">
       <text class="fz-15 mr-l-30">退款金额：</text>
-      <text class="fz-17">￥289</text>
+      <text class="fz-17">￥{{returnData.returnAmount}}</text>
     </div>
     <div class="refund-item-box fl-al">
       <text class="fz-15 mr-l-30">退款说明：</text>
-      <text class="fz-15">不想要了</text>
+      <text class="fz-15">{{returnData.remark}}</text>
     </div>
     <div class="upload-pingzheng mr-t-30">
       <text class="fz-15 mr-l-30">上传凭证</text>
       <div class="mr-l-40 mr-t-40 img-list-content">
         <div class="ping-img-box">
-          <image class="ping-img-item" src="../../static/me/me-bg.png" />
-          <image class="delete-img-style" src="../../static/shop/delete.png" />
+          <image
+            mode="aspectFill"
+            v-for="(img,inx) in returnData.returnImg"
+            :key="inx"
+            class="ping-img-item mr-r-20"
+            :src="httpDetailImg+img"
+          />
         </div>
       </div>
     </div>
-    <div class="submit-btn-box fl-cen" @tap="submitBtnHandle">
+    <div class="submit-btn-box fl-cen" @tap="closeRetrun" v-if="returnData.authState===0">
       <text class="fz-20 fc-fff fw-bold">撤销申请</text>
+    </div>
+    <div class="submit-btn-box fl-cen" @tap="submitBtnHandle" v-if="returnData.authState===-1">
+      <text class="fz-20 fc-fff fw-bold">重新申请</text>
     </div>
   </div>
 </template>
 <script>
 const { toast } = require("../../utils/index");
+const { httpImg, httpDetailImg } = require("../../config/develop");
 export default {
   data() {
     return {
@@ -56,6 +68,8 @@ export default {
       orderData: {},
       frontReturnNo: "",
       returnData: {},
+      httpImg: httpImg,
+      httpDetailImg: httpDetailImg,
     };
   },
   onLoad(obj) {
@@ -66,20 +80,21 @@ export default {
     // 获取退款详情
     async getReturnData() {
       const { data } = await this.$api.findOneReturnApply({
-        returnNo: 'F1304317045118210048rfu69fh4duz',
+        returnNo: this.frontReturnNo,
       });
       this.returnData = data;
-      console.log(data);
+      this.returnData.returnImg = data.returnImgUrls.split(",");
     },
-    submitBtnHandle() {
+    closeRetrun() {
+      const _this = this;
       uni.showModal({
         title: "提示",
         content: "是否要撤销订单",
         success: async function (res) {
           if (res.confirm) {
             toast.showLoading("撤销中");
-            await _this.$api.findReturnApplyPage({
-              returnNo: this.frontReturnNo,
+            await _this.$api.cancelReturnApply({
+              returnNo: _this.returnData.returnNo,
             });
             toast.showToast("撤销成功");
             uni.navigateBack();
@@ -171,10 +186,8 @@ page {
   background: linear-gradient(to right, #333333, #666666);
 }
 .refund-top-timer {
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  height: 152rpx;
+  height: 90rpx;
   background: linear-gradient(to right, #333333, #666666);
 }
 .refund-text-box {
