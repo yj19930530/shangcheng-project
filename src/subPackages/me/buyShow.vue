@@ -1,11 +1,12 @@
 <template>
   <div class="buy-contianer">
+    <div style="height:30rpx"></div>
     <div class="buy-row-show">
       <div class="buy-row-show-center">
         <Buy v-for="(item,index) in showList" :key="index" :showObj="item" />
       </div>
     </div>
-    <div class="fl-cen mr-t-30 mr-b-30" v-if="!more">
+    <div class="fl-cen mr-b-30" v-if="!more">
       <text class="fz-12 fc-999">没有更多了</text>
     </div>
   </div>
@@ -73,7 +74,6 @@ page {
 </style>
 <style scoped>
 .buy-row-show {
-  margin-top: 30rpx;
   padding: 0rpx 0 30rpx;
   width: 100%;
   background-color: #fff;

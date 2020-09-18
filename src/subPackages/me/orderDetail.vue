@@ -185,7 +185,6 @@ export default {
       backgroundColor: "#333333",
     });
     this.orderId = obj.id;
-    this.getDetail();
   },
   onShow() {
     this.getDetail();

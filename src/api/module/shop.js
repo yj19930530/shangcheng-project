@@ -6,7 +6,7 @@ const getWxPaySign = (data) => postRequest('/web/pay/getWxPaySign', data, 'no');
 // 加入购物车
 const addShopCar = (data) => postRequest('/smallprogramMain/handleGoodAddCart', data);
 // 获取购物车list
-const getShopCarList = (data) => postRequest('/smallprogramMain/handleGetCartLists', data);
+const getShopCarList = (data) => postRequest('/smallprogramMain/handleGetCartLists', data,'no','');
 // 购物选择状态
 const shopCheckType = (data) => postRequest('/smallprogramMain/handleRequestBaseUpdateCart', data, 'no');
 // 获取收货地址

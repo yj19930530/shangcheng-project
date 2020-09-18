@@ -74,7 +74,7 @@
             <text class="fz-15">合计</text>
             <text class="fz-17 fw-bold fc-f1 mr-l-10">¥{{allTotal}}</text>
           </div>
-          <div v-if="allCheckType" class="jiesuan-btn fl-cen" @tap="navPathTo">
+          <div v-if="allTotal" class="jiesuan-btn fl-cen" @tap="navPathTo">
             <text class="fz-14 fc-fff">结算</text>
           </div>
           <div v-else class="jiesuan-btn2 fl-cen">

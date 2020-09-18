@@ -11,7 +11,7 @@
             </div>
             <image class="me-detail-header" v-if="!noLoginType" :src="userImgUrl+form.avatarUrl" />
             <text class="fz-15 fc-fff mr-l-30" v-if="!noLoginType">{{form.nickName}}</text>
-            <text class="fz-15 fc-fff mr-l-30" v-if="noLoginType">未登陆</text>
+            <text class="fz-15 fc-fff mr-l-30" v-if="noLoginType">未登录</text>
             <text class="iconfont iconziyuan fz-17 fc-fff mr-l-20"></text>
           </div>
           <text class="iconfont iconyoujiantou fc-fff fz-14 mr-r-60"></text>
