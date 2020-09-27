@@ -69,6 +69,7 @@ uniRequest._extend({
 									showCancel: false,
 									confirmText: '返回登录',
 									success: function () {
+										uni.clearStorageSync();
 										uni.reLaunch({
 											url: "/pages/page/login"
 										})

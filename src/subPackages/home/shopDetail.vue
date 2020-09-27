@@ -102,7 +102,7 @@
         <image class="mr-l-20 by-top-goods-img" :src="httpImg+detailObj.gimg" />
         <div class="by-top-goods-title">
           <text class="fz-15">{{detailObj.gtitle}}</text>
-          <text class="fz-20 fw-bold fc-f1 mr-t-10">¥289</text>
+          <text class="fz-20 fw-bold fc-f1 mr-t-10">¥{{detailObj.bprice}}}</text>
         </div>
         <image class="close-by-box" @tap="closeType" src="../../static/shop/close.png" />
       </div>
