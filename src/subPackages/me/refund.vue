@@ -154,7 +154,7 @@ page {
 .refund-goods-row {
   width: 100%;
   height: 234rpx;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .refund-right-box {
   width: 380rpx;
@@ -164,7 +164,7 @@ page {
 .refund-item-box {
   width: 100%;
   height: 108rpx;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .refund-input-style {
   width: 70%;
@@ -179,7 +179,7 @@ page {
   margin-bottom: 20rpx;
   width: 160rpx;
   height: 160rpx;
-  border: 1rpx dashed #cccccc;
+  border: 1px dashed #cccccc;
 }
 .upload-pingzheng {
   padding-bottom: 18rpx;

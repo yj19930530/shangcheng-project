@@ -1,10 +1,14 @@
 <template>
-  <div :class="[dataType?'shop-car-container':'shop-car-container2']">
+  <div :class="[dataType ? 'shop-car-container' : 'shop-car-container2']">
     <div class="fl-fca bg-fff" v-if="!dataType">
       <text class="fc-7e fz-15 no-shop-title">购物袋空荡荡的~赶紧去装满~</text>
-      <image class="no-shop-car" src="../../static/shop/guang.png" @tap="buyGoodsNext" />
+      <image
+        class="no-shop-car"
+        src="../../static/shop/guang.png"
+        @tap="buyGoodsNext"
+      />
     </div>
-    <div style="height:30rpx" v-if="dataType"></div>
+    <div style="height: 30rpx" v-if="dataType"></div>
     <div class="car-content-style" v-if="dataType">
       <div class="car-style-title fl-bt">
         <div class="fl-al">
@@ -16,46 +20,59 @@
       <!-- 购物车 row -->
       <uni-swipe-action>
         <uni-swipe-action-item
-          v-for="(item,index) in shopList"
+          v-for="(item, index) in shopList"
           :key="index"
           :options="goodsOption"
           @click="swipeClick(item)"
         >
           <div class="shop-car-row fl-al">
             <image
-              v-if="item.pick===1"
+              v-if="item.pick === 1"
               class="check-img mr-l-30"
               src="../../static/shop/yse.png"
-              @tap.native.stop="checkChoose(index,0)"
+              @tap.native.stop="checkChoose(index, 0)"
             />
             <image
-              v-if="item.pick===0"
+              v-if="item.pick === 0"
               class="check-img mr-l-30"
               src="../../static/shop/no.png"
-              @tap.native.stop="checkChoose(index,1)"
+              @tap.native.stop="checkChoose(index, 1)"
             />
             <image
               mode="aspectFill"
               class="row-shop-img"
-              :src="httpImg+item.good.gimg"
+              :src="httpImg + item.good.gimg"
               @tap="navPathToGoods(item.gid)"
             />
-            <div class="row-right-content" @tap.native.stop="navPathToGoods(item.gid)">
-              <div class="fz-15 text-width-row">{{item.good.gname}}</div>
-              <text class="fz-14 fc-999 mr-t-20">已选 {{item.good.gspec}}</text>
+            <div
+              class="row-right-content"
+              @tap.native.stop="navPathToGoods(item.gid)"
+            >
+              <div class="fz-15 text-width-row text-lang-dian2">{{ item.good.gtitle }}</div>
+              <text class="fz-14 fc-999 mr-t-20"
+                >已选 {{ item.good.gspec }}</text
+              >
               <div class="fl-al mr-t-20">
-                <text class="fz-17 fw-bold fc-f1">¥{{item.good.bprice}}</text>
-                <text class="fz-14 fc-999 td-text mr-l-10">¥{{item.good.price4}}</text>
+                <text class="fz-17 fw-bold fc-f1">¥{{ item.good.bprice }}</text>
+                <text class="fz-14 fc-999 td-text mr-l-10 visibily-show"
+                  >¥{{ item.good.price4 }}</text
+                >
                 <div class="count-box fl-bt">
                   <div
                     class="count-row fl-cen fz-14 fc-999"
                     @tap.native.stop="declineHandle(index)"
-                  >-</div>
-                  <div class="count-row2 fl-cen fz-14 fc-999">{{item.cartQty}}</div>
+                  >
+                    -
+                  </div>
+                  <div class="count-row2 fl-cen fz-14 fc-999">
+                    {{ item.cartQty }}
+                  </div>
                   <div
                     class="count-row fl-cen fz-14 fc-999"
                     @tap.native.stop="inclineHandle(index)"
-                  >+</div>
+                  >
+                    +
+                  </div>
                 </div>
               </div>
             </div>
@@ -65,14 +82,18 @@
       <!-- 底部结算 -->
       <div class="car-bottom-content fl-bt">
         <div class="fl-al mr-l-30" @tap="allCheckTypeHandle(allCheckType)">
-          <image v-if="allCheckType" class="check-img" src="../../static/shop/yse.png" />
+          <image
+            v-if="allCheckType"
+            class="check-img"
+            src="../../static/shop/yse.png"
+          />
           <image v-else class="check-img" src="../../static/shop/no.png" />
           <text class="fl-14 mr-l-10">全选</text>
         </div>
         <div class="fl-al">
           <div class="fl-al mr-r-60">
             <text class="fz-15">合计</text>
-            <text class="fz-17 fw-bold fc-f1 mr-l-10">¥{{allTotal}}</text>
+            <text class="fz-17 fw-bold fc-f1 mr-l-10">¥{{ allTotal }}</text>
           </div>
           <div v-if="allTotal" class="jiesuan-btn fl-cen" @tap="navPathTo">
             <text class="fz-14 fc-fff">结算</text>
@@ -105,12 +126,22 @@ export default {
           },
         },
       ],
+      userno: "",
     };
   },
   computed: {
     windowHeight() {
       return getApp().globalData.windowHeight;
     },
+  },
+  onLoad() {
+    this.userno = uni.getStorageSync("userno");
+    if (!this.userno) {
+      uni.reLaunch({
+        url: "/pages/page/login",
+      });
+      return;
+    }
   },
   async onShow() {
     await this.getTableList();
@@ -262,7 +293,7 @@ page {
 .car-style-title {
   width: 100%;
   height: 110rpx;
-  border-bottom: 1rpx solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
 }
 .car-title-icon {
   margin-left: 28rpx;
@@ -272,14 +303,14 @@ page {
 .shop-car-row {
   width: 100%;
   height: 260rpx;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .count-box {
-  margin-left: 54rpx;
+  /* margin-left: 54rpx; */
   width: 166rpx;
   height: 50rpx;
   border-radius: 10rpx;
-  border: 1rpx solid #cccccc;
+  border: 1px solid #cccccc;
 }
 .count-row {
   width: 55rpx;
@@ -288,8 +319,8 @@ page {
 .count-row2 {
   width: 55rpx;
   height: 50rpx;
-  border-left: 1rpx solid #cccccc;
-  border-right: 1rpx solid #cccccc;
+  border-left: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
 }
 .row-right-content {
   margin-left: 26rpx;
@@ -327,5 +358,8 @@ page {
   width: 220rpx;
   height: 98rpx;
   background-color: #999;
+}
+.visibily-show{
+  visibility: hidden;
 }
 </style>

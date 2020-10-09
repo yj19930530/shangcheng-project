@@ -340,7 +340,7 @@ page {
   width: 100%;
   height: 310rpx;
   background-color: #fff;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .row-left-img {
   width: 186rpx;
@@ -361,10 +361,10 @@ page {
   border-radius: 24rpx 24rpx;
 }
 .btn-border-999 {
-  border: 1rpx solid #999;
+  border: 1px solid #999;
 }
 .btn-border-f1 {
-  border: 1rpx solid #f11b20;
+  border: 1px solid #f11b20;
 }
 .border-btn-list {
   display: flex;
@@ -409,7 +409,7 @@ page {
   height: 110rpx;
   background-color: #fff;
   border-radius: 20rpx 20rpx 0 0;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .title-home-icon {
   margin-left: 28rpx;

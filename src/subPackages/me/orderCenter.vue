@@ -386,10 +386,10 @@ page {
   border-radius: 24rpx 24rpx;
 }
 .btn-border-999 {
-  border: 1rpx solid #999;
+  border: 1px solid #999;
 }
 .btn-border-f1 {
-  border: 1rpx solid #f11b20;
+  border: 1px solid #f11b20;
 }
 .border-btn-list {
   display: flex;

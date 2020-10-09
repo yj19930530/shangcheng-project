@@ -51,6 +51,7 @@ uniRequest._extend({
 						case -100:
 							{
 								toast.showToast(res.data.message)
+								uni.clearStorageSync();
 								uni.reLaunch({
 									url: "/pages/page/login"
 								})
@@ -58,6 +59,8 @@ uniRequest._extend({
 								break
 							}
 						case 500: {
+							// uni.clearStorageSync();
+							toast.showToast(res.data.message)
 							resolve(res.data);
 							break;
 						}

@@ -450,7 +450,7 @@ export default {
   padding-bottom: 20rpx;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .item-right-coentent {
   display: flex;
@@ -500,7 +500,7 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
-  border-bottom: 1rpx solid #cccccc;
+  border-bottom: 1px solid #cccccc;
 }
 .comment-icon-upload {
   width: 36rpx;

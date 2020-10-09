@@ -128,7 +128,7 @@ export default {
   width: 128rpx;
   height: 52rpx;
   border-radius: 26rpx 26rpx 26rpx 0;
-  border: 1rpx solid #333333;
+  border: 1px solid #333333;
 }
 .detail-has-opt {
   width: 33.3%;

@@ -82,7 +82,7 @@ page {
   width: 100%;
   height: 150rpx;
   background-color: #ffffff;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .follow-has-list {
   margin-top: 18rpx;
@@ -97,7 +97,7 @@ page {
   width: 128rpx;
   height: 52rpx;
   border-radius: 26rpx 26rpx 26rpx 0;
-  border: 1rpx solid #999999;
+  border: 1px solid #999999;
 }
 .follow-no-more {
   text-align: center;

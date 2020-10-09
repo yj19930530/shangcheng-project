@@ -103,7 +103,7 @@
 	.pay-top-row {
 		width: 100%;
 		height: 108rpx;
-		border-bottom: 1rpx solid #f8f8f8;
+		border-bottom: 1px solid #f8f8f8;
 	}
 
 	.payment-mode {

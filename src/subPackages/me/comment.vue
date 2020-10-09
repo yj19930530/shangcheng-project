@@ -134,8 +134,8 @@ page {
 .comment-top-box {
   width: 100%;
   height: 108rpx;
-  border-top: 1rpx solid #f8f8f8;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-top: 1px solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .start-icon-style {
   margin-left: 8rpx;
@@ -156,7 +156,7 @@ page {
   margin-bottom: 20rpx;
   width: 160rpx;
   height: 160rpx;
-  border: 1rpx dashed #cccccc;
+  border: 1px dashed #cccccc;
 }
 .xiangji-icon {
   margin-top: 28rpx;

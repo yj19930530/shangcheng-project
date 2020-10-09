@@ -18,7 +18,7 @@
       </view>
     </view>
     <!-- 轮播图 -->
-    <div style="margin-top:-100rpx;padding-bottom:30rpx">
+    <div style="margin-top:-100rpx;padding-bottom:20rpx">
       <swiper
         class="swiper swiper-container"
         :indicator-dots="indicatorDots"
@@ -44,7 +44,7 @@
         <div class="shops-list-content fl-btw">
           <image
             @tap="navToDetail(item)"
-            v-for="item in homePageData[0].emsModalGoodVo"
+            v-for="item in homePageData[1].emsModalGoodVo"
             :key="item.id"
             class="shops-item-img"
             :src="httpImg+item.gimg"
@@ -59,7 +59,7 @@
           <image
             mode="aspectFill"
             @tap="navToDetail(item)"
-            v-for="item in homePageData[1].emsModalGoodVo"
+            v-for="item in homePageData[0].emsModalGoodVo"
             :key="item.id"
             class="new-shop-img"
             :src="httpImg+item.gimg"

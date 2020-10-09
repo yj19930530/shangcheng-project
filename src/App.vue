@@ -10,7 +10,7 @@ export default {
   },
   onLaunch: function () {
     this.userNo = uni.getStorageSync("userno");
-    this.loginInfo();
+    // this.loginInfo();
     let menuButtonObject = wx.getMenuButtonBoundingClientRect();
     wx.getSystemInfo({
       success: (res) => {
@@ -32,30 +32,27 @@ export default {
   onShow: function () {},
   onHide: function () {},
   methods: {
-    loginInfo() {
-      if (this.userNo) {
-        return;
-      }
-      const _this = this;
-      toast.showLoading("登录中");
-      uni.login({
-        provider: "weixin",
-        success: function (loginRes) {
-          _this.$api
-            .userLoginGetOpenId({
-              code: loginRes.code,
-              type: 1,
-            })
-            .then(async (res) => {
-              uni.hideLoading();
-              uni.setStorageSync("opId", res.data.openid);
-              uni.setStorageSync("sessionKey", res.data.sessionKey);
-              if (res.data.token) uni.setStorageSync("token", res.data.token);
-              if(res.data.user)uni.setStorageSync("userno", res.data.user.userno);
-            });
-        },
-      });
-    },
+    // loginInfo() {
+    //   const _this = this;
+    //   toast.showLoading("登录中");
+    //   uni.login({
+    //     provider: "weixin",
+    //     success: function (loginRes) {
+    //       _this.$api
+    //         .userLoginGetOpenId({
+    //           code: loginRes.code,
+    //           type: 1,
+    //         })
+    //         .then(async (res) => {
+    //           uni.hideLoading();
+    //           uni.setStorageSync("opId", res.data.openid);
+    //           uni.setStorageSync("sessionKey", res.data.sessionKey);
+    //           if (res.data.token) uni.setStorageSync("token", res.data.token);
+    //           if(res.data.user)uni.setStorageSync("userno", res.data.user.userno);
+    //         });
+    //     },
+    //   });
+    // },
   },
 };
 </script>

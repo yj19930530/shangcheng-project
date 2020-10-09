@@ -252,7 +252,7 @@ page {
   margin: auto;
   width: 710rpx;
   height: 82rpx;
-  border-bottom: 1rpx solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
 }
 .icon-box-check {
   margin: 32rpx auto 0;
@@ -274,13 +274,13 @@ page {
 .other-item-box {
   width: 100%;
   height: 120rpx;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .other-item-box2 {
   padding: 0 !important;
   width: 100%;
   height: 120rpx;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
   background-color: #fff;
 }
 .me-top-header {

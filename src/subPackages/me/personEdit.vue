@@ -127,7 +127,7 @@ export default {
   width: 100%;
   height: 108rpx;
   background-color: #ffffff;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .edit-item-img {
   width: 80rpx;

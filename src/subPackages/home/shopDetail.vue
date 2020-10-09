@@ -19,7 +19,7 @@
         <div class="fl-al">
           <text class="fz-15 fc-f1">¥</text>
           <text class="fz-20 fc-f1 fw-bold">{{detailObj.bprice}}</text>
-          <text class="fz-15 fc-999 td-text mr-l-20">¥{{detailObj.price4}}</text>
+          <text v-if="detailObj.price4" class="fz-15 fc-999 td-text mr-l-20">¥{{detailObj.price4}}</text>
         </div>
         <div class="share-box">
           <text class="iconfont iconfenxiang fz-18 fc-333"></text>
@@ -102,7 +102,7 @@
         <image class="mr-l-20 by-top-goods-img" :src="httpImg+detailObj.gimg" />
         <div class="by-top-goods-title">
           <text class="fz-15">{{detailObj.gtitle}}</text>
-          <text class="fz-20 fw-bold fc-f1 mr-t-10">¥{{detailObj.bprice}}}</text>
+          <text class="fz-20 fw-bold fc-f1 mr-t-10">¥{{detailObj.bprice}}</text>
         </div>
         <image class="close-by-box" @tap="closeType" src="../../static/shop/close.png" />
       </div>
@@ -448,7 +448,7 @@ page {
   position: relative;
   width: 100%;
   height: 264rpx;
-  border-bottom: 1rpx solid #999999;
+  border-bottom: 1px solid #999999;
 }
 .by-top-goods-title {
   display: flex;
@@ -476,23 +476,23 @@ page {
   margin-bottom: 20rpx;
   border-radius: 10rpx;
   padding: 10rpx 20rpx;
-  border: 1rpx solid #ffffff;
+  border: 1px solid #ffffff;
 }
 .box-bg-f1 {
   background-color: #f11b20;
 }
 .box-bg-border {
-  border: 1rpx solid #979797 !important;
+  border: 1px solid #979797 !important;
 }
 .box-botoom-border {
-  border-bottom: 1rpx solid #999999;
+  border-bottom: 1px solid #999999;
 }
 .count-box {
   margin-left: 54rpx;
   width: 166rpx;
   height: 50rpx;
   border-radius: 10rpx;
-  border: 1rpx solid #cccccc;
+  border: 1px solid #cccccc;
 }
 .count-row {
   width: 55rpx;
@@ -501,8 +501,8 @@ page {
 .count-row2 {
   width: 55rpx;
   height: 50rpx;
-  border-left: 1rpx solid #cccccc;
-  border-right: 1rpx solid #cccccc;
+  border-left: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
 }
 .buy-comfirm-btn {
   position: absolute;

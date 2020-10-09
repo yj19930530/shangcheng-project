@@ -81,13 +81,17 @@
         >销量</text>
         <div class="fl-al mr-r-74" @tap="allCheckTypeHandle(2)">
           <text class="fz-14" :class="[allCheckType===2?'fc-333 fw-bold':'fc-999']">价格</text>
-          <div class="fl-co mr-l-6" v-if="priceicon===1">
+          <div class="fl-co mr-l-6" v-if="priceicon===1&&allCheckType===2">
             <image class="jiantou-style" src="../../static/class/top.png" />
             <image class="jiantou-style mr-t-2" src="../../static/class/bottom.png" />
           </div>
-          <div class="fl-co mr-l-6 sort-style-inline" v-if="priceicon===2">
+          <div class="fl-co mr-l-6 sort-style-inline" v-else-if="priceicon===2&&allCheckType===2">
             <image class="jiantou-style" src="../../static/class/top.png" />
             <image class="jiantou-style mr-t-2" src="../../static/class/bottom.png" />
+          </div>
+          <div class="fl-co mr-l-6 sort-style-inline" v-else>
+            <image class="jiantou-style" src="../../static/class/top.png" />
+            <image class="jiantou-style mr-t-2 sort-style-inline" src="../../static/class/top.png" />
           </div>
         </div>
       </div>

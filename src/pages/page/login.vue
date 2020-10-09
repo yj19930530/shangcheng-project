@@ -5,7 +5,9 @@
       class="mr-t-10 login-btn fc-fff fz-14 fl-cen"
       open-type="getPhoneNumber"
       @getphonenumber="getPhoneNumber"
-    >用户授权获取信息</button>
+    >
+      用户授权获取信息
+    </button>
     <view class="fl-cen mr-t-20">
       <view class="yuandian"></view>
       <text class="fc-43 fz-12 mr-l-20 mr-r-20">授权登录</text>
@@ -18,7 +20,7 @@ const { toast } = require("../../utils/index");
 export default {
   data() {
     return {
-      sessionKey:''
+      sessionKey: "",
     };
   },
   onLoad() {
@@ -27,24 +29,38 @@ export default {
   methods: {
     // 用户授权登录
     getPhoneNumber(e) {
+      const _this = this;
       toast.showLoading("登录中");
-      this.$api
-        .addUserInfo({
-          iv: e.detail.iv,
-          sessionKey: this.sessionKey,
-          data: e.detail.encryptedData,
-        })
-        .then((res) => {
-          uni.hideLoading();
-          uni.setStorageSync("token", res.data.token);
-          uni.setStorageSync("userno", res.data.user.userno);
-          uni.switchTab({
-            url: "/pages/page/home",
-          });
-        })
-        .catch(() => {
-          uni.hideLoading();
-        });
+      uni.login({
+        provider: "weixin",
+        success: function (loginRes) {
+          _this.$api
+            .userLoginGetOpenId({
+              code: loginRes.code,
+              type: 1,
+            })
+            .then(async (res) => {
+              uni.setStorageSync("opId", res.data.openid);
+              _this.$api
+                .addUserInfo({
+                  iv: e.detail.iv,
+                  sessionKey: res.data.sessionKey,
+                  data: e.detail.encryptedData,
+                })
+                .then((res) => {
+                  uni.hideLoading();
+                  uni.setStorageSync("token", res.data.token);
+                  uni.setStorageSync("userno", res.data.user.userno);
+                  uni.switchTab({
+                    url: "/pages/page/home",
+                  });
+                })
+                .catch(() => {
+                  uni.hideLoading();
+                });
+            });
+        },
+      });
     },
     // getUserData(data) {
     //   const _this = this;

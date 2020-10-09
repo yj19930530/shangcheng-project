@@ -35,14 +35,14 @@
       >
         <image class="row-left-img mr-l-40" :src="httpImg+item.good.gimg" />
         <div class="row-right-box">
-          <text class="fz-15">{{item.good.gname}}</text>
+          <text class="fz-15">{{item.good.gtitle}}</text>
           <div class="fl-bt mr-t-20">
             <text class="fz-14 fc-999">已选 {{item.good.gspec}}</text>
             <text class="fz-14 fc-999">x{{item.cartQty}}</text>
           </div>
           <div class="mr-t-20">
             <text class="fz-17 fc-f1 fw-bold">¥{{item.good.bprice}}</text>
-            <text class="fz-14 fc-999 mr-l-10">¥{{item.good.price4}}</text>
+            <text v-if="item.good.price4" class="fz-14 fc-999 mr-l-10">¥{{item.good.price4}}</text>
           </div>
         </div>
       </div>
@@ -213,7 +213,7 @@ page {
 .comfirm-row-title {
   width: 100%;
   height: 110rpx;
-  border-bottom: 1rpx solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
 }
 .comfirm-list-box {
   margin: 32rpx auto 0;
@@ -229,7 +229,7 @@ page {
 .comfirm-row-box {
   width: 100%;
   height: 260rpx;
-  border-bottom: 1rpx solid #f8f8f8;
+  border-bottom: 1px solid #f8f8f8;
 }
 .row-left-img {
   width: 186rpx;
