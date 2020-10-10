@@ -9,7 +9,7 @@
             <div v-if="noLoginType" class="me-top-header" style="margin-left:34rpx">
               <open-data class="me-top-header" type="userAvatarUrl"></open-data>
             </div>
-            <image class="me-detail-header" v-if="!noLoginType" :src="userImgUrl+form.avatarUrl" />
+            <image class="me-detail-header" mode="aspectFill" v-if="!noLoginType" :src="userImgUrl+form.avatarUrl" />
             <text class="fz-15 fc-fff mr-l-30" v-if="!noLoginType">{{form.nickName}}</text>
             <text class="fz-15 fc-fff mr-l-30" v-if="noLoginType">未登录</text>
             <text class="iconfont iconziyuan fz-17 fc-fff mr-l-20"></text>
