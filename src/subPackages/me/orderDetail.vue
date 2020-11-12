@@ -4,32 +4,45 @@
     <!-- 订单列表 -->
     <div class="order-list-coentent">
       <div class="order-detail-coentent">
-        <div class="fl-al" v-if="orderData.state===1">
+        <div class="fl-al" v-if="orderData.state === 1">
           <image class="fk-success-icon mr-l-20" src="../../static/me/fk.png" />
           <text class="fz-15 fc-fff mr-l-20">等待付款</text>
         </div>
-        <div class="fl-al" v-if="orderData.state===2">
-          <image class="fk-success-icon mr-l-20" src="../../static/me/dfh2.png" />
+        <div class="fl-al" v-if="orderData.state === 2">
+          <image
+            class="fk-success-icon mr-l-20"
+            src="../../static/me/dfh2.png"
+          />
           <text class="fz-15 fc-fff mr-l-20">付款成功</text>
         </div>
-        <div class="fl-al" v-if="orderData.state===5||orderData.state===4">
+        <div
+          class="fl-al"
+          v-if="orderData.state === 5 || orderData.state === 4"
+        >
           <image class="fk-success-icon mr-l-20" src="../../static/me/ok.png" />
           <text class="fz-15 fc-fff mr-l-20">交易成功</text>
         </div>
-        <div class="fl-al" v-if="orderData.state===3">
-          <image class="fk-success-icon mr-l-20" src="../../static/me/dsh2.png" />
+        <div class="fl-al" v-if="orderData.state === 3">
+          <image
+            class="fk-success-icon mr-l-20"
+            src="../../static/me/dsh2.png"
+          />
           <text class="fz-15 fc-fff mr-l-20">正在运输</text>
         </div>
         <!-- 物流 -->
         <div
           class="wuliu-box-detail fl-bt mr-t-20"
           @tap="navPathTo('wuliu')"
-          v-if="orderData.state===3||orderData.state===2"
+          v-if="orderData.state === 3 || orderData.state === 2"
         >
           <image class="wuliu-icon" src="../../static/me/wuliu.png" />
           <div class="wuliu-title-box fl-fc">
-            <text class="fz-14 fw-bold">您的商品需要从供应商采购，我们会尽快处理，请耐心等待</text>
-            <text class="fz-12 fc-999 mr-t-10">{{timeTextShow(orderData.sendDate)}}</text>
+            <text class="fz-14 fw-bold"
+              >您的商品需要从供应商采购，我们会尽快处理，请耐心等待</text
+            >
+            <text class="fz-12 fc-999 mr-t-10">{{
+              timeTextShow(orderData.sendDate)
+            }}</text>
           </div>
           <text class="iconfont iconyoujiantou fz-15 mr-r-20"></text>
         </div>
@@ -38,10 +51,10 @@
           <image class="wuliu-icon" src="../../static/me/dizhi2.png" />
           <div class="wuliu-title-box">
             <div class="fl-al">
-              <text class="fz-14 fw-bold">{{orderData.receiverName}}</text>
-              <text class="fz-14 fw-bold mr-l-60">{{orderData.mobile}}</text>
+              <text class="fz-14 fw-bold">{{ orderData.receiverName }}</text>
+              <text class="fz-14 fw-bold mr-l-60">{{ orderData.mobile }}</text>
             </div>
-            <text class="fz-12 mr-t-10">{{orderData.address}}</text>
+            <text class="fz-12 mr-t-10">{{ orderData.address }}</text>
           </div>
           <text class="iconfont iconyoujiantou fz-15 mr-r-20 visi-hiden"></text>
         </div>
@@ -51,24 +64,28 @@
         <image class="title-home-icon" src="../../static/shop/home.png" />
         <text class="fc-15 fw-bold mr-l-14">初印象Firstyinas</text>
       </div>
-      <div class="order-row-box fl-bt" v-for="item in orderData.items" :key="item.gId">
+      <div
+        class="order-row-box fl-bt"
+        v-for="item in orderData.items"
+        :key="item.gId"
+      >
         <div class="order-row-left fl-fc">
-          <image class="row-left-img" :src="httpImg+item.pic" />
+          <image class="row-left-img" :src="httpImg + item.pic" />
         </div>
         <div class="order-row-right">
-          <div class="fz-15 text-lang-dian2">{{item.name}}</div>
+          <div class="fz-15 text-lang-dian2">{{ item.name }}</div>
           <div class="fl-bt mr-t-10">
-            <text class="fz-14 fc-999">已选{{item.propertiesValue}}</text>
-            <text class="fz-14 fc-999 mr-r-24">x{{item.qty}}</text>
+            <text class="fz-14 fc-999">已选{{ item.propertiesValue }}</text>
+            <text class="fz-14 fc-999 mr-r-24">x{{ item.qty }}</text>
           </div>
           <div class="mr-t-10">
-            <text class="fz-17">总价：¥{{item.basePrice}}</text>
+            <text class="fz-17">总价：¥{{ item.basePrice }}</text>
           </div>
-          <div class="border-btn-list" v-if="orderData.state===4">
+          <div class="border-btn-list" v-if="orderData.state === 4">
             <div class="border-btn-list-center">
               <div
-                v-if="item.commentState===0"
-                @tap.native.stop="navPathTo('show',item)"
+                v-if="item.commentState === 0"
+                @tap.native.stop="navPathTo('show', item)"
                 class="fl-cen order-comfirm-btn btn-border-999"
               >
                 <text class="fz-14 fc-999">评价</text>
@@ -81,15 +98,18 @@
         </div>
       </div>
       <!-- 创建时间 -->
-      <div class="order-create-time fl-al" v-if="orderData.state===1">
+      <div class="order-create-time fl-al" v-if="orderData.state === 1">
         <text class="fz-15 fc-666 mr-l-60">创建时间</text>
-        <text class="fz-15 mr-l-70">{{timeTextShow(orderData.created)}}</text>
+        <text class="fz-15 mr-l-70">{{ timeTextShow(orderData.created) }}</text>
       </div>
       <!-- 支付详情 -->
-      <div class="pay-content-list mr-t-20" v-if="orderData.state===2||orderData.state===5">
+      <div
+        class="pay-content-list mr-t-20"
+        v-if="orderData.state === 2 || orderData.state === 5"
+      >
         <div class="pay-row-detail fl-al">
           <text class="fz-15 fc-666 mr-l-40">订单编号</text>
-          <text class="fz-15 mr-l-70">{{orderData.soId}}</text>
+          <text class="fz-15 mr-l-70">{{ orderData.soId }}</text>
         </div>
         <div class="pay-row-detail fl-al">
           <text class="fz-15 fc-666 mr-l-40">支付方式</text>
@@ -97,21 +117,30 @@
         </div>
         <div class="pay-row-detail fl-al">
           <text class="fz-15 fc-666 mr-l-40">下单时间</text>
-          <text class="fz-15 mr-l-70">{{timeTextShow(orderData.created)}}</text>
+          <text class="fz-15 mr-l-70">{{
+            timeTextShow(orderData.created)
+          }}</text>
         </div>
         <div class="pay-row-detail fl-al">
           <text class="fz-15 fc-666 mr-l-40">支付时间</text>
-          <text class="fz-15 mr-l-70">{{timeTextShow(orderData.payDate)}}</text>
+          <text class="fz-15 mr-l-70">{{
+            timeTextShow(orderData.payDate)
+          }}</text>
         </div>
         <div class="pay-row-detail fl-al">
           <text class="fz-15 fc-666 mr-l-40">发货时间</text>
-          <text class="fz-15 mr-l-70">{{timeTextShow(orderData.sendDate)}}</text>
+          <text class="fz-15 mr-l-70">{{
+            timeTextShow(orderData.sendDate)
+          }}</text>
         </div>
       </div>
-      <div class="pay-content-list mr-t-20" v-if="orderData.state===2||orderData.state===5">
+      <div
+        class="pay-content-list mr-t-20"
+        v-if="orderData.state === 2 || orderData.state === 5"
+      >
         <div class="pay-row-detail fl-bt">
           <text class="fz-15 fc-666 mr-l-40">商品总额</text>
-          <text class="fz-15 mr-r-30">¥{{totalPrice}}</text>
+          <text class="fz-15 mr-r-30">¥{{ totalPrice }}</text>
         </div>
         <div class="pay-row-detail fl-bt">
           <text class="fz-15 fc-666 mr-l-40">运费</text>
@@ -121,18 +150,30 @@
           <text class="fz-15 fc-666 mr-l-40 visi-hiden">运费</text>
           <div class="mr-r-30">
             <text class="fz-15">合计</text>
-            <text class="fz-17 fc-f1 mr-l-10 fw-bold">¥{{totalPrice}}</text>
+            <text class="fz-17 fc-f1 mr-l-10 fw-bold">¥{{ totalPrice }}</text>
           </div>
         </div>
       </div>
     </div>
     <!-- 底部按钮 -->
-    <div class="pay-bottom-box" v-if="orderData.state===2||orderData.state===5||orderData.state===3||orderData.state===1">
+    <div
+      class="pay-bottom-box"
+      v-if="
+        orderData.state === 2 ||
+        orderData.state === 5 ||
+        orderData.state === 3 ||
+        orderData.state === 1
+      "
+    >
       <div class="border-btn-list-center2 fl-bt">
         <div
-          @tap.native.stop="navPathTo('car',orderData)"
+          @tap.native.stop="navPathTo('car', orderData)"
           class="fl-cen order-comfirm-btn btn-border-999"
-          v-if="orderData.state===2||orderData.state===5||orderData.state===3"
+          v-if="
+            orderData.state === 2 ||
+            orderData.state === 5 ||
+            orderData.state === 3
+          "
         >
           <text class="fz-14">加入购物车</text>
         </div>
@@ -145,22 +186,22 @@
         </div>-->
         <div
           class="fl-cen order-comfirm-btn btn-border-999"
-          v-if="orderData.state===1"
-          @tap.native.stop="navPathTo('del',orderData)"
+          v-if="orderData.state === 1"
+          @tap.native.stop="navPathTo('del', orderData)"
         >
           <text class="fz-14">取消订单</text>
         </div>
         <div
-          @tap.native.stop="navPathTo('pay',orderData)"
+          @tap.native.stop="navPathTo('pay', orderData)"
           class="fl-cen order-comfirm-btn btn-border-f1 mr-r-20"
-          v-if="orderData.state===1"
+          v-if="orderData.state === 1"
         >
           <text class="fz-14 fc-f1">去付款</text>
         </div>
         <div
-          @tap.native.stop="navPathTo('confrim',orderData)"
+          @tap.native.stop="navPathTo('confrim', orderData)"
           class="fl-cen order-comfirm-btn btn-border-f1 mr-r-20"
-          v-if="orderData.state===2||orderData.state===3"
+          v-if="orderData.state === 2 || orderData.state === 3"
         >
           <text class="fz-14 fc-f1">确认收货</text>
         </div>
@@ -188,6 +229,11 @@ export default {
   },
   onShow() {
     this.getDetail();
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   methods: {
     // 获取详情
@@ -252,7 +298,7 @@ export default {
                 toast.showToast("取消成功");
                 uni.navigateBack();
                 uni.hideLoading();
-              } 
+              }
             },
           });
 
@@ -296,7 +342,7 @@ export default {
                   orderNo: row.soId,
                 });
                 toast.showToast("确认成功");
-                 uni.navigateBack();
+                uni.navigateBack();
                 uni.hideLoading();
               }
             },

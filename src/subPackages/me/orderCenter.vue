@@ -4,86 +4,149 @@
     <div class="order-center-top fl-bt">
       <div
         class="mr-l-24"
-        :class="curr===0?'top-tar-check':'top-tar-check2'"
+        :class="curr === 0 ? 'top-tar-check' : 'top-tar-check2'"
         @tap="checkType('all')"
       >
-        <text class="fz-15" :class="[curr===0?'fw-bold':'fc-999']">全部</text>
+        <text class="fz-15" :class="[curr === 0 ? 'fw-bold' : 'fc-999']"
+          >全部</text
+        >
       </div>
-      <div :class="curr===1?'top-tar-check':'top-tar-check2'" @tap="checkType('pay')">
-        <text class="fz-15" :class="[curr===1?'fw-bold':'fc-999']">待付款</text>
+      <div
+        :class="curr === 1 ? 'top-tar-check' : 'top-tar-check2'"
+        @tap="checkType('pay')"
+      >
+        <text class="fz-15" :class="[curr === 1 ? 'fw-bold' : 'fc-999']"
+          >待付款</text
+        >
       </div>
-      <div :class="curr===2?'top-tar-check':'top-tar-check2'" @tap="checkType('send')">
-        <text class="fz-15" :class="[curr===2?'fw-bold':'fc-999']">待发货</text>
+      <div
+        :class="curr === 2 ? 'top-tar-check' : 'top-tar-check2'"
+        @tap="checkType('send')"
+      >
+        <text class="fz-15" :class="[curr === 2 ? 'fw-bold' : 'fc-999']"
+          >待发货</text
+        >
       </div>
-      <div :class="curr===3?'top-tar-check':'top-tar-check2'" @tap="checkType('shou')">
-        <text class="fz-15" :class="[curr===3?'fw-bold':'fc-999']">待收货</text>
+      <div
+        :class="curr === 3 ? 'top-tar-check' : 'top-tar-check2'"
+        @tap="checkType('shou')"
+      >
+        <text class="fz-15" :class="[curr === 3 ? 'fw-bold' : 'fc-999']"
+          >待收货</text
+        >
       </div>
       <div
         class="mr-r-24"
-        :class="curr===4?'top-tar-check':'top-tar-check2'"
+        :class="curr === 4 ? 'top-tar-check' : 'top-tar-check2'"
         @tap="checkType('ping')"
       >
-        <text class="fz-15" :class="[curr===4?'fw-bold':'fc-999']">待评价</text>
+        <text class="fz-15" :class="[curr === 4 ? 'fw-bold' : 'fc-999']"
+          >待评价</text
+        >
       </div>
     </div>
     <!-- 订单列表 -->
     <div class="order-list-coentent">
-      <swiper :current="curr" @change="setCurr" style="height: 100vh;">
+      <swiper :current="curr" @change="setCurr" style="height: 100vh">
         <swiper-item v-for="item in 5" :key="item">
-          <div class="fl-cen" style="margin-top:190rpx" v-if="!orderListData.length">
+          <div
+            class="fl-cen"
+            style="margin-top: 190rpx"
+            v-if="!orderListData.length"
+          >
             <text class="fz-12 fc-999">没有订单</text>
           </div>
-          <scroll-view scroll-y style="height: 100vh;" :show-scrollbar="false">
-            <div style="padding-top:160rpx">
-              <div v-for="(item,index) in orderListData" :key="index">
+          <scroll-view scroll-y style="height: 100vh" :show-scrollbar="false">
+            <div style="padding-top: 160rpx">
+              <div v-for="(item, index) in orderListData" :key="index">
                 <div class="order-row-box fl-bt">
                   <div class="order-row-left fl-fc">
                     <image
                       class="row-left-img"
-                      @tap="navPathTo('goods',item.items[0])"
-                      :src="httpImg+item.items[0].pic"
+                      @tap="navPathTo('goods', item.items[0])"
+                      :src="httpImg + item.items[0].pic"
                     />
-                    <text class="fz-12 fc-f1 mr-t-30" v-if="item.state===1">等待您的付款</text>
-                    <text class="fz-12 fc-999 mr-t-30" v-else-if="item.state===6">已取消</text>
-                    <text class="fz-12 fc-999 mr-t-30" v-else-if="item.state===8">已退款</text>
-                    <text class="fz-12 fc-f1 mr-t-30" v-else-if="item.state===2">待发货</text>
-                    <text class="fz-12 fc-f1 mr-t-30" v-else-if="item.state===3">已发货</text>
-                    <text class="fz-12 fc-f1 mr-t-30" v-else-if="item.state===4">待评价</text>
-                    <text class="fz-12 fc-f1 mr-t-30" v-else-if="item.state===7">退款中</text>
+                    <text class="fz-12 fc-f1 mr-t-30" v-if="item.state === 1"
+                      >等待您的付款</text
+                    >
+                    <text
+                      class="fz-12 fc-999 mr-t-30"
+                      v-else-if="item.state === 6"
+                      >已取消</text
+                    >
+                    <text
+                      class="fz-12 fc-999 mr-t-30"
+                      v-else-if="item.state === 8"
+                      >已退款</text
+                    >
+                    <text
+                      class="fz-12 fc-f1 mr-t-30"
+                      v-else-if="item.state === 2"
+                      >待发货</text
+                    >
+                    <text
+                      class="fz-12 fc-f1 mr-t-30"
+                      v-else-if="item.state === 3"
+                      >已发货</text
+                    >
+                    <text
+                      class="fz-12 fc-f1 mr-t-30"
+                      v-else-if="item.state === 4"
+                      >待评价</text
+                    >
+                    <text
+                      class="fz-12 fc-f1 mr-t-30"
+                      v-else-if="item.state === 7"
+                      >退款中</text
+                    >
                     <text class="fz-12 fc-fff mr-t-30" v-else>站位</text>
                   </div>
-                  <div class="order-row-right" @tap="navPathTo('log',item)">
-                    <div class="fz-15 text-lang-dian2">{{item.items[0].gTitle}}</div>
+                  <div class="order-row-right" @tap="navPathTo('log', item)">
+                    <div class="fz-15 text-lang-dian2">
+                      {{ item.items[0].gTitle }}
+                    </div>
                     <div class="fl-bt mr-t-10">
-                      <text class="fz-14 fc-999">已选 {{item.items[0].propertiesValue}}</text>
-                      <text class="fz-14 fc-999 mr-r-24">x{{item.items[0].qty}}</text>
+                      <text class="fz-14 fc-999"
+                        >已选 {{ item.items[0].propertiesValue }}</text
+                      >
+                      <text class="fz-14 fc-999 mr-r-24"
+                        >x{{ item.items[0].qty }}</text
+                      >
                     </div>
                     <div class="mr-t-10">
-                      <text class="fz-17">总价：¥{{item.items[0].amount}}</text>
+                      <text class="fz-17"
+                        >总价：¥{{ item.items[0].amount }}</text
+                      >
                     </div>
                     <div class="border-btn-list">
                       <div class="border-btn-list-center">
                         <div
-                          v-if="item.state===1"
+                          v-if="item.state === 1"
                           class="fl-cen order-comfirm-btn btn-border-999"
-                          @tap.native.stop="navPathTo('del',item)"
+                          @tap.native.stop="navPathTo('del', item)"
                         >
                           <text class="fz-14">取消订单</text>
                         </div>
-                        <div v-if="item.state===6" class="fl-cen order-comfirm-btn visibility-show btn-border-999">
+                        <div
+                          v-if="item.state === 6"
+                          class="fl-cen order-comfirm-btn visibility-show btn-border-999"
+                        >
                           <text class="fz-14">已取消</text>
                         </div>
                         <!-- <div v-if="item.state===8" class="fl-cen order-comfirm-btn btn-border-999">
                           <text class="fz-14">已退款</text>
                         </div> -->
                         <div
-                          v-if="item.state===2"
+                          v-if="item.state === 2"
                           class="fl-cen order-comfirm-btn btn-border-999"
-                          @tap.native.stop="navPathTo('tk',item)"
+                          @tap.native.stop="navPathTo('tk', item)"
                         >
                           <text class="fz-14">申请退款</text>
                         </div>
-                        <div v-if="item.state===3" class="fl-cen order-comfirm-btn btn-border-999">
+                        <div
+                          v-if="item.state === 3"
+                          class="fl-cen order-comfirm-btn btn-border-999"
+                        >
                           <text class="fz-14">查看物流</text>
                         </div>
                         <!-- <div
@@ -94,8 +157,8 @@
                           <text class="fz-14">重新申请</text>
                         </div> -->
                         <div
-                          @tap.native.stop="navPathTo('close',item)"
-                          v-if="item.state===7"
+                          @tap.native.stop="navPathTo('close', item)"
+                          v-if="item.state === 7"
                           class="fl-cen order-comfirm-btn btn-border-f1"
                         >
                           <text class="fz-14 fc-f1">取消退款</text>
@@ -104,9 +167,9 @@
                           <text class="fz-14 fc-f1">退款失败</text>
                         </div> -->
                         <div
-                          v-if="item.state===3"
+                          v-if="item.state === 3"
                           class="fl-cen order-comfirm-btn btn-border-f1"
-                          @tap.native.stop="navPathTo('confrim',item)"
+                          @tap.native.stop="navPathTo('confrim', item)"
                         >
                           <text class="fz-14 fc-f1">确认收货</text>
                         </div>
@@ -114,14 +177,14 @@
                           <text class="fz-14 fc-f1">退款中</text>
                         </div> -->
                         <div
-                          v-if="item.state===1"
+                          v-if="item.state === 1"
                           class="fl-cen order-comfirm-btn btn-border-f1"
-                          @tap="navPathTo('pay',item)"
+                          @tap="navPathTo('pay', item)"
                         >
                           <text class="fz-14 fc-f1">去支付</text>
                         </div>
                         <div
-                          v-if="item.state===4"
+                          v-if="item.state === 4"
                           class="fl-cen order-comfirm-btn btn-border-f1"
                         >
                           <text class="fz-14 fc-f1">评价晒单</text>
@@ -149,6 +212,11 @@ export default {
       orderListData: [], // 订单处理列表
       httpImg: httpImg, // 图片url
       curr: 0,
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onLoad(obj) {
@@ -319,7 +387,7 @@ export default {
           break;
         }
         case "close": {
-           uni.navigateTo({
+          uni.navigateTo({
             url: `/subPackages/me/refundDetail?id=${row.frontReturnNo}`,
           });
           break;

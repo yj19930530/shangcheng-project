@@ -1,17 +1,21 @@
 <template>
   <div class="comfirm-container">
-    <div style="height:32rpx"></div>
+    <div style="height: 32rpx"></div>
     <!-- 头部地址 -->
     <div class="fl-fc address-edit-box">
       <div class="fl-bt address-top-box" @tap="chooseAddress">
         <image class="address-icon" src="../../static/shop/dizhi.png" />
         <div class="fl-fc" v-if="addressListData.length">
-          <div
-            class="fz-15 fw-bold address-title text-lang-dian"
-          >{{addressListData[0].provinceName}}{{addressListData[0].cityName}}{{addressListData[0].countyName}}{{addressListData[0].detailInfo}}</div>
+          <div class="fz-15 fw-bold address-title text-lang-dian">
+            {{ addressListData[0].provinceName }}{{ addressListData[0].cityName
+            }}{{ addressListData[0].countyName
+            }}{{ addressListData[0].detailInfo }}
+          </div>
           <div class="fl-al mr-t-10">
-            <text class="fz-15">{{addressListData[0].userName}}</text>
-            <text class="fz-15 mr-l-50">{{addressListData[0].telNumber}}</text>
+            <text class="fz-15">{{ addressListData[0].userName }}</text>
+            <text class="fz-15 mr-l-50">{{
+              addressListData[0].telNumber
+            }}</text>
           </div>
         </div>
         <div class="fl-al address-title" v-else>
@@ -29,20 +33,22 @@
       </div>
       <div
         class="comfirm-row-box fl-bt"
-        v-for="(item,index) in shopList"
+        v-for="(item, index) in shopList"
         :key="index"
         @tap="navToDetail(item.good.gid)"
       >
-        <image class="row-left-img mr-l-40" :src="httpImg+item.good.gimg" />
+        <image class="row-left-img mr-l-40" :src="httpImg + item.good.gimg" />
         <div class="row-right-box">
-          <text class="fz-15">{{item.good.gtitle}}</text>
+          <text class="fz-15">{{ item.good.gtitle }}</text>
           <div class="fl-bt mr-t-20">
-            <text class="fz-14 fc-999">已选 {{item.good.gspec}}</text>
-            <text class="fz-14 fc-999">x{{item.cartQty}}</text>
+            <text class="fz-14 fc-999">已选 {{ item.good.gspec }}</text>
+            <text class="fz-14 fc-999">x{{ item.cartQty }}</text>
           </div>
           <div class="mr-t-20">
-            <text class="fz-17 fc-f1 fw-bold">¥{{item.good.bprice}}</text>
-            <text v-if="item.good.price4" class="fz-14 fc-999 mr-l-10">¥{{item.good.price4}}</text>
+            <text class="fz-17 fc-f1 fw-bold">¥{{ item.good.bprice }}</text>
+            <text v-if="item.good.price4" class="fz-14 fc-999 td-text mr-l-10"
+              >¥{{ item.good.price4 }}</text
+            >
           </div>
         </div>
       </div>
@@ -50,11 +56,11 @@
     <div class="order-detail-box">
       <div class="order-detail-row fl-bt">
         <text class="fz-15 fc-666 mr-l-40">商品数</text>
-        <text class="fz-15 fw-bold mr-r-40">{{totalNumber}}</text>
+        <text class="fz-15 fw-bold mr-r-40">{{ totalNumber }}</text>
       </div>
       <div class="order-detail-row fl-bt">
         <text class="fz-15 fc-666 mr-l-40">商品金额</text>
-        <text class="fz-15 fw-bold mr-r-40 fc-f1">¥{{totalPrice}}</text>
+        <text class="fz-15 fw-bold mr-r-40 fc-f1">¥{{ totalPrice }}</text>
       </div>
       <div class="order-detail-row fl-bt">
         <text class="fz-15 fc-666 mr-l-40">运费</text>
@@ -74,7 +80,7 @@
     <div class="fl-bt bottom-btn-box">
       <div class="fl-al mr-l-30">
         <text class="fz-15">合计</text>
-        <text class="fz-17 fc-f1 fw-bold mr-l-10">¥{{totalPrice}}</text>
+        <text class="fz-17 fc-f1 fw-bold mr-l-10">¥{{ totalPrice }}</text>
       </div>
       <div class="fl-cen right-btn-submit" @tap="submtPay">
         <text class="fc-fff fz-14">提交订单</text>
@@ -113,6 +119,11 @@ export default {
     }
     this.priceCompute();
   },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
+  },
   onShow() {
     this.addressList();
   },
@@ -144,7 +155,8 @@ export default {
     },
     // 跳转付款页面
     submtPay() {
-      if (!this.addressListData.length) return toast.showToast("请添加收货地址");
+      if (!this.addressListData.length)
+        return toast.showToast("请添加收货地址");
       let goodsArr = [];
       this.shopList.forEach((item) => {
         goodsArr.push({

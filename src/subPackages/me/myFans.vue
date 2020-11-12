@@ -24,6 +24,11 @@ export default {
       checkType: "left",
     };
   },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
+  },
   methods: {
     labelCheck(type) {
       this.checkType = type;

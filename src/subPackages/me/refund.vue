@@ -1,38 +1,46 @@
 <template>
   <div class="refund-container">
     <div class="zhan-box"></div>
-    <div class="refund-goods-row fl-cen" v-for="(item,index) in orderData.items" :key="index">
-      <image class="refund-left-img" :src="httpImg+item.pic" />
+    <div
+      class="refund-goods-row fl-cen"
+      v-for="(item, index) in orderData.items"
+      :key="index"
+    >
+      <image class="refund-left-img" :src="httpImg + item.pic" />
       <div class="refund-right-box mr-l-60">
-        <text class="fz-15">{{item.name}}</text>
+        <text class="fz-15">{{ item.name }}</text>
         <div class="fl-bt mr-t-10">
-          <text class="fz-14 fc-999">已选{{item.propertiesValue}}</text>
-          <text class="fz-14 fc-999">x{{item.qty}}</text>
+          <text class="fz-14 fc-999">已选{{ item.propertiesValue }}</text>
+          <text class="fz-14 fc-999">x{{ item.qty }}</text>
         </div>
-        <text class="mr-t-10 fz-17">总价：¥{{item.basePrice}}</text>
+        <text class="mr-t-10 fz-17">总价：¥{{ item.basePrice }}</text>
       </div>
     </div>
     <picker @change="bindPickerChange" :value="index" :range="reasonList">
       <div class="refund-item-box fl-bt">
         <text class="fz-15 mr-l-30">退款原因</text>
         <div class="uni-input fl-al mr-r-20">
-          <text class="fz-15 fc-999">{{reasonList[index]}}</text>
+          <text class="fz-15 fc-999">{{ reasonList[index] }}</text>
           <text class="iconfont iconyoujiantou fz-15 fc-999"></text>
         </div>
       </div>
     </picker>
     <div class="refund-item-box fl-al">
       <text class="fz-15 mr-l-30">退款金额：</text>
-      <text class="fz-17 fc-f1">¥{{totalPrice}}</text>
+      <text class="fz-17 fc-f1">¥{{ totalPrice }}</text>
     </div>
     <div class="refund-item-box fl-al">
       <text class="fz-15 mr-l-30">退款说明：</text>
-      <input v-model="orderRefund.remark" class="refund-input-style fz-15" placeholder="选填" />
+      <input
+        v-model="orderRefund.remark"
+        class="refund-input-style fz-15"
+        placeholder="选填"
+      />
     </div>
     <div class="upload-pingzheng mr-t-30">
       <text class="fz-15 mr-l-30">上传凭证</text>
       <div class="mr-l-40 mr-t-40 img-list-content">
-        <div class="ping-img-box" v-for="(item,index) in imgList" :key="index">
+        <div class="ping-img-box" v-for="(item, index) in imgList" :key="index">
           <image class="ping-img-item" mode="aspectFill" :src="item.imgPath" />
           <image
             class="delete-img-style"
@@ -40,7 +48,11 @@
             @tap="deleteImg(index)"
           />
         </div>
-        <div class="fl-co img-choose-box" @tap="uploadPing" v-if="imgList.length<6">
+        <div
+          class="fl-co img-choose-box"
+          @tap="uploadPing"
+          v-if="imgList.length < 6"
+        >
           <image class="xiangji-icon" src="../../static/me/xiangji.png" />
           <text class="fz-12 fc-999">上传凭证</text>
         </div>
@@ -79,6 +91,11 @@ export default {
     const userno = common.getData("userno");
     this.orderRefund.applyUserNo = userno;
     this.getDetail();
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   methods: {
     // 获取详情

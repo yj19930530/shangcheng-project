@@ -32,11 +32,27 @@
         @confirm="getText"
       />
       <div class="camerer-box-style">
-        <div class="choose-img-box" v-for="(item,index) in imgList" :key="index">
-          <image class="choose-img-style" mode="aspectFill" :src="item.imgPath" />
-          <image class="cloose-icon" src="../../static/shop/delete.png" @tap="deleteImg(index)" />
+        <div
+          class="choose-img-box"
+          v-for="(item, index) in imgList"
+          :key="index"
+        >
+          <image
+            class="choose-img-style"
+            mode="aspectFill"
+            :src="item.imgPath"
+          />
+          <image
+            class="cloose-icon"
+            src="../../static/shop/delete.png"
+            @tap="deleteImg(index)"
+          />
         </div>
-        <div class="comment-img-list" @tap="uploadPing" v-if="imgList.length<6">
+        <div
+          class="comment-img-list"
+          @tap="uploadPing"
+          v-if="imgList.length < 6"
+        >
           <image class="xiangji-icon" src="../../static/me/xiangji.png" />
           <text class="fz-12 fc-999 mr-t-10">添加图片</text>
         </div>
@@ -59,7 +75,7 @@ export default {
       commentValue: "",
       imgList: [],
       publishUserNo: "",
-      soId:''
+      soId: "",
     };
   },
   onLoad(obj) {
@@ -67,6 +83,11 @@ export default {
     this.publishUserNo = userno;
     this.goodId = obj.id;
     this.soId = obj.soId;
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   methods: {
     // 点赞 星星
@@ -101,15 +122,15 @@ export default {
           content: this.commentValue,
           oiId: this.goodId,
           publishUserNo: this.publishUserNo,
-          orderNo:this.soId
+          orderNo: this.soId,
         })
         .then((res) => {
           uni.hideLoading();
           toast.showToast("发布成功");
           const timer = setTimeout(() => {
             uni.navigateBack();
-            clearTimeout(timer)
-          },1000);
+            clearTimeout(timer);
+          }, 1000);
         })
         .catch(() => {
           uni.hideLoading();

@@ -7,9 +7,12 @@
       current="0"
       @change="swiperChange"
     >
-      <block v-for="(item,index) in imgUrls" :key="index">
+      <block v-for="(item, index) in imgUrls" :key="index">
         <swiper-item class="swiper-item">
-          <div class="slide-image" :class="[swiperIndex === index ? 'active' : '']"></div>
+          <div
+            class="slide-image"
+            :class="[swiperIndex === index ? 'active' : '']"
+          ></div>
         </swiper-item>
       </block>
     </swiper>
@@ -28,7 +31,12 @@ export default {
       autoplay: false,
       interval: 5000,
       duration: 1000,
-      swiperIndex:0
+      swiperIndex: 0,
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   methods: {

@@ -1,6 +1,11 @@
 <template>
   <div id="msg-container">
-    <div class="msg-item-content fl-bt" v-for="item in 4" :key="item" @tap="detailToPath">
+    <div
+      class="msg-item-content fl-bt"
+      v-for="item in 4"
+      :key="item"
+      @tap="detailToPath"
+    >
       <div class="msg-left-img mr-l-20">
         <image class="msg-img-style" src="../../static/me/me-bg.png" />
         <div class="yuandian"></div>
@@ -8,7 +13,9 @@
       <div class="msg-right-content">
         <text class="fz-15">系统推送</text>
         <div class="text-lang-dian">
-          <text class="fz-12 fc-999">恭喜您！您有一份价值588元的订单已经下单成功了恭喜您！您有一份价值588元的订单已经下单成功了</text>
+          <text class="fz-12 fc-999"
+            >恭喜您！您有一份价值588元的订单已经下单成功了恭喜您！您有一份价值588元的订单已经下单成功了</text
+          >
         </div>
       </div>
     </div>
@@ -18,6 +25,11 @@
 export default {
   data() {
     return {};
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   methods: {
     detailToPath() {

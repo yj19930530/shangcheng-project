@@ -5,11 +5,11 @@
       <div class="mr-l-60">
         <div class="fl-al">
           <text class="fz-14 fc-999">承运公司：</text>
-          <text class="fz-14 fc-333 mr-l-10">{{wlName}}</text>
+          <text class="fz-14 fc-333 mr-l-10">{{ wlName }}</text>
         </div>
         <div class="fl-al mr-t-10">
           <text class="fz-14 fc-999">快递单号：</text>
-          <text class="fz-14 fc-333 mr-l-10">{{wlId}}</text>
+          <text class="fz-14 fc-333 mr-l-10">{{ wlId }}</text>
         </div>
       </div>
     </div>
@@ -17,7 +17,12 @@
       <div class="step-title fl-al">
         <text class="fz-14 mr-l-30">订单跟踪</text>
       </div>
-      <uni-steps active-color="#F11B20" :options="liList" direction="column" :active="active"></uni-steps>
+      <uni-steps
+        active-color="#F11B20"
+        :options="liList"
+        direction="column"
+        :active="active"
+      ></uni-steps>
     </div>
   </div>
 </template>
@@ -29,6 +34,11 @@ export default {
       wlName: "",
       liList: [],
       active: 0,
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onLoad(obj) {
@@ -49,7 +59,7 @@ export default {
           desc: item.AcceptTime,
         });
       });
-      this.active = this.liList.length-1;
+      this.active = this.liList.length - 1;
     },
   },
 };

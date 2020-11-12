@@ -6,31 +6,49 @@
         <image class="search-img" src="../../static/home/ss.png" />
         <text class="fz-12 fc-999 mr-l-10">输入搜索内容</text>
       </div>
-      <div class="fl-co mr-r-20" v-if="checkType ==='all'" @tap="checkTypeChange('class')">
+      <div
+        class="fl-co mr-r-20"
+        v-if="checkType === 'all'"
+        @tap="checkTypeChange('class')"
+      >
         <text class="iconfont iconstack fz-19"></text>
         <text class="fz-12 fc-999">全部</text>
       </div>
-      <div class="fl-co mr-r-20" v-if="checkType ==='class'" @tap="checkTypeChange('all')">
+      <div
+        class="fl-co mr-r-20"
+        v-if="checkType === 'class'"
+        @tap="checkTypeChange('all')"
+      >
         <text class="iconfont iconfenlei fz-19"></text>
         <text class="fz-12 fc-999">分类</text>
       </div>
     </div>
     <!-- 分类商品 -->
-    <div class="class-letf-shops" v-if="checkType ==='all'" :style="[{height:winnerHiehgt+'px'}]">
+    <div
+      class="class-letf-shops"
+      v-if="checkType === 'all'"
+      :style="[{ height: winnerHiehgt + 'px' }]"
+    >
       <!-- 左边分类选项 -->
       <div class="left-shop-box">
         <div
           class="fl-cen"
-          v-for="(item,index) in classList"
+          v-for="(item, index) in classList"
           :key="index"
           @tap="checkInfo(item)"
-          :class="[item.viewId===viewInfo?'item-left-title':'item-left-title2']"
+          :class="[
+            item.viewId === viewInfo ? 'item-left-title' : 'item-left-title2',
+          ]"
         >
           <div
             class="fl-cen"
-            :class="[item.viewId===viewInfo?'left-class-center':'left-class-center2']"
+            :class="[
+              item.viewId === viewInfo
+                ? 'left-class-center'
+                : 'left-class-center2',
+            ]"
           >
-            <text class="fz-14">{{item.stringType}}</text>
+            <text class="fz-14">{{ item.stringType }}</text>
           </div>
         </div>
       </div>
@@ -44,58 +62,83 @@
       >
         <div
           class="mr-t-50 commodity-height-box"
-          v-for="(item,index) in classList"
+          v-for="(item, index) in classList"
           :key="index"
           :id="item.viewId"
         >
           <div class="commodity-top-title fl-al">
-            <text class="fz-12">{{item.stringType}}</text>
+            <text class="fz-12">{{ item.stringType }}</text>
             <image class="shu-style mr-l-6" src="../../static/me/shu.png" />
           </div>
           <div class="commodity-bottom-box">
             <div
               class="commodity-item-style"
-              v-for="(i,n) in item.lg"
+              v-for="(i, n) in item.lg"
               :key="n"
               @tap="navToDetail(i.gid)"
             >
-              <image class="commodity-shop-img" :src="httpImg+i.gimg" />
-              <div class="commodity-shop-name fz-12">{{i.shortName}}</div>
+              <image class="commodity-shop-img" :src="httpImg + i.gimg" />
+              <div class="commodity-shop-name fz-12">{{ i.shortName }}</div>
             </div>
           </div>
         </div>
         <!-- <div style="height:700rpx"></div> -->
       </scroll-view>
     </div>
-    <div v-if="checkType ==='class'">
+    <div v-if="checkType === 'class'">
       <div class="fl-bt top-check-box">
         <text
           class="fz-14 mr-l-74"
-          :class="[allCheckType===0?'fc-333 fw-bold':'fc-999']"
+          :class="[allCheckType === 0 ? 'fc-333 fw-bold' : 'fc-999']"
           @tap="allCheckTypeHandle(0)"
-        >全部</text>
+          >全部</text
+        >
         <text
           class="fz-14"
-          :class="[allCheckType===1?'fc-333 fw-bold':'fc-999']"
+          :class="[allCheckType === 1 ? 'fc-333 fw-bold' : 'fc-999']"
           @tap="allCheckTypeHandle(1)"
-        >销量</text>
+          >销量</text
+        >
         <div class="fl-al mr-r-74" @tap="allCheckTypeHandle(2)">
-          <text class="fz-14" :class="[allCheckType===2?'fc-333 fw-bold':'fc-999']">价格</text>
-          <div class="fl-co mr-l-6" v-if="priceicon===1&&allCheckType===2">
+          <text
+            class="fz-14"
+            :class="[allCheckType === 2 ? 'fc-333 fw-bold' : 'fc-999']"
+            >价格</text
+          >
+          <div
+            class="fl-co mr-l-6"
+            v-if="priceicon === 1 && allCheckType === 2"
+          >
             <image class="jiantou-style" src="../../static/class/top.png" />
-            <image class="jiantou-style mr-t-2" src="../../static/class/bottom.png" />
+            <image
+              class="jiantou-style mr-t-2"
+              src="../../static/class/bottom.png"
+            />
           </div>
-          <div class="fl-co mr-l-6 sort-style-inline" v-else-if="priceicon===2&&allCheckType===2">
+          <div
+            class="fl-co mr-l-6 sort-style-inline"
+            v-else-if="priceicon === 2 && allCheckType === 2"
+          >
             <image class="jiantou-style" src="../../static/class/top.png" />
-            <image class="jiantou-style mr-t-2" src="../../static/class/bottom.png" />
+            <image
+              class="jiantou-style mr-t-2"
+              src="../../static/class/bottom.png"
+            />
           </div>
           <div class="fl-co mr-l-6 sort-style-inline" v-else>
             <image class="jiantou-style" src="../../static/class/top.png" />
-            <image class="jiantou-style mr-t-2 sort-style-inline" src="../../static/class/top.png" />
+            <image
+              class="jiantou-style mr-t-2 sort-style-inline"
+              src="../../static/class/top.png"
+            />
           </div>
         </div>
       </div>
-      <scroll-view class="right-scroll-shop" :style="[{height:rightScrollHeight+'px'}]" scroll-y>
+      <scroll-view
+        class="right-scroll-shop"
+        :style="[{ height: rightScrollHeight + 'px' }]"
+        scroll-y
+      >
         <div class="scroll-shop-list fl-btw">
           <ClassItem v-for="item in allList" :key="item" :objItem="item" />
         </div>
@@ -124,6 +167,11 @@ export default {
   async onLoad() {
     await this.getTableList();
     await this.getDomHeight();
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   computed: {
     windowHeight() {

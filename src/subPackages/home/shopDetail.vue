@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="goods-title-text mr-t-20">
-        <text class="fz-16 fw-bold">{{detailObj.gtitle}}</text>
+        <text class="fz-16 fw-bold">{{detailObj.gname}}</text>
       </div>
     </div>
     <!-- 买家秀 -->
@@ -101,7 +101,7 @@
       <div class="by-top-goods-style fl-al">
         <image class="mr-l-20 by-top-goods-img" :src="httpImg+detailObj.gimg" />
         <div class="by-top-goods-title">
-          <text class="fz-15">{{detailObj.gtitle}}</text>
+          <text class="fz-15">{{detailObj.gname}}</text>
           <text class="fz-20 fw-bold fc-f1 mr-t-10">¥{{detailObj.bprice}}</text>
         </div>
         <image class="close-by-box" @tap="closeType" src="../../static/shop/close.png" />
@@ -158,7 +158,7 @@ export default {
   },
   onShareAppMessage(res) {
     return {
-      title: this.detailObj.gtitle,
+      title: this.detailObj.gname,
       path: `/subPackages/home/shopDetail?gId=${this.detailObj.gid}`,
     };
   },

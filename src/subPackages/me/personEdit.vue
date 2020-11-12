@@ -84,6 +84,11 @@ export default {
       userImgUrl: userImgUrl,
     };
   },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
+  },
   onLoad() {
     this.userno = uni.getStorageSync("userno");
     this.getUserinfo();
@@ -92,7 +97,7 @@ export default {
   //   this.$api.editUserInfo(this.form);
   // },
   methods: {
-    inputChange(){
+    inputChange() {
       this.$api.editUserInfo(this.form);
     },
     // 获取详情

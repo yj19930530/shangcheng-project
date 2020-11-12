@@ -1,6 +1,6 @@
 <template>
   <div class="pay-msg-container">
-    <div class="pay-msg-success fl-co" v-if="type==='success'">
+    <div class="pay-msg-success fl-co" v-if="type === 'success'">
       <div class="fl-co">
         <image class="pay-success-img" src="../../static/shop/cg.png" />
         <text class="fz-18 mr-t-10">支付成功</text>
@@ -19,7 +19,9 @@
         <image class="pay-success-img" src="../../static/shop/sb.png" />
         <text class="fz-18 mr-t-10">支付失败</text>
         <div class="pai-fail-detai">
-          <text class="fz-14 fc-999">订单支付失败，原因您的余额 不足或请找其他原因</text>
+          <text class="fz-14 fc-999"
+            >订单支付失败，原因您的余额 不足或请找其他原因</text
+          >
         </div>
       </div>
       <div class="fl-bt btn-mar-style2">
@@ -39,6 +41,11 @@ export default {
   },
   onLoad(obj) {
     this.type = obj.type;
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   methods: {
     navGetPath(name) {

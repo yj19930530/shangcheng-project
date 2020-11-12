@@ -3,17 +3,29 @@
     <!-- 关注tab 选项 -->
     <div class="follow-top-label fl-al">
       <div class="follow-label-check fl-co" @tap="labelCheck('left')">
-        <text class="fz-14" :class="[checkType==='left'?'':'fc-999']">收藏</text>
+        <text class="fz-14" :class="[checkType === 'left' ? '' : 'fc-999']"
+          >收藏</text
+        >
         <div
           class="follow-check"
-          :class="[checkType==='left'?'follow-check-color1':'follow-check-color2']"
+          :class="[
+            checkType === 'left'
+              ? 'follow-check-color1'
+              : 'follow-check-color2',
+          ]"
         ></div>
       </div>
       <div class="follow-label-check fl-co" @tap="labelCheck('right')">
-        <text class="fz-14" :class="[checkType==='right'?'':'fc-999']">赞过</text>
+        <text class="fz-14" :class="[checkType === 'right' ? '' : 'fc-999']"
+          >赞过</text
+        >
         <div
           class="follow-check"
-          :class="[checkType==='right'?'follow-check-color1':'follow-check-color2']"
+          :class="[
+            checkType === 'right'
+              ? 'follow-check-color1'
+              : 'follow-check-color2',
+          ]"
         ></div>
       </div>
     </div>
@@ -36,6 +48,11 @@ export default {
   data() {
     return {
       checkType: "left",
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   methods: {

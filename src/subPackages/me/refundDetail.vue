@@ -2,37 +2,51 @@
   <div class="refund-container">
     <div class="zhan-box"></div>
     <div class="refund-top-timer fl-al">
-      <text class="fz-12 fc-fff mr-l-30" v-if="returnData.authState===0">等待商家处理</text>
-      <text class="fz-12 fc-fff mr-l-30" v-if="returnData.authState===1">退款成功</text>
-      <text class="fz-12 fc-fff mr-l-30" v-if="returnData.authState===-1">退款关闭</text>
+      <text class="fz-12 fc-fff mr-l-30" v-if="returnData.authState === 0"
+        >等待商家处理</text
+      >
+      <text class="fz-12 fc-fff mr-l-30" v-if="returnData.authState === 1"
+        >退款成功</text
+      >
+      <text class="fz-12 fc-fff mr-l-30" v-if="returnData.authState === -1"
+        >退款关闭</text
+      >
       <!-- <text class="fz-12 fc-fff mr-t-20 mr-l-30">还剩1天23小时57分</text> -->
     </div>
-    <div class="refund-text-box fl-al" v-if="returnData.authState!==1">
-      <text class="mr-l-20 fz-14" v-if="returnData.authState===0">您已成功发起退款申请，请耐心等待商家处理</text>
-      <text class="mr-l-20 fz-14" v-if="returnData.authState===-1">您已成功发起退款申请由于不符合要求已被驳回</text>
+    <div class="refund-text-box fl-al" v-if="returnData.authState !== 1">
+      <text class="mr-l-20 fz-14" v-if="returnData.authState === 0"
+        >您已成功发起退款申请，请耐心等待商家处理</text
+      >
+      <text class="mr-l-20 fz-14" v-if="returnData.authState === -1"
+        >您已成功发起退款申请由于不符合要求已被驳回</text
+      >
     </div>
-    <div class="refund-goods-row fl-cen" v-for="(item,index) in returnData.orderGoods" :key="index">
-      <image class="refund-left-img" :src="httpImg+item.pic" />
+    <div
+      class="refund-goods-row fl-cen"
+      v-for="(item, index) in returnData.orderGoods"
+      :key="index"
+    >
+      <image class="refund-left-img" :src="httpImg + item.pic" />
       <div class="refund-right-box mr-l-60">
-        <text class="fz-15">{{item.name}}</text>
+        <text class="fz-15">{{ item.name }}</text>
         <div class="fl-bt mr-t-10">
-          <text class="fz-14 fc-999">已选{{item.skuType}}</text>
+          <text class="fz-14 fc-999">已选{{ item.skuType }}</text>
           <text class="fz-14 fc-999">x1</text>
         </div>
-        <text class="mr-t-10 fz-17">总价：￥{{item.amount}}</text>
+        <text class="mr-t-10 fz-17">总价：￥{{ item.amount }}</text>
       </div>
     </div>
     <div class="refund-item-box fl-al">
-      <text class="fz-15 mr-l-30">{{returnData.returnReason}}：</text>
+      <text class="fz-15 mr-l-30">{{ returnData.returnReason }}：</text>
       <text class="fz-17">不想要了</text>
     </div>
     <div class="refund-item-box fl-al">
       <text class="fz-15 mr-l-30">退款金额：</text>
-      <text class="fz-17">￥{{returnData.returnAmount}}</text>
+      <text class="fz-17">￥{{ returnData.returnAmount }}</text>
     </div>
     <div class="refund-item-box fl-al">
       <text class="fz-15 mr-l-30">退款说明：</text>
-      <text class="fz-15">{{returnData.remark}}</text>
+      <text class="fz-15">{{ returnData.remark }}</text>
     </div>
     <div class="upload-pingzheng mr-t-30">
       <text class="fz-15 mr-l-30">上传凭证</text>
@@ -40,18 +54,26 @@
         <div class="ping-img-box">
           <image
             mode="aspectFill"
-            v-for="(img,inx) in returnData.returnImg"
+            v-for="(img, inx) in returnData.returnImg"
             :key="inx"
             class="ping-img-item mr-r-20"
-            :src="httpDetailImg+img"
+            :src="httpDetailImg + img"
           />
         </div>
       </div>
     </div>
-    <div class="submit-btn-box fl-cen" @tap="closeRetrun" v-if="returnData.authState===0">
+    <div
+      class="submit-btn-box fl-cen"
+      @tap="closeRetrun"
+      v-if="returnData.authState === 0"
+    >
       <text class="fz-20 fc-fff fw-bold">撤销申请</text>
     </div>
-    <div class="submit-btn-box fl-cen" @tap="submitBtnHandle" v-if="returnData.authState===-1">
+    <div
+      class="submit-btn-box fl-cen"
+      @tap="submitBtnHandle"
+      v-if="returnData.authState === -1"
+    >
       <text class="fz-20 fc-fff fw-bold">重新申请</text>
     </div>
   </div>
@@ -70,6 +92,11 @@ export default {
       returnData: {},
       httpImg: httpImg,
       httpDetailImg: httpDetailImg,
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onLoad(obj) {

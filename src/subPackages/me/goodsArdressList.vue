@@ -1,7 +1,7 @@
 <template>
   <div class="address-container">
     <div class="swipe-action-width">
-      <div class="fl-fo" v-for="(item,index) in addressList" :key="index">
+      <div class="fl-fo" v-for="(item, index) in addressList" :key="index">
         <div class="heng-box-style"></div>
         <uni-swipe-action>
           <uni-swipe-action-item
@@ -12,19 +12,20 @@
               <div class="fl-bt address-top-box" @tap="editAddressType(item)">
                 <image class="address-icon" src="../../static/shop/dizhi.png" />
                 <div class="fl-fc">
-                  <div
-                    class="fz-15 fw-bold address-title text-lang-dian"
-                  >{{item.provinceName}}{{item.cityName}}{{item.countyName}}{{item.detailInfo}}</div>
+                  <div class="fz-15 fw-bold address-title text-lang-dian">
+                    {{ item.provinceName }}{{ item.cityName
+                    }}{{ item.countyName }}{{ item.detailInfo }}
+                  </div>
                   <div class="fl-al mr-t-10">
-                    <text class="fz-15">{{item.userName}}</text>
-                    <text class="fz-15 mr-l-50">{{item.telNumber}}</text>
+                    <text class="fz-15">{{ item.userName }}</text>
+                    <text class="fz-15 mr-l-50">{{ item.telNumber }}</text>
                   </div>
                 </div>
                 <text
                   class="iconfont iconziyuan fz-17 fc-999 mr-r-20"
                   @tap.native.stop="editAddress2(item.id)"
                 ></text>
-                <div class="default-icon fl-cen" v-if="item.isdefault===1">
+                <div class="default-icon fl-cen" v-if="item.isdefault === 1">
                   <text class="fz-11 fc-fff">默认</text>
                 </div>
               </div>
@@ -57,6 +58,11 @@ export default {
           },
         },
       ],
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onShow() {

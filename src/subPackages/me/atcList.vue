@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="atc-container">
-      <Atc v-for="(item,index) in atcList" :numIndex="index" :key="index" :objDetail="item" />
+      <Atc
+        v-for="(item, index) in atcList"
+        :numIndex="index"
+        :key="index"
+        :objDetail="item"
+      />
     </div>
     <div class="fl-cen mr-t-30 mr-b-30">
       <text class="fz-12 fc-999">没有更多了</text>
@@ -23,6 +28,11 @@ export default {
   onLoad(obj) {
     this.brand = obj.brand;
     this.aboutAtc();
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   // 下拉刷新
   async onPullDownRefresh() {

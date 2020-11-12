@@ -28,8 +28,9 @@
         <div class="input-width-style mr-r-30 fl-bt">
           <view
             class="uni-input fz-15"
-            :class="[addressVal==='省市区县、乡等'?'fc-999':'fc-333']"
-          >{{addressVal}}</view>
+            :class="[addressVal === '省市区县、乡等' ? 'fc-999' : 'fc-333']"
+            >{{ addressVal }}</view
+          >
           <image class="dizhi-icon" src="../../static/me/dizhi.png" />
         </div>
       </div>
@@ -45,7 +46,11 @@
       />
     </div>
     <div class="address-input-row fl-al mr-t-20" @tap="checkHandle">
-      <image class="check-icon" v-if="form.isdefault===1" src="../../static/shop/yse.png" />
+      <image
+        class="check-icon"
+        v-if="form.isdefault === 1"
+        src="../../static/shop/yse.png"
+      />
       <image class="check-icon" v-else src="../../static/shop/no.png" />
       <text class="fz-15">设置为默认地址</text>
     </div>
@@ -91,6 +96,11 @@ export default {
         },
       ],
       editType: false,
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onLoad(data) {

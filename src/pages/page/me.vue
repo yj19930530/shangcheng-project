@@ -6,11 +6,22 @@
       <div class="me-detail-center">
         <div class="fl-bt de-center-box" @tap="NavPathTo('edit')">
           <div class="fl-al">
-            <div v-if="noLoginType" class="me-top-header" style="margin-left:34rpx">
+            <div
+              v-if="noLoginType"
+              class="me-top-header"
+              style="margin-left: 34rpx"
+            >
               <open-data class="me-top-header" type="userAvatarUrl"></open-data>
             </div>
-            <image class="me-detail-header" mode="aspectFill" v-if="!noLoginType" :src="userImgUrl+form.avatarUrl" />
-            <text class="fz-15 fc-fff mr-l-30" v-if="!noLoginType">{{form.nickName}}</text>
+            <image
+              class="me-detail-header"
+              mode="aspectFill"
+              v-if="!noLoginType"
+              :src="userImgUrl + form.avatarUrl"
+            />
+            <text class="fz-15 fc-fff mr-l-30" v-if="!noLoginType">{{
+              form.nickName
+            }}</text>
             <text class="fz-15 fc-fff mr-l-30" v-if="noLoginType">未登录</text>
             <text class="iconfont iconziyuan fz-17 fc-fff mr-l-20"></text>
           </div>
@@ -94,7 +105,7 @@ export default {
       userId: 0,
       userno: "",
       noLoginType: false,
-      userImgUrl:userImgUrl
+      userImgUrl: userImgUrl,
     };
   },
   onLoad() {
@@ -104,6 +115,11 @@ export default {
     } else {
       this.noLoginType = true;
     }
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   onShow() {
     this.getUserinfo();

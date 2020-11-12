@@ -5,7 +5,7 @@
       <div class="fl-bt">
         <div class="user-img-box fl-al">
           <image class="detail-user-img" :src="form.avatarUrl" />
-          <text class="mr-l-30 fz-15">{{form.nickName}}</text>
+          <text class="mr-l-30 fz-15">{{ form.nickName }}</text>
         </div>
         <div class="fl-cen follow-btn">
           <text class="fz-12">已关注</text>
@@ -13,15 +13,15 @@
       </div>
       <div class="mr-t-50 fl-bt">
         <div class="fl-co detail-has-opt">
-          <text class="fz-17 fw-bold">{{follow}}</text>
+          <text class="fz-17 fw-bold">{{ follow }}</text>
           <text class="fz-13 fc-999">关注</text>
         </div>
         <div class="fl-co detail-has-opt">
-          <text class="fz-17 fw-bold">{{fans}}</text>
+          <text class="fz-17 fw-bold">{{ fans }}</text>
           <text class="fz-13 fc-999">粉丝</text>
         </div>
         <div class="fl-co detail-has-opt">
-          <text class="fz-17 fw-bold">{{collection}}</text>
+          <text class="fz-17 fw-bold">{{ collection }}</text>
           <text class="fz-13 fc-999">收藏</text>
         </div>
       </div>
@@ -29,24 +29,42 @@
     <!-- tab 切換 -->
     <div class="fl-cen mr-t-30 mr-b-10">
       <div class="fl-co" @tap="checkFunc('left')">
-        <text class="fz-14" :class="[checkType==='left'?'fc-333':'fc-999']">动态</text>
+        <text
+          class="fz-14"
+          :class="[checkType === 'left' ? 'fc-333' : 'fc-999']"
+          >动态</text
+        >
         <div
           class="heng-style"
-          :class="[checkType==='left'?'heng-style-color1':'heng-style-color2']"
+          :class="[
+            checkType === 'left' ? 'heng-style-color1' : 'heng-style-color2',
+          ]"
         ></div>
       </div>
       <div class="fl-co mr-left-132" @tap="checkFunc('center')">
-        <text class="fz-14" :class="[checkType==='center'?'fc-333':'fc-999']">收藏</text>
+        <text
+          class="fz-14"
+          :class="[checkType === 'center' ? 'fc-333' : 'fc-999']"
+          >收藏</text
+        >
         <div
           class="heng-style"
-          :class="[checkType==='center'?'heng-style-color1':'heng-style-color2']"
+          :class="[
+            checkType === 'center' ? 'heng-style-color1' : 'heng-style-color2',
+          ]"
         ></div>
       </div>
       <div class="fl-co mr-left-132" @tap="checkFunc('right')">
-        <text class="fz-14" :class="[checkType==='right'?'fc-333':'fc-999']">赞过</text>
+        <text
+          class="fz-14"
+          :class="[checkType === 'right' ? 'fc-333' : 'fc-999']"
+          >赞过</text
+        >
         <div
           class="heng-style"
-          :class="[checkType==='right'?'heng-style-color1':'heng-style-color2']"
+          :class="[
+            checkType === 'right' ? 'heng-style-color1' : 'heng-style-color2',
+          ]"
         ></div>
       </div>
     </div>
@@ -81,6 +99,11 @@ export default {
         avatarUrl: "",
         nickName: "",
       },
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onLoad(obj) {

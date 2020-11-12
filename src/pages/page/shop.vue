@@ -48,7 +48,9 @@
               class="row-right-content"
               @tap.native.stop="navPathToGoods(item.gid)"
             >
-              <div class="fz-15 text-width-row text-lang-dian2">{{ item.good.gtitle }}</div>
+              <div class="fz-15 text-width-row text-lang-dian2">
+                {{ item.good.gtitle }}
+              </div>
               <text class="fz-14 fc-999 mr-t-20"
                 >已选 {{ item.good.gspec }}</text
               >
@@ -133,6 +135,11 @@ export default {
     windowHeight() {
       return getApp().globalData.windowHeight;
     },
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   onLoad() {
     this.userno = uni.getStorageSync("userno");
@@ -359,7 +366,7 @@ page {
   height: 98rpx;
   background-color: #999;
 }
-.visibily-show{
+.visibily-show {
   visibility: hidden;
 }
 </style>

@@ -1,11 +1,15 @@
 <template>
   <div id="messageNotice-container">
-    <div class="messageNotice-item-content mr-b-20" v-for="(item,index) in msgList" :key="index">
+    <div
+      class="messageNotice-item-content mr-b-20"
+      v-for="(item, index) in msgList"
+      :key="index"
+    >
       <div class="fl-bt">
-        <text class="fz-15">{{item.showInfo?'-':'通知标题'}}</text>
-        <text class="fz-12 fc-999">{{timerReturn(item.createTime)}}</text>
+        <text class="fz-15">{{ item.showInfo ? "-" : "通知标题" }}</text>
+        <text class="fz-12 fc-999">{{ timerReturn(item.createTime) }}</text>
       </div>
-      <text class="fz-12 fc-999 mr-t-6">{{item.showInfo}}</text>
+      <text class="fz-12 fc-999 mr-t-6">{{ item.showInfo }}</text>
     </div>
   </div>
 </template>
@@ -20,6 +24,11 @@ export default {
       total: 0,
       more: false,
       msgList: [],
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onLoad() {

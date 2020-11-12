@@ -9,6 +9,8 @@ const getUserInfo = (data) => postRequest('/smallprogramMain/handleGetUserInfo',
 const getAllUserInfo = (data) => postRequest('/sa/index/getAllUserInfo', data, 'no', 'no');
 // 修改用户
 const editUserInfo = (data) => postRequest('/smallprogramMain/handleUpdateSmallUser', data);
+// 请求添加用户
+const handleInsertUserInfoNew = (data) => postRequest('/smallprogramMain/handleInsertUserInfoNew', data);
 // 获取订单
 const getOrderList = (data) => postRequest('/smallprogramMain/handleGetOrderData', data);
 // 获取文章详情
@@ -50,5 +52,6 @@ module.exports = {
     findReturnApplyPage,
     findNotifyRemindPage,
     cancelReturnApply,
-    readAll
+    readAll,
+	handleInsertUserInfoNew
 }

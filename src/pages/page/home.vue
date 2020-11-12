@@ -1,24 +1,33 @@
 <template>
   <!--pages/range/range.wxml-->
-  <view :style="[{marginTop:navHeight+'px'}]">
+  <view :style="[{ marginTop: navHeight + 'px' }]">
     <!-- 头部导航 -->
     <Nav class="nav-position" />
     <!-- 搜索 -->
     <view class="top-search-opt">
       <view class="fl-bt">
-        <image class="left-img-btn mr-l-20" @tap="toHufuPath" src="../../static/home/liwu.png" />
+        <image
+          class="left-img-btn mr-l-20"
+          @tap="toHufuPath"
+          src="../../static/home/liwu.png"
+        />
         <view class="fl-al search-content" @tap="navToPathSearch">
           <image class="search-style mr-l-30" src="../../static/home/ss.png" />
           <text class="fz-12 fc-89 mr-l-10">请输入商品名称</text>
         </view>
         <div class="message-content fl-al">
-          <view class="message-number fl-cen fz-10" v-if="msgNumber>0">{{msgNumber}}</view>
-          <image class="right-message-btn mr-r-20" src="../../static/home/xinxi.png" />
+          <view class="message-number fl-cen fz-10" v-if="msgNumber > 0">{{
+            msgNumber
+          }}</view>
+          <image
+            class="right-message-btn mr-r-20"
+            src="../../static/home/xinxi.png"
+          />
         </div>
       </view>
     </view>
     <!-- 轮播图 -->
-    <div style="margin-top:-100rpx;padding-bottom:20rpx">
+    <div style="margin-top: -100rpx; padding-bottom: 20rpx">
       <swiper
         class="swiper swiper-container"
         :indicator-dots="indicatorDots"
@@ -26,12 +35,15 @@
         :interval="interval"
         :duration="duration"
       >
-        <swiper-item v-for="(item,index) in homePageData[2].emsModalGoodVo" :key="index">
+        <swiper-item
+          v-for="(item, index) in homePageData[2].emsModalGoodVo"
+          :key="index"
+        >
           <image
             mode="aspectFill"
             @tap="navToDetail(item)"
             class="swiper-item-img"
-            :src="httpImg+item.gimg"
+            :src="httpImg + item.gimg"
           />
         </swiper-item>
       </swiper>
@@ -39,7 +51,9 @@
       <div class="best-container">
         <div class="fl-co best-title-box">
           <text class="fz-14">BEST SELLERS</text>
-          <text class="fz-9 mr-t-10">Endless Exploration Long-lasting Beauty</text>
+          <text class="fz-9 mr-t-10"
+            >Endless Exploration Long-lasting Beauty</text
+          >
         </div>
         <div class="shops-list-content fl-btw">
           <image
@@ -47,7 +61,7 @@
             v-for="item in homePageData[1].emsModalGoodVo"
             :key="item.id"
             class="shops-item-img"
-            :src="httpImg+item.gimg"
+            :src="httpImg + item.gimg"
           />
         </div>
         <!-- 新品上线 -->
@@ -62,7 +76,7 @@
             v-for="item in homePageData[0].emsModalGoodVo"
             :key="item.id"
             class="new-shop-img"
-            :src="httpImg+item.gimg"
+            :src="httpImg + item.gimg"
           />
         </div>
       </div>
@@ -84,16 +98,11 @@ export default {
       httpImg: httpImg,
     };
   },
-  // onShareAppMessage(res) {
-  //   if (res.from === "button") {
-  //     // 来自页面内分享按钮
-  //     console.log(res.target);
-  //   }
-  //   return {
-  //     title: "自定义分享标题",
-  //     path: "/pages/page/home",
-  //   };
-  // },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
+  },
   onLoad() {
     this.userno = uni.getStorageSync("userno");
     this.getHomePageData();

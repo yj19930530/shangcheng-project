@@ -8,11 +8,14 @@
     >
       用户授权获取信息
     </button>
-    <view class="fl-cen mr-t-20">
+<!--    <view class="fl-cen mr-t-20">
       <view class="yuandian"></view>
       <text class="fc-43 fz-12 mr-l-20 mr-r-20">授权登录</text>
       <view class="yuandian"></view>
-    </view>
+    </view> -->
+    <div class="mr-t-16 login-btn2 fz-14 fl-cen fw-bold" @tap="noLogin">
+      暂不登录
+    </div>
   </view>
 </template>
 <script>
@@ -27,6 +30,11 @@ export default {
     this.sessionKey = uni.getStorageSync("sessionKey");
   },
   methods: {
+    noLogin() {
+      uni.switchTab({
+        url: "/pages/page/home",
+      });
+    },
     // 用户授权登录
     getPhoneNumber(e) {
       const _this = this;
@@ -40,11 +48,11 @@ export default {
               type: 1,
             })
             .then(async (res) => {
-              uni.setStorageSync("opId", res.data.openid);
+              uni.setStorageSync("opId", res.data.openId);
               _this.$api
-                .addUserInfo({
+                .handleInsertUserInfoNew({
                   iv: e.detail.iv,
-                  sessionKey: res.data.sessionKey,
+                  openid: res.data.openId,
                   data: e.detail.encryptedData,
                 })
                 .then((res) => {
@@ -122,6 +130,13 @@ export default {
   height: 50rpx;
   background: linear-gradient(to right, #333333, #666666);
   border-radius: 25rpx 25rpx;
+}
+.login-btn2 {
+  width: 292rpx;
+  height: 50rpx;
+  background-color: #fff;
+  color: #666666;
+  letter-spacing: 2rpx;
 }
 .login-img {
   width: 414rpx;

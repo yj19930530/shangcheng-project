@@ -10,7 +10,9 @@
         @confirm="searchHandle"
         placeholder="输入搜索内容"
       />
-      <text class="fz-12 fc-999 mr-l-20" v-if="inputVal!==''" @tap="clearVal">清除</text>
+      <text class="fz-12 fc-999 mr-l-20" v-if="inputVal !== ''" @tap="clearVal"
+        >清除</text
+      >
     </div>
     <!-- 历史搜索列表 -->
     <div class="history-box" v-if="!goodsList.length">
@@ -24,18 +26,22 @@
       <div class="fl-btc mr-t-30">
         <div
           class="search-result fl-cen mr-r-20 mr-b-20"
-          v-for="(item,index) in searchList"
+          v-for="(item, index) in searchList"
           :key="index"
           @tap="hisValSearch(item)"
         >
-          <text class="fz-14 fc-999">{{item}}</text>
+          <text class="fz-14 fc-999">{{ item }}</text>
         </div>
       </div>
     </div>
     <!-- 搜索列表 -->
     <div class="goods-list" v-else>
       <div class="goods-center-box fl-btw">
-        <ClassItem v-for="(item,index) in goodsList" :key="index" :objItem="item" />
+        <ClassItem
+          v-for="(item, index) in goodsList"
+          :key="index"
+          :objItem="item"
+        />
       </div>
     </div>
   </div>
@@ -48,6 +54,11 @@ export default {
       inputVal: "",
       searchList: [],
       goodsList: [],
+    };
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
     };
   },
   onLoad() {

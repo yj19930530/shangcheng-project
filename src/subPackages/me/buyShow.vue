@@ -1,9 +1,9 @@
 <template>
   <div class="buy-contianer">
-    <div style="height:30rpx"></div>
+    <div style="height: 30rpx"></div>
     <div class="buy-row-show">
       <div class="buy-row-show-center">
-        <Buy v-for="(item,index) in showList" :key="index" :showObj="item" />
+        <Buy v-for="(item, index) in showList" :key="index" :showObj="item" />
       </div>
     </div>
     <div class="fl-cen mr-b-30" v-if="!more">
@@ -27,6 +27,11 @@ export default {
   onLoad(obj) {
     this.gid = obj.id;
     this.getCommentPage();
+  },
+  onShareAppMessage() {
+    return {
+      path: `/pages/page/home`,
+    };
   },
   // 下拉刷新
   async onPullDownRefresh() {
