@@ -8,8 +8,12 @@
         :autoplay="autoplay"
         :duration="duration"
       >
-        <swiper-item v-for="(item,index) in swiperImg" :key="index">
-          <image class="swiper-row-img" @tap="prewImgFunc(index,swiperImg)" :src="item" />
+        <swiper-item v-for="(item, index) in swiperImg" :key="index">
+          <image
+            class="swiper-row-img"
+            @tap="prewImgFunc(index, swiperImg)"
+            :src="item"
+          />
         </swiper-item>
       </swiper>
     </div>
@@ -18,8 +22,10 @@
       <div class="fl-bt">
         <div class="fl-al">
           <text class="fz-15 fc-f1">¥</text>
-          <text class="fz-20 fc-f1 fw-bold">{{detailObj.bprice}}</text>
-          <text v-if="detailObj.price4" class="fz-15 fc-999 td-text mr-l-20">¥{{detailObj.price4}}</text>
+          <text class="fz-20 fc-f1 fw-bold">{{ detailObj.bprice }}</text>
+          <text v-if="detailObj.price4" class="fz-15 fc-999 td-text mr-l-20"
+            >¥{{ detailObj.price4 }}</text
+          >
         </div>
         <div class="share-box">
           <text class="iconfont iconfenxiang fz-18 fc-333"></text>
@@ -27,7 +33,7 @@
         </div>
       </div>
       <div class="goods-title-text mr-t-20">
-        <text class="fz-16 fw-bold">{{detailObj.gname}}</text>
+        <text class="fz-16 fw-bold">{{ detailObj.gname }}</text>
       </div>
     </div>
     <!-- 买家秀 -->
@@ -39,7 +45,7 @@
           <text class="iconfont iconyoujiantou fz-12 fc-999"></text>
         </div>
       </div>
-      <Buy v-for="(item,index) in showList" :key="index" :showObj="item" />
+      <Buy v-for="(item, index) in showList" :key="index" :showObj="item" />
     </div>
     <!-- 相关文章 -->
     <!-- <div class="about-arc-content" v-if="atcList.length">
@@ -65,15 +71,18 @@
         <image
           class="goods-details-img-show"
           mode="widthFix"
-          v-for="(item,index) in goodsImgs"
+          v-for="(item, index) in goodsImgs"
           :key="index"
           :src="item"
-          @tap="prewImgFunc(index,goodsImgs)"
+          @tap="prewImgFunc(index, goodsImgs)"
         />
       </div>
     </div>
     <!-- 底部操作栏 -->
-    <div class="bottom-click-box fl-bt">
+    <div
+      class="bottom-click-box fl-bt"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+    >
       <div class="fl-co mr-l-20" @tap="navPathTo('home')">
         <image class="home-icon" src="../../static/tabar/home2.png" />
         <text class="mr-t-4 fz-11">首页</text>
@@ -82,12 +91,12 @@
         <image class="car-icon" src="../../static/tabar/shop2.png" />
         <text class="mr-t-4 fz-11">购物袋</text>
       </div>
-      <view open-type="contact" class="fl-co" style="position: relative;">
+      <view open-type="contact" class="fl-co" style="position: relative">
         <image class="ck-icon" src="../../static/me/kefu.png" />
         <text class="mr-t-4 fz-11">客服</text>
         <button class="contact-btn" open-type="contact">a</button>
       </view>
-      <div class="fl-al">
+      <div class="fl-al" v-if="uid || detailObj.canBuyState === 1">
         <div class="add-car-style fl-cen" @tap="navPathTo('dai')">
           <text class="fc-fff fz-14">加入购物袋</text>
         </div>
@@ -95,46 +104,82 @@
           <text class="fc-fff fz-14">立即购买</text>
         </div>
       </div>
+      <div style="position: relative" v-else>
+        <div class="guwen-btn fl-cen">
+          <span class="fz-14 fc-fff">需通过顾问指导购买</span>
+        </div>
+        <button class="contact-btn2" open-type="contact">a</button>
+      </div>
     </div>
     <div class="zhezhao-bg" v-if="buyType" @tap="closeType"></div>
-    <div class="by-box-handle" v-if="buyType" :style="[{bottom:buyType?'0':'-864rpx'}]">
+    <div
+      class="by-box-handle"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+      v-if="buyType"
+      :style="[{ bottom: buyType ? '0' : '-864rpx' }]"
+    >
       <div class="by-top-goods-style fl-al">
-        <image class="mr-l-20 by-top-goods-img" :src="httpImg+detailObj.gimg" />
+        <image
+          class="mr-l-20 by-top-goods-img"
+          :src="httpImg + detailObj.gimg"
+        />
         <div class="by-top-goods-title">
-          <text class="fz-15">{{detailObj.gname}}</text>
-          <text class="fz-20 fw-bold fc-f1 mr-t-10">¥{{detailObj.bprice}}</text>
+          <text class="fz-15">{{ detailObj.gname }}</text>
+          <text class="fz-20 fw-bold fc-f1 mr-t-10"
+            >¥{{ detailObj.bprice }}</text
+          >
         </div>
-        <image class="close-by-box" @tap="closeType" src="../../static/shop/close.png" />
+        <image
+          class="close-by-box"
+          @tap="closeType"
+          src="../../static/shop/close.png"
+        />
       </div>
       <div class="mr-t-30 box-botoom-border">
         <text class="fz-15 mr-l-20">颜色规格</text>
         <div class="mr-t-20 grid-list-box">
           <div
             class="grid-list-style fl-cen"
-            :class="[goodsCheckType?'box-bg-f1':'box-bg-border']"
+            :class="[goodsCheckType ? 'box-bg-f1' : 'box-bg-border']"
             @tap="checkTypeFunc"
           >
-            <text class="fz-14" :class="[goodsCheckType?'fc-fff':'']">{{detailObj.gspec}}</text>
+            <text class="fz-14" :class="[goodsCheckType ? 'fc-fff' : '']">{{
+              detailObj.gspec
+            }}</text>
           </div>
         </div>
       </div>
       <div class="fl-bt mr-t-20">
         <text class="fz-15 mr-l-20">购买数量</text>
         <div class="count-box fl-bt mr-r-20">
-          <div class="count-row fl-cen fz-14 fc-999" @tap.native.stop="declineHandle()">-</div>
-          <div class="count-row2 fl-cen fz-14 fc-999">{{goodsCount}}</div>
-          <div class="count-row fl-cen fz-14 fc-999" @tap.native.stop="inclineHandle()">+</div>
+          <div
+            class="count-row fl-cen fz-14 fc-999"
+            @tap.native.stop="declineHandle()"
+          >
+            -
+          </div>
+          <div class="count-row2 fl-cen fz-14 fc-999">{{ goodsCount }}</div>
+          <div
+            class="count-row fl-cen fz-14 fc-999"
+            @tap.native.stop="inclineHandle()"
+          >
+            +
+          </div>
         </div>
       </div>
-      <div class="fl-cen box-bg-f1 buy-comfirm-btn" @tap="buyHandleClick">
-        <text class="fz-20 fc-fff fw-bold">{{btnName}}</text>
+      <div
+        class="fl-cen box-bg-f1 buy-comfirm-btn"
+        @tap="buyHandleClick"
+        :class="[iPhoneType === -1 ? '' : 'dianzi-style2']"
+      >
+        <text class="fz-20 fc-fff fw-bold">{{ btnName }}</text>
       </div>
     </div>
   </div>
 </template>
 <script>
 import { httpDetailImg, httpImg } from "../../config/develop";
-import { toast } from "../../utils/index";
+import { toast, common } from "../../utils/index";
 export default {
   data() {
     return {
@@ -145,7 +190,9 @@ export default {
       goodsId: "",
       httpImg: httpImg, // 图片路径
       httpDetailImg: httpDetailImg, // 图片路径
-      detailObj: {}, // 商品详情
+      detailObj: {
+        canBuyState: 1,
+      }, // 商品详情
       swiperImg: [], // 轮播图列表
       goodsImgs: [], // 商品详情图列表
       goodsCount: 1, // 商品数量
@@ -154,6 +201,21 @@ export default {
       atcList: [], // 文章列表
       showList: [], // 买家秀列表
       userno: "",
+      uid: "",
+      iphoneList: [
+        "iPhone X",
+        "iPhone XR",
+        "iPhone XS",
+        "iPhone XS Max",
+        "iPhone 11",
+        "iPhone 11Pro",
+        "iPhone 11Pro max",
+        "iPhone 12",
+        "iPhone 12Pro",
+        "iPhone 12Pro max",
+        "unknown<iPhone13,2>",
+      ],
+      iPhoneType: -1,
     };
   },
   onShareAppMessage(res) {
@@ -162,17 +224,27 @@ export default {
       path: `/subPackages/home/shopDetail?gId=${this.detailObj.gid}`,
     };
   },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
+  },
   onLoad(data) {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
     this.userno = uni.getStorageSync("userno");
+    this.uid = uni.getStorageSync("uid");
     this.goodsId = data.gId;
     this.getDetail();
   },
   methods: {
     // 获取详情
     async getDetail() {
+      toast.showLoading("加载中");
       const { data } = await this.$api.getGoodsDetail({
         gId: this.goodsId,
       });
+      uni.hideLoading();
       // this.aboutAtc(data.gbrand);
       this.detailObj = data;
       this.getCommentPage(this.detailObj);
@@ -369,16 +441,16 @@ page {
   margin-bottom: 2rpx;
 }
 .home-icon {
-  width: 39rpx;
-  height: 39rpx;
+  width: 44rpx;
+  height: 44rpx;
 }
 .car-icon {
-  width: 40rpx;
-  height: 39rpx;
+  width: 44rpx;
+  height: 44rpx;
 }
 .ck-icon {
-  width: 39rpx;
-  height: 39rpx;
+  width: 46rpx;
+  height: 44rpx;
 }
 
 .bottom-click-box {
@@ -397,6 +469,11 @@ page {
 }
 .buy-style {
   width: 220rpx;
+  height: 98rpx;
+  background-color: #f11b20;
+}
+.guwen-btn {
+  width: 440rpx;
   height: 98rpx;
   background-color: #f11b20;
 }
@@ -510,5 +587,11 @@ page {
   left: 0;
   width: 100%;
   height: 106rpx;
+}
+.dianzi-style {
+  padding-bottom: 48rpx;
+}
+.dianzi-style2 {
+  margin-bottom: 48rpx;
 }
 </style>

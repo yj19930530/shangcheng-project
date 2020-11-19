@@ -158,6 +158,7 @@
     <!-- 底部按钮 -->
     <div
       class="pay-bottom-box"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
       v-if="
         orderData.state === 2 ||
         orderData.state === 5 ||
@@ -221,6 +222,8 @@ export default {
     };
   },
   onLoad(obj) {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
     uni.setNavigationBarColor({
       frontColor: "#ffffff",
       backgroundColor: "#333333",
@@ -234,6 +237,11 @@ export default {
     return {
       path: `/pages/page/home`,
     };
+  },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
   },
   methods: {
     // 获取详情
@@ -488,5 +496,8 @@ page {
 .order-create-time {
   width: 100%;
   height: 104rpx;
+}
+.dianzi-style {
+  padding-bottom: 48rpx;
 }
 </style>

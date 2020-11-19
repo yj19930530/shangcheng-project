@@ -64,6 +64,7 @@
     </div>
     <div
       class="submit-btn-box fl-cen"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
       @tap="closeRetrun"
       v-if="returnData.authState === 0"
     >
@@ -71,6 +72,7 @@
     </div>
     <div
       class="submit-btn-box fl-cen"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
       @tap="submitBtnHandle"
       v-if="returnData.authState === -1"
     >
@@ -79,7 +81,7 @@
   </div>
 </template>
 <script>
-const { toast } = require("../../utils/index");
+const { toast, common } = require("../../utils/index");
 const { httpImg, httpDetailImg } = require("../../config/develop");
 export default {
   data() {
@@ -92,6 +94,7 @@ export default {
       returnData: {},
       httpImg: httpImg,
       httpDetailImg: httpDetailImg,
+      iPhoneType: -1,
     };
   },
   onShareAppMessage() {
@@ -100,8 +103,15 @@ export default {
     };
   },
   onLoad(obj) {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
     this.frontReturnNo = obj.id;
     this.getReturnData();
+  },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
   },
   methods: {
     // 获取退款详情
@@ -221,5 +231,8 @@ page {
   width: 100%;
   height: 80rpx;
   background-color: #f8f8f8;
+}
+.dianzi-style {
+  margin-bottom: 48rpx;
 }
 </style>

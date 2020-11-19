@@ -77,7 +77,7 @@
       </div>
     </div>
     <!-- 提交 -->
-    <div class="fl-bt bottom-btn-box">
+    <div class="fl-bt bottom-btn-box" :class="[iPhoneType === -1 ? '' : 'dianzi-style']">
       <div class="fl-al mr-l-30">
         <text class="fz-15">合计</text>
         <text class="fz-17 fc-f1 fw-bold mr-l-10">¥{{ totalPrice }}</text>
@@ -90,7 +90,7 @@
 </template>
 <script>
 const { httpImg } = require("../../config/develop");
-const { toast } = require("../../utils/index");
+const { toast, common } = require("../../utils/index");
 export default {
   data() {
     return {
@@ -100,32 +100,71 @@ export default {
       totalPrice: 0, // 总价
       totalNumber: 0, // 总数
       addressListData: [], // 收货地址
+      cpCode: "",
+      iPhoneType: -1,
     };
   },
-  onLoad(data) {
-    let objData = JSON.parse(data.obj);
-    if (objData.type === "car") {
-      this.shopList = objData.data;
+  async onLoad(data) {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
+    this.userno = uni.getStorageSync("userno");
+    if (!this.userno) {
+      uni.reLaunch({
+        url: `/pages/page/login?shopId=${data.shopId}&url=subPackages/shop/orderComfim`,
+      });
+      return;
+    }
+    if (data.shopId) {
+      const getObj = await this.$api.findShareCartList({
+        shareNo: data.shopId,
+      });
+      this.shopList = getObj.data;
     } else {
-      const buyData = objData.data;
-      this.shopList = [
-        {
-          cartQty: objData.count,
-          good: buyData,
-          spec: buyData.gspec,
-          gid: buyData.gid,
-        },
-      ];
+      let objData = JSON.parse(data.obj);
+      if (objData.type === "car") {
+        this.shopList = objData.data;
+      } else {
+        const buyData = objData.data;
+        this.shopList = [
+          {
+            cartQty: objData.count,
+            good: buyData,
+            spec: buyData.gspec,
+            gid: buyData.gid,
+          },
+        ];
+      }
     }
     this.priceCompute();
+    // let smallCartIds = [];
+    // this.shopList.forEach((item) => {
+    //   smallCartIds.push(item.id);
+    // });
+    // if (this.userno) {
+    //   this.$api
+    //     .shareCartHandle({
+    //       userno: this.userno,
+    //       smallCartIds: smallCartIds,
+    //     })
+    //     .then((res) => {
+    //       if (res.state === 200) {
+    //         this.cpCode = res.data;
+    //       }
+    //     });
+    // }
   },
-  onShareAppMessage() {
-    return {
-      path: `/pages/page/home`,
-    };
-  },
+  // onShareAppMessage() {
+  //   return {
+  //     path: `subPackages/shop/orderComfim?shopId=${this.cpCode}`,
+  //   };
+  // },
   onShow() {
     this.addressList();
+  },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
   },
   methods: {
     // 获取收货地址
@@ -159,6 +198,11 @@ export default {
         return toast.showToast("请添加收货地址");
       let goodsArr = [];
       this.shopList.forEach((item) => {
+        if (item.uid) {
+          this.recommendId = item.uid;
+        } else {
+          this.recommendId = "";
+        }
         goodsArr.push({
           gId: item.gid,
           cId: item.id ? item.id : "",
@@ -166,6 +210,11 @@ export default {
           gSpec: item.spec,
         });
       });
+      if (this.recommendId !== "") {
+        goodsArr.forEach((item) => {
+          delete item.cId;
+        });
+      }
       toast.showLoading("提交中");
       this.$api
         .addOrder({
@@ -176,6 +225,7 @@ export default {
           payPrice: this.totalPrice,
           listOrderGoodInfo: JSON.stringify(goodsArr),
           addressId: this.addressListData[0].id,
+          recommendId: this.recommendId,
         })
         .then((res) => {
           uni.hideLoading();
@@ -278,5 +328,8 @@ page {
 }
 .input-width-style {
   width: 80%;
+}
+.dianzi-style {
+  padding-bottom: 48rpx;
 }
 </style>

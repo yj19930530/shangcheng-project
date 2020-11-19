@@ -36,20 +36,29 @@
       </div>
     </div>
 
-    <div v-if="!addressList.length" class="fl-cen">
+    <div
+      v-if="!addressList.length"
+      class="fl-cen"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+    >
       <text class="fz-15 fc-999 mr-t-30">没有地址</text>
     </div>
-    <div class="add-address-btn fl-cen" @tap="editAddress">
+    <div
+      class="add-address-btn fl-cen"
+      @tap="editAddress"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+    >
       <text class="fz-20 fc-fff fw-bold">新增地址</text>
     </div>
   </div>
 </template>
 <script>
-const { toast } = require("../../utils/index");
+const { toast, common } = require("../../utils/index");
 export default {
   data() {
     return {
       addressList: [],
+      iPhoneType: -1,
       goodsOption: [
         {
           text: "删除",
@@ -65,7 +74,14 @@ export default {
       path: `/pages/page/home`,
     };
   },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
+  },
   onShow() {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
     this.getAddressData();
   },
   methods: {
@@ -168,5 +184,8 @@ page {
   width: 100%;
   height: 20rpx;
   background-color: #f8f8f8;
+}
+.dianzi-style {
+  margin-bottom: 48rpx;
 }
 </style>

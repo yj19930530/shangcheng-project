@@ -8,7 +8,7 @@
     >
       用户授权获取信息
     </button>
-<!--    <view class="fl-cen mr-t-20">
+    <!--    <view class="fl-cen mr-t-20">
       <view class="yuandian"></view>
       <text class="fc-43 fz-12 mr-l-20 mr-r-20">授权登录</text>
       <view class="yuandian"></view>
@@ -24,9 +24,15 @@ export default {
   data() {
     return {
       sessionKey: "",
+      shopId: null,
+      url: "",
     };
   },
-  onLoad() {
+  onLoad(data) {
+    if (data.shopId) {
+      this.shopId = data.shopId;
+      this.url = data.url;
+    }
     this.sessionKey = uni.getStorageSync("sessionKey");
   },
   methods: {
@@ -58,10 +64,17 @@ export default {
                 .then((res) => {
                   uni.hideLoading();
                   uni.setStorageSync("token", res.data.token);
+                  uni.setStorageSync("uid", res.data.user.uid);
                   uni.setStorageSync("userno", res.data.user.userno);
-                  uni.switchTab({
-                    url: "/pages/page/home",
-                  });
+                  if (_this.shopId) {
+                    uni.reLaunch({
+                      url: `${_this.url}?shopId=${data.shopId}`,
+                    });
+                  } else {
+                    uni.switchTab({
+                      url: "/pages/page/home",
+                    });
+                  }
                 })
                 .catch(() => {
                   uni.hideLoading();

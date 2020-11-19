@@ -58,7 +58,11 @@
         </div>
       </div>
     </div>
-    <div class="submit-btn-box fl-cen" @tap="submitBtnHandle">
+    <div
+      class="submit-btn-box fl-cen"
+      @tap="submitBtnHandle"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+    >
       <text class="fz-20 fc-fff fw-bold">发布</text>
     </div>
   </div>
@@ -76,9 +80,12 @@ export default {
       imgList: [],
       publishUserNo: "",
       soId: "",
+      iPhoneType: -1,
     };
   },
   onLoad(obj) {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
     const userno = common.getData("userno");
     this.publishUserNo = userno;
     this.goodId = obj.id;
@@ -88,6 +95,11 @@ export default {
     return {
       path: `/pages/page/home`,
     };
+  },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
   },
   methods: {
     // 点赞 星星
@@ -215,5 +227,8 @@ page {
   width: 100%;
   height: 108rpx;
   background: linear-gradient(to right, #333333, #666666);
+}
+.dianzi-style {
+  margin-bottom: 48rpx;
 }
 </style>

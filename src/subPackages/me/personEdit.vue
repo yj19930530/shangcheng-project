@@ -52,8 +52,11 @@
         <text class="iconfont iconyoujiantou fz-14 fc-999 mr-l-4"></text>
       </div>
     </div> -->
-    <div class="save-user-info fl-cen" @tap="submitHandle">
-      <text class="fz-20 fc-fff fw-bold">退出</text>
+    <div
+      class="save-user-info fl-cen"
+      @tap="submitHandle"
+    >
+      <text class="fz-15">退出</text>
     </div>
   </div>
 </template>
@@ -82,6 +85,7 @@ export default {
       },
       userno: "",
       userImgUrl: userImgUrl,
+      iPhoneType: -1,
     };
   },
   onShareAppMessage() {
@@ -90,12 +94,16 @@ export default {
     };
   },
   onLoad() {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
     this.userno = uni.getStorageSync("userno");
     this.getUserinfo();
   },
-  // onUnload() {
-  //   this.$api.editUserInfo(this.form);
-  // },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
+  },
   methods: {
     inputChange() {
       this.$api.editUserInfo(this.form);
@@ -181,11 +189,16 @@ export default {
   height: 20rpx;
 }
 .save-user-info {
-  position: absolute;
+  margin-top: 20rpx;
+  /* position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: 0; */
   width: 100%;
   height: 108rpx;
-  background: linear-gradient(to right, #333333, #666666);
+  /* background: linear-gradient(to right, #333333, #666666); */
+  background-color: #ffffff;
+}
+.dianzi-style {
+  margin-bottom: 48rpx;
 }
 </style>

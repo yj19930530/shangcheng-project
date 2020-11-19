@@ -58,7 +58,11 @@
         </div>
       </div>
     </div>
-    <div class="submit-btn-box fl-cen" @tap="submitBtnHandle">
+    <div
+      class="submit-btn-box fl-cen"
+      @tap="submitBtnHandle"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+    >
       <text class="fz-20 fc-fff fw-bold">提交</text>
     </div>
   </div>
@@ -84,9 +88,17 @@ export default {
         imgUrls: "",
       },
       imgList: [],
+      iPhoneType: -1,
     };
   },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
+  },
   onLoad(obj) {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
     this.oid = obj.id;
     const userno = common.getData("userno");
     this.orderRefund.applyUserNo = userno;
@@ -228,5 +240,8 @@ page {
   width: 100%;
   height: 108rpx;
   background: linear-gradient(to right, #333333, #666666);
+}
+.dianzi-style {
+  margin-bottom: 48rpx;
 }
 </style>

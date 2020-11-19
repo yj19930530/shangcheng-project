@@ -25,7 +25,8 @@
       <image class="mr-r-30 icon-check" src="../../static/shop/yse.png" />
     </div>
     <!-- 提交 -->
-    <div class="fl-bt bottom-btn-box">
+    <div class="fl-bt bottom-btn-box" :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+    >
       <div class="fl-al mr-l-30">
         <text class="fz-15">合计</text>
         <text class="fz-17 fc-f1 fw-bold mr-l-10">¥{{ totalPrice }}</text>
@@ -45,9 +46,17 @@ export default {
       state: "",
       orderDetail: {},
       totalPrice: 0,
+      iPhoneType: -1,
     };
   },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
+  },
   onLoad(obj) {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
     this.state = obj.state;
     this.soId = obj.soId;
     this.getOrderList();
@@ -141,5 +150,8 @@ page {
   width: 220rpx;
   height: 98rpx;
   background-color: #f11b20;
+}
+.dianzi-style {
+  padding-bottom: 48rpx;
 }
 </style>

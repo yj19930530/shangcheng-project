@@ -21,6 +21,26 @@ function extend(target, copy, deep) {
 		return target;
 	}
 }
+// 根据机型返回
+function iPhoneReturn(model) {
+	let iphoneList = [
+		"iPhone X",
+		"iPhone XR",
+		"iPhone XS",
+		"iPhone XS Max",
+		"iPhone 11",
+		"iPhone 11Pro",
+		"iPhone 11Pro max",
+		"iPhone 12",
+		"iPhone 12Pro",
+		"iPhone 12Pro max",
+		"unknown<iPhone13,2>",
+	];
+	let t = iphoneList.every((item) => {
+		return model.search(item) === -1;
+	});
+	return t;
+}
 // 对象复制
 function objAss(form, obj) {
 	let newObj = {}
@@ -252,5 +272,6 @@ module.exports = {
 	updataImgOnce,
 	weCatPay,
 	dateTime,
+	iPhoneReturn,
 	_,
 }

@@ -129,6 +129,8 @@ export default {
         },
       ],
       userno: "",
+      cpCode: "",
+      uid: "",
     };
   },
   computed: {
@@ -138,14 +140,15 @@ export default {
   },
   onShareAppMessage() {
     return {
-      path: `/pages/page/home`,
+      path: `subPackages/shop/orderComfim?shopId=${this.cpCode}`,
     };
   },
   onLoad() {
     this.userno = uni.getStorageSync("userno");
+    this.uid = uni.getStorageSync("uid");
     if (!this.userno) {
       uni.reLaunch({
-        url: "/pages/page/login",
+        url: `/pages/page/login`,
       });
       return;
     }
@@ -231,6 +234,22 @@ export default {
           this.checkList.push(item);
         }
       });
+      if (this.uid && this.checkList.length) {
+        let smallCartIds = [];
+        this.checkList.forEach((item) => {
+          smallCartIds.push(item.id);
+        });
+        this.$api
+          .shareCartHandle({
+            userno: this.userno,
+            smallCartIds: smallCartIds,
+          })
+          .then((res) => {
+            if (res.state === 200) {
+              this.cpCode = res.data;
+            }
+          });
+      }
     },
     // 全选
     allCheckTypeHandle(type) {

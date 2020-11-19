@@ -6,7 +6,7 @@ const getWxPaySign = (data) => postRequest('/web/pay/getWxPaySign', data, 'no');
 // 加入购物车
 const addShopCar = (data) => postRequest('/smallprogramMain/handleGoodAddCart', data);
 // 获取购物车list
-const getShopCarList = (data) => postRequest('/smallprogramMain/handleGetCartLists', data,'no','');
+const getShopCarList = (data) => postRequest('/smallprogramMain/handleGetCartLists', data, 'no', '');
 // 购物选择状态
 const shopCheckType = (data) => postRequest('/smallprogramMain/handleRequestBaseUpdateCart', data, 'no');
 // 获取收货地址
@@ -43,6 +43,10 @@ const atcPlRequest = (data) => postRequest('/web/article/pl', data, 'no');
 const deleteCarGoods = (data) => postRequest('/smallprogramMain/handleRequestBaseDeleteCart', data, 'no');
 // 删除地址
 const deleteAddress = (data) => postRequest('/smallprogramMain/handleRequestBaseDelAddress', data, 'no');
+// 获取分享的购物车列表
+const findShareCartList = (data) => postRequest('/orderExtend/findShareCartList', data, 'no', 'no');
+// 分享购物车
+const shareCartHandle = (data) => postRequest('/orderExtend/shareCart', data, 'no', 'no');
 module.exports = {
     addShopCar,
     getShopCarList,
@@ -65,5 +69,7 @@ module.exports = {
     editAddressData,
     wecatPayHandle,
     getWxPaySign,
-    getOrderInfo
+    getOrderInfo,
+    findShareCartList,
+    shareCartHandle
 }
