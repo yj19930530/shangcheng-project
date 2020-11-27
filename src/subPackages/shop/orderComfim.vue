@@ -76,8 +76,30 @@
         />
       </div>
     </div>
+    <div class="buy-know">
+      <div class="buy-know-content">
+        <div><span class="fz-15 fc-666">购买须知：</span></div>
+        <div class="mr-t-30">
+          <span class="fz-11 fc-666"
+            >1.【服务提示】平台仅向您提供基本的信息存储空间以及相关的技术服务平台服务，您了解平台上的信息系平台第三方入驻用户
+          </span>
+        </div>
+        <div class="mr-t-50">
+          <span class="fz-11 fc-666"
+            >2.【付费阅读服务不适用于七天无理由退货】请您知悉，平台上提供的付费阅读为在线阅读商品，根据《消费者权益保护法》等规定，不适用七天无理由退货规定（包年付费且与提供者达成退款意向的除外），请您于购买时谨慎考虑。</span
+          >
+        </div>
+        <div class="mr-t-30">
+          <span class="fz-12 fc-666">提交订单并表示同意</span>
+          <span class="fz-12 fc-77 mr-l-20" @tap="buyGoodsKnow">购买须知</span>
+        </div>
+      </div>
+    </div>
     <!-- 提交 -->
-    <div class="fl-bt bottom-btn-box" :class="[iPhoneType === -1 ? '' : 'dianzi-style']">
+    <div
+      class="fl-bt bottom-btn-box"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+    >
       <div class="fl-al mr-l-30">
         <text class="fz-15">合计</text>
         <text class="fz-17 fc-f1 fw-bold mr-l-10">¥{{ totalPrice }}</text>
@@ -192,6 +214,12 @@ export default {
         url: `/subPackages/home/shopDetail?gId=${id}`,
       });
     },
+    // 跳转购买须知
+    buyGoodsKnow() {
+      uni.navigateTo({
+        url: "/subPackages/me/userBuyKnow",
+      });
+    },
     // 跳转付款页面
     submtPay() {
       if (!this.addressListData.length)
@@ -247,7 +275,7 @@ page {
 </style>
 <style scoped>
 .comfirm-container {
-  padding-bottom: 98rpx;
+  padding-bottom: 118rpx;
 }
 .address-title {
   width: 540rpx;
@@ -324,12 +352,21 @@ page {
 .right-btn-submit {
   width: 220rpx;
   height: 98rpx;
-  background-color: #f11b20;
+  background-color: #a4423f;
 }
 .input-width-style {
   width: 80%;
 }
 .dianzi-style {
   padding-bottom: 48rpx;
+}
+.buy-know {
+  margin: auto;
+  width: 710rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+}
+.buy-know-content {
+  padding: 20rpx 30rpx;
 }
 </style>

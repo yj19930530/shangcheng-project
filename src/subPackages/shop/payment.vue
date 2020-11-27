@@ -149,7 +149,7 @@ page {
 .right-btn-submit {
   width: 220rpx;
   height: 98rpx;
-  background-color: #f11b20;
+  background-color: #A4423F;
 }
 .dianzi-style {
   padding-bottom: 48rpx;

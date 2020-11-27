@@ -73,7 +73,7 @@ page {
   width: 20rpx;
   height: 20rpx;
   border-radius: 50%;
-  background-color: #f11b20;
+  background-color: #A4423F;
 }
 .msg-right-content {
   width: 620rpx;

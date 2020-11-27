@@ -18,7 +18,7 @@
         <text class="fz-14 mr-l-30">订单跟踪</text>
       </div>
       <uni-steps
-        active-color="#F11B20"
+        active-color="#A4423F"
         :options="liList"
         direction="column"
         :active="active"

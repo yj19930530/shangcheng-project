@@ -83,7 +83,7 @@ export default {
   width: 260rpx;
   height: 80rpx;
   border-radius: 40rpx 40rpx;
-  background-color: #f11b20;
+  background-color: #A4423F;
 }
 .pay-msg-success {
   padding-top: 220rpx;

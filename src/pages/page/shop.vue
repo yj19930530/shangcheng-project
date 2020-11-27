@@ -124,7 +124,7 @@ export default {
         {
           text: "删除",
           style: {
-            backgroundColor: "#F11B20",
+            backgroundColor: "#A4423F",
           },
         },
       ],
@@ -378,7 +378,7 @@ page {
 .jiesuan-btn {
   width: 220rpx;
   height: 98rpx;
-  background-color: #f11b20;
+  background-color: #A4423F;
 }
 .jiesuan-btn2 {
   width: 220rpx;

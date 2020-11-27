@@ -233,14 +233,15 @@ function updataVideo() {
 }
 // 小程序支付
 function weCatPay(obj) {
+	const payData = JSON.parse(obj.payinfo);
 	return new Promise((resolve, reject) => {
 		uni.requestPayment({
 			provider: 'wxpay',
-			timeStamp: obj.timeStamp,
-			nonceStr: obj.nonceStr,
-			package: obj.package,
-			signType: obj.signType,
-			paySign: obj.paySign,
+			timeStamp: payData.timeStamp,
+			nonceStr: payData.nonceStr,
+			package: payData.package,
+			signType: payData.signType,
+			paySign: payData.paySign,
 			success: function (res) {
 				uni.requestSubscribeMessage({
 					tmplIds: ['yd_2mlL3wOKdqWR-kMyjpILTBcOy_mHBRg2uhrTXp9k'],

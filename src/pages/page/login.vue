@@ -26,6 +26,7 @@ export default {
       sessionKey: "",
       shopId: null,
       url: "",
+      channelId: "",
     };
   },
   onLoad(data) {
@@ -34,6 +35,7 @@ export default {
       this.url = data.url;
     }
     this.sessionKey = uni.getStorageSync("sessionKey");
+    this.channelId = uni.getStorageSync("channelId");
   },
   methods: {
     noLogin() {
@@ -60,6 +62,7 @@ export default {
                   iv: e.detail.iv,
                   openid: res.data.openId,
                   data: e.detail.encryptedData,
+                  channelId: _this.channelId,
                 })
                 .then((res) => {
                   uni.hideLoading();

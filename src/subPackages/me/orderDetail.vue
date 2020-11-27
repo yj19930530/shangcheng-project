@@ -418,7 +418,7 @@ page {
   border: 1px solid #999;
 }
 .btn-border-f1 {
-  border: 1px solid #f11b20;
+  border: 1px solid #A4423F;
 }
 .border-btn-list {
   display: flex;

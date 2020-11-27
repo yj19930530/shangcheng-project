@@ -63,7 +63,7 @@ export default {
         {
           text: "删除",
           style: {
-            backgroundColor: "#F11B20",
+            backgroundColor: "#A4423F",
           },
         },
       ],

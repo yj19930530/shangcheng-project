@@ -35,6 +35,18 @@
       <div class="goods-title-text mr-t-20">
         <text class="fz-16 fw-bold">{{ detailObj.gname }}</text>
       </div>
+      <div class="fl-al mr-t-20">
+        <div
+          class="fl-cen label-show-style mr-r-10"
+          v-for="(item, index) in labelList"
+          :key="index"
+        >
+          <span class="fc-999 fz-10">{{ item }}</span>
+        </div>
+      </div>
+      <div class="mr-t-10">
+        <span class="fc-999 fz-10">运费：免运费</span>
+      </div>
     </div>
     <!-- 买家秀 -->
     <div class="buy-box mr-t-20" v-if="showList.length">
@@ -63,7 +75,7 @@
       </div>
     </div>-->
     <!-- 商品详情 -->
-    <div class="goods-detail-imgs" v-if="goodsImgs.length">
+    <div class="goods-detail-imgs mr-t-20" v-if="goodsImgs.length">
       <div class="detail-imgs-center">
         <div class="imgs-title-box fl-al">
           <text class="fz-15 fw-bold">商品详情</text>
@@ -216,6 +228,7 @@ export default {
         "unknown<iPhone13,2>",
       ],
       iPhoneType: -1,
+      labelList: [],
     };
   },
   onShareAppMessage(res) {
@@ -229,10 +242,11 @@ export default {
       return getApp().globalData.model;
     },
   },
-  onLoad(data) {
+  async onLoad(data) {
     let t = common.iPhoneReturn(this.phoneModel);
     this.iPhoneType = t ? -1 : 0;
-    this.userno = uni.getStorageSync("userno");
+    this.userno = await uni.getStorageSync("userno");
+    console.log(this.userno);
     this.uid = uni.getStorageSync("uid");
     this.goodsId = data.gId;
     this.getDetail();
@@ -240,6 +254,12 @@ export default {
   methods: {
     // 获取详情
     async getDetail() {
+      if (this.userno) {
+        this.$api.broweGoodsAdd({
+          goodId: this.goodsId,
+          userno: this.userno,
+        });
+      }
       toast.showLoading("加载中");
       const { data } = await this.$api.getGoodsDetail({
         gId: this.goodsId,
@@ -248,15 +268,20 @@ export default {
       // this.aboutAtc(data.gbrand);
       this.detailObj = data;
       this.getCommentPage(this.detailObj);
-      this.swiperImg = data.gimg.split(",");
+      this.swiperImg = data.lunboimg.split(",");
+      this.labelList = data.label ? data.label.split(",") : [];
       this.swiperImg = this.swiperImg.map((item) => {
-        return this.httpImg + item;
+        return this.httpDetailImg + item;
       });
       if (data.detailimg) {
         this.goodsImgs = data.detailimg.split(",");
         this.goodsImgs = this.goodsImgs.map((item) => {
           return this.httpDetailImg + item;
         });
+        if (!data.lunboimg) {
+          this.swiperImg = this.goodsImgs;
+          this.swiperImg.length = 1;
+        }
       }
     },
     // 获取买家秀
@@ -470,12 +495,12 @@ page {
 .buy-style {
   width: 220rpx;
   height: 98rpx;
-  background-color: #f11b20;
+  background-color: #a4423f;
 }
 .guwen-btn {
   width: 440rpx;
   height: 98rpx;
-  background-color: #f11b20;
+  background-color: #a4423f;
 }
 .ke-btn-style {
   background-color: #fff;
@@ -556,7 +581,7 @@ page {
   border: 1px solid #ffffff;
 }
 .box-bg-f1 {
-  background-color: #f11b20;
+  background-color: #a4423f;
 }
 .box-bg-border {
   border: 1px solid #979797 !important;
@@ -593,5 +618,10 @@ page {
 }
 .dianzi-style2 {
   margin-bottom: 48rpx;
+}
+.label-show-style {
+  padding: 0 10rpx;
+  height: 34rpx;
+  background-color: #f4f4f4;
 }
 </style>

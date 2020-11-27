@@ -163,7 +163,7 @@ export default {
   border-radius: 2rpx 2rpx;
 }
 .heng-style-color1 {
-  background-color: #f11b20;
+  background-color: #A4423F;
 }
 .heng-style-color2 {
   background-color: #f8f8f8;

@@ -1,6 +1,6 @@
 const { postRequest } = require('../../utils/lib/request');
 // 小程序预支付
-const wecatPayHandle = (data) => postRequest('/web/pay/payWechatBefore', data);
+const wecatPayHandle = (data) => postRequest('/web/pay/payBySyb', data, '', 'no');
 // 获取支付凭证
 const getWxPaySign = (data) => postRequest('/web/pay/getWxPaySign', data, 'no');
 // 加入购物车

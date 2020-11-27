@@ -16,7 +16,6 @@ export default {
     wx.getSystemInfo({
       success: (res) => {
         this.globalData.model = res.model;
-        console.log(res.model)
         let statusBarHeight = res.statusBarHeight,
           navTop = menuButtonObject.height, //胶囊按钮与顶部的距离
           navHeight =

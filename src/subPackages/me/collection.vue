@@ -83,7 +83,7 @@ page {
   border-radius: 2rpx 2rpx;
 }
 .follow-check-color1 {
-  background-color: #f11b20;
+  background-color: #A4423F;
 }
 .follow-check-color2 {
   background-color: #ffffff;

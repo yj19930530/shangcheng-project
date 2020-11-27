@@ -418,7 +418,7 @@ page {
 }
 .top-tar-check {
   line-height: 2;
-  border-bottom: 4rpx solid #f11b20;
+  border-bottom: 4rpx solid #A4423F;
 }
 .top-tar-check2 {
   line-height: 2;
@@ -457,7 +457,7 @@ page {
   border: 1px solid #999;
 }
 .btn-border-f1 {
-  border: 1px solid #f11b20;
+  border: 1px solid #A4423F;
 }
 .border-btn-list {
   display: flex;

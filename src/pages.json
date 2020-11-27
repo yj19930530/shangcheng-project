@@ -16,6 +16,12 @@
 			}
 		},
 		{
+			"path": "pages/page/consult",
+			"style": {
+				"navigationBarTitleText": "咨询"
+			}
+		},
+		{
 			"path": "pages/page/shop",
 			"style": {
 				"navigationBarTitleText": "购物袋"
@@ -48,6 +54,12 @@
 					"path": "shopDetail",
 					"style": {
 						"navigationBarTitleText": "商品详情"
+					}
+				},
+				{
+					"path": "water",
+					"style": {
+						"navigationBarTitleText": ""
 					}
 				}
 			]
@@ -204,6 +216,12 @@
 					"style": {
 						"navigationBarTitleText": "退款详情"
 					}
+				},
+				{
+					"path": "userBuyKnow",
+					"style": {
+						"navigationBarTitleText": "购买须知"
+					}
 				}
 			]
 		}
@@ -231,6 +249,12 @@
 				"iconPath": "static/tabar/class.png",
 				"selectedIconPath": "static/tabar/class2.png",
 				"text": "分类"
+			},
+			{
+				"pagePath": "pages/page/consult",
+				"iconPath": "static/tabar/class.png",
+				"selectedIconPath": "static/tabar/class2.png",
+				"text": "咨询"
 			},
 			{
 				"pagePath": "pages/page/shop",

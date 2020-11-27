@@ -43,7 +43,7 @@
             mode="aspectFill"
             @tap="navToDetail(item)"
             class="swiper-item-img"
-            :src="httpImg + item.gimg"
+            :src="httpImg + item.indexDisplayPic"
           />
         </swiper-item>
       </swiper>
@@ -61,7 +61,7 @@
             v-for="item in homePageData[1].emsModalGoodVo"
             :key="item.id"
             class="shops-item-img"
-            :src="httpImg + item.gimg"
+            :src="httpImg + item.indexDisplayPic"
           />
         </div>
         <!-- 新品上线 -->
@@ -76,10 +76,27 @@
             v-for="item in homePageData[0].emsModalGoodVo"
             :key="item.id"
             class="new-shop-img"
-            :src="httpImg + item.gimg"
+            :src="httpImg + item.indexDisplayPic"
           />
         </div>
       </div>
+    </div>
+    <div class="fl-co" style="margin-top: -20rpx; padding-bottom: 20rpx">
+      <image
+        class="goods-shuai-xuan"
+        @tap="toGoodsPage(2)"
+        src="../../static/home/qudou.png"
+      ></image>
+      <image
+        @tap="toGoodsPage(3)"
+        class="goods-shuai-xuan"
+        src="../../static/home/meibai.png"
+      ></image>
+      <image
+        @tap="toGoodsPage(1)"
+        class="goods-shuai-xuan"
+        src="../../static/home/bushui.png"
+      ></image>
     </div>
   </view>
 </template>
@@ -103,7 +120,13 @@ export default {
       path: `/pages/page/home`,
     };
   },
-  onLoad() {
+  onLoad(obj) {
+    if (obj.channelId) {
+      uni.setStorageSync("channelId", obj.channelId);
+      this.$api.accessCount({
+        channelId: obj.channelId,
+      });
+    }
     this.userno = uni.getStorageSync("userno");
     this.getHomePageData();
   },
@@ -149,6 +172,11 @@ export default {
       });
       uni.navigateTo({
         url: "/subPackages/me/msgDetail",
+      });
+    },
+    toGoodsPage(id) {
+      uni.navigateTo({
+        url: `/subPackages/home/water?id=${id}`,
       });
     },
   },
@@ -242,5 +270,11 @@ export default {
   width: 100%;
   height: 416rpx;
   border-radius: 20rpx;
+}
+.goods-shuai-xuan {
+  margin-top: 20rpx;
+  width: 710rpx;
+  height: 106rpx;
+  border-radius: 10rpx;
 }
 </style>

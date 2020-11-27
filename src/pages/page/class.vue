@@ -27,7 +27,7 @@
     <div
       class="class-letf-shops"
       v-if="checkType === 'all'"
-      :style="[{ height: winnerHiehgt + 'px' }]"
+      :style="[{ height: winnerHiehgt + 'px', marginTop: '10px' }]"
     >
       <!-- 左边分类选项 -->
       <div class="left-shop-box">
@@ -53,37 +53,41 @@
         </div>
       </div>
       <!-- 右边商品选项 -->
-      <scroll-view
-        class="right-scroll-box"
-        scroll-y
-        :scroll-into-view="viewInfo"
-        scroll-with-animation="true"
-        @scroll="onScroll"
-      >
-        <div
-          class="mr-t-50 commodity-height-box"
-          v-for="(item, index) in classList"
-          :key="index"
-          :id="item.viewId"
+      <div class="right-scroll-box">
+        <image class="right-top-img" :src="showClassImg"></image>
+        <scroll-view
+          style="margin-top: 30rpx"
+          :style="[{ height: classGoodsHeight + 'px' }]"
+          scroll-y
+          :scroll-into-view="viewInfo"
+          scroll-with-animation="true"
+          @scroll="onScroll"
         >
-          <div class="commodity-top-title fl-al">
-            <text class="fz-12">{{ item.stringType }}</text>
-            <image class="shu-style mr-l-6" src="../../static/me/shu.png" />
-          </div>
-          <div class="commodity-bottom-box">
-            <div
-              class="commodity-item-style"
-              v-for="(i, n) in item.lg"
-              :key="n"
-              @tap="navToDetail(i.gid)"
-            >
-              <image class="commodity-shop-img" :src="httpImg + i.gimg" />
-              <div class="commodity-shop-name fz-12">{{ i.shortName }}</div>
+          <div
+            class="mr-t-50 commodity-height-box"
+            v-for="(item, index) in classList"
+            :key="index"
+            :id="item.viewId"
+          >
+            <div class="commodity-top-title fl-al">
+              <text class="fz-12 fw-bold">{{ item.stringType }}</text>
+              <image class="shu-style mr-l-6" src="../../static/me/shu.png" />
+            </div>
+            <div class="commodity-bottom-box">
+              <div
+                class="commodity-item-style"
+                v-for="(i, n) in item.lg"
+                :key="n"
+                @tap="navToDetail(i.gid)"
+              >
+                <image class="commodity-shop-img" :src="httpImg + i.gimg" />
+                <div class="commodity-shop-name fz-12">{{ i.gtitle }}</div>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- <div style="height:700rpx"></div> -->
-      </scroll-view>
+          <!-- <div style="height:700rpx"></div> -->
+        </scroll-view>
+      </div>
     </div>
     <div v-if="checkType === 'class'">
       <div class="fl-bt top-check-box">
@@ -148,7 +152,7 @@
 </template>
 <script>
 import { toast } from "../../utils/index";
-import { httpImg } from "../../config/develop";
+import { httpImg, uploadImgUrl } from "../../config/develop";
 export default {
   data() {
     return {
@@ -161,7 +165,10 @@ export default {
       checkType: "all",
       allCheckType: 0,
       httpImg: httpImg, // 图片路径
+      uploadImgUrl: uploadImgUrl, // 图片路径
       priceicon: 1,
+      showClassImg: "",
+      classGoodsHeight: 0,
     };
   },
   async onLoad() {
@@ -225,10 +232,12 @@ export default {
           this.viewInfo = this.classList[0].viewId;
         }
       }
+      this.classImgHandle();
     },
     // 切换
     checkInfo(row) {
       this.viewInfo = "ta" + row.id;
+      this.classImgHandle();
     },
     getRightDom() {
       this.rightScrollHeight = this.windowHeight - 4;
@@ -260,7 +269,8 @@ export default {
             parseInt(this.windowHeight) -
             parseInt(res.height) -
             parseInt(this.navHeight) -
-            4;
+            4 -
+            10;
         })
         .exec();
       uni
@@ -273,6 +283,21 @@ export default {
           });
         })
         .exec();
+      uni
+        .createSelectorQuery()
+        .selectAll(".right-top-img")
+        .boundingClientRect((react) => {
+          this.classGoodsHeight = this.winnerHiehgt - react[0].height - 20;
+        })
+        .exec();
+      this.classImgHandle();
+    },
+    classImgHandle() {
+      this.classList.forEach((item) => {
+        if (item.viewId === this.viewInfo) {
+          this.showClassImg = this.uploadImgUrl + item.typePic;
+        }
+      });
     },
     // 切换状态
     checkTypeChange(type) {
@@ -324,31 +349,32 @@ export default {
   justify-content: space-between;
 }
 .left-shop-box {
-  padding-top: 26rpx;
+  /* padding-top: 26rpx; */
   width: 200rpx;
+  background-color: #f6f7f8;
 }
 .item-left-title {
   width: 100%;
-  height: 106rpx;
+  height: 92rpx;
+  background-color: #fff;
 }
 .item-left-title2 {
   width: 100%;
-  height: 106rpx;
+  height: 92rpx;
   background-color: #f6f7f8;
 }
 .left-class-center {
   width: 100%;
-  height: 62rpx;
-  border-left: 6rpx solid #f11b20;
+  height: 46rpx;
+  border-left: 6rpx solid #a4423f;
 }
 .left-class-center2 {
   width: 100%;
-  height: 62rpx;
+  height: 46rpx;
   border-left: 6rpx solid #f6f7f8;
 }
 .right-scroll-box {
   padding-bottom: 30rpx;
-  margin-top: 20rpx;
   width: 532rpx;
 }
 .shu-style {
@@ -394,5 +420,10 @@ export default {
 }
 .sort-style-inline {
   transform: rotate(180deg);
+}
+.right-top-img {
+  width: 498rpx;
+  height: 240rpx;
+  border-radius: 10rpx;
 }
 </style>
