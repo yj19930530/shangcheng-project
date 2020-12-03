@@ -1,5 +1,5 @@
 <template>
-  <div class="comfirm-container">
+  <div :class="[iPhoneType === -1 ? 'comfirm-container' : 'comfirm-container2']">
     <div style="height: 32rpx"></div>
     <!-- 头部地址 -->
     <div class="fl-fc address-edit-box">
@@ -81,18 +81,28 @@
         <div><span class="fz-15 fc-666">购买须知：</span></div>
         <div class="mr-t-30">
           <span class="fz-11 fc-666"
-            >1.【服务提示】平台仅向您提供基本的信息存储空间以及相关的技术服务平台服务，您了解平台上的信息系平台第三方入驻用户
+            >1.【关于下单及发货时间】请在拍下产品后15分钟内完成支付即算下单成功。自订单付款时间起，现货均可在24小时内发货，如产品紧急缺货或为预售产品需要延期发货，我们将会第一时间通知您。
           </span>
         </div>
         <div class="mr-t-50">
           <span class="fz-11 fc-666"
-            >2.【付费阅读服务不适用于七天无理由退货】请您知悉，平台上提供的付费阅读为在线阅读商品，根据《消费者权益保护法》等规定，不适用七天无理由退货规定（包年付费且与提供者达成退款意向的除外），请您于购买时谨慎考虑。</span
+            >2.【关于易碎品及快递损害】包裹必须本人检查所收货物完好、订购的产品及数量一致后当面签收，如发现产品不符或损坏可直接拒签返回。由于别人代签或没有检查好等自身原因导致的问题需自行承担哦！</span
           >
         </div>
-        <div class="mr-t-30">
+        <div class="mr-t-50">
+          <span class="fz-11 fc-666"
+            >3.【关于7天无理由退换货】产品已拆封或已使用的情况下均不在7天无理由退换货范围内；无理由退换货产生的来回快递运费需自行承担哦！</span
+          >
+        </div>
+        <div class="mr-t-50">
+          <span class="fz-11 fc-666"
+            >小贴士：在收到产品后，请联系我们的线上护肤导师，我们将会结合您的皮肤情况给到最专业的使用指南，若您对这次的服务满意，请别忘了给予我们好评支持，若不满意或有何意见或建议，敬请告知我们，以便改进。</span
+          >
+        </div>
+        <!-- <div class="mr-t-30">
           <span class="fz-12 fc-666">提交订单并表示同意</span>
           <span class="fz-12 fc-77 mr-l-20" @tap="buyGoodsKnow">购买须知</span>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- 提交 -->
@@ -276,6 +286,9 @@ page {
 <style scoped>
 .comfirm-container {
   padding-bottom: 118rpx;
+}
+.comfirm-container2 {
+  padding-bottom: 168rpx;
 }
 .address-title {
   width: 540rpx;

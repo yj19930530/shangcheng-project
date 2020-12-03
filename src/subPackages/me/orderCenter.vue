@@ -49,14 +49,15 @@
     <div class="order-list-coentent">
       <swiper :current="curr" @change="setCurr" style="height: 100vh">
         <swiper-item v-for="item in 5" :key="item">
-          <div
-            class="fl-cen"
-            style="margin-top: 190rpx"
-            v-if="!orderListData.length"
+          <scroll-view
+            scroll-y
+            style="height: 100vh"
+            :show-scrollbar="false"
+            :refresher-enabled="true"
+            refresher-default-style="none"
+            :refresher-triggered="scorllType"
+            @refresherrefresh="scollHandle"
           >
-            <text class="fz-12 fc-999">没有订单</text>
-          </div>
-          <scroll-view scroll-y style="height: 100vh" :show-scrollbar="false">
             <div style="padding-top: 160rpx">
               <div v-for="(item, index) in orderListData" :key="index">
                 <div class="order-row-box fl-bt">
@@ -195,6 +196,12 @@
                 </div>
               </div>
             </div>
+            <div
+              class="fl-cen"
+              v-if="!orderListData.length"
+            >
+              <text class="fz-12 fc-999">没有订单</text>
+            </div>
           </scroll-view>
         </swiper-item>
       </swiper>
@@ -212,6 +219,7 @@ export default {
       orderListData: [], // 订单处理列表
       httpImg: httpImg, // 图片url
       curr: 0,
+      scorllType: false,
     };
   },
   onShareAppMessage() {
@@ -256,6 +264,12 @@ export default {
     this.getList();
   },
   methods: {
+    //下拉刷新
+    async scollHandle() {
+      this.scorllType = true;
+      await this.getList();
+      this.scorllType = false;
+    },
     setCurr(e) {
       this.orderListData = [];
       let thisCurr = e.detail.current || e.currentTarget.dataset.index || 0;
@@ -265,7 +279,9 @@ export default {
     },
     // 获取订单列表]
     async getList() {
-      toast.showLoading("加载中");
+      uni.showLoading({
+        title: "加载中",
+      });
       const { data } = await this.$api.getOrderList({
         type: "小程序订单",
         state: this.status,
@@ -307,6 +323,7 @@ export default {
       }
       this.getList();
     },
+    // 状态按钮选择
     async navPathTo(name, row) {
       switch (name) {
         case "log": {
@@ -418,7 +435,7 @@ page {
 }
 .top-tar-check {
   line-height: 2;
-  border-bottom: 4rpx solid #A4423F;
+  border-bottom: 4rpx solid #a4423f;
 }
 .top-tar-check2 {
   line-height: 2;
@@ -457,7 +474,7 @@ page {
   border: 1px solid #999;
 }
 .btn-border-f1 {
-  border: 1px solid #A4423F;
+  border: 1px solid #a4423f;
 }
 .border-btn-list {
   display: flex;

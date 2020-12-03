@@ -246,7 +246,6 @@ export default {
     let t = common.iPhoneReturn(this.phoneModel);
     this.iPhoneType = t ? -1 : 0;
     this.userno = await uni.getStorageSync("userno");
-    console.log(this.userno);
     this.uid = uni.getStorageSync("uid");
     this.goodsId = data.gId;
     this.getDetail();

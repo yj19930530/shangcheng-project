@@ -54,10 +54,20 @@
       <image class="check-icon" v-else src="../../static/shop/no.png" />
       <text class="fz-15">设置为默认地址</text>
     </div>
-    <div class="add-address-btn fl-cen" @tap="editAndUse" v-if="editType">
+    <div
+      class="add-address-btn fl-cen"
+      @tap="editAndUse"
+      v-if="editType"
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+    >
       <text class="fz-20 fc-fff fw-bold">修改</text>
     </div>
-    <div class="add-address-btn fl-cen" @tap="saveAndUse" v-else>
+    <div
+      class="add-address-btn fl-cen"
+      @tap="saveAndUse"
+      v-else
+      :class="[iPhoneType === -1 ? '' : 'dianzi-style']"
+    >
       <text class="fz-20 fc-fff fw-bold">保存并使用</text>
     </div>
   </div>
@@ -69,6 +79,7 @@ export default {
   data() {
     return {
       addressVal: "省市区县、乡等",
+      iPhoneType: -1,
       form: {
         userName: "", // 姓名
         telNumber: "", // 电话
@@ -98,12 +109,19 @@ export default {
       editType: false,
     };
   },
+  computed: {
+    phoneModel() {
+      return getApp().globalData.model;
+    },
+  },
   onShareAppMessage() {
     return {
       path: `/pages/page/home`,
     };
   },
   onLoad(data) {
+    let t = common.iPhoneReturn(this.phoneModel);
+    this.iPhoneType = t ? -1 : 0;
     if (data.id) {
       this.editType = true;
       this.getAddressInfo(data.id);
@@ -232,5 +250,8 @@ page {
   height: 108rpx;
   z-index: 999;
   background: linear-gradient(to right, #333333, #666666);
+}
+.dianzi-style {
+  margin-bottom: 48rpx;
 }
 </style>

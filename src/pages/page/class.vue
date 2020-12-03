@@ -85,7 +85,7 @@
               </div>
             </div>
           </div>
-          <!-- <div style="height:700rpx"></div> -->
+          <div :style="[{ height: classGoodsHeight - 150 + 'px' }]"></div>
         </scroll-view>
       </div>
     </div>

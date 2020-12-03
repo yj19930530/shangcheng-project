@@ -179,7 +179,6 @@ import wxParseTemplate from './components/wxParseTemplate0';
 				});
 			},
 			navigate(href, $event, attr) {
-				console.log(href, attr);
 				this.$emit('navigate', href, $event);
 			},
 			preview(src, $event) {

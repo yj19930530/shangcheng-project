@@ -18,7 +18,10 @@
 		{
 			"path": "pages/page/consult",
 			"style": {
-				"navigationBarTitleText": "咨询"
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 		},
 		{
@@ -220,7 +223,7 @@
 				{
 					"path": "userBuyKnow",
 					"style": {
-						"navigationBarTitleText": "购买须知"
+						"navigationBarTitleText": "买家须知"
 					}
 				}
 			]
@@ -252,9 +255,9 @@
 			},
 			{
 				"pagePath": "pages/page/consult",
-				"iconPath": "static/tabar/class.png",
-				"selectedIconPath": "static/tabar/class2.png",
-				"text": "咨询"
+				"iconPath": "static/tabar/zx.png",
+				"selectedIconPath": "static/tabar/zxcheck.png",
+				"text": "一键咨询"
 			},
 			{
 				"pagePath": "pages/page/shop",

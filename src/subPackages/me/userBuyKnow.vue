@@ -1,7 +1,7 @@
 <template>
   <div>
     <web-view
-      src="https://www.chuyinxiang.net/treaty/page/agreement.html"
+      src="https://www.chuyinxiang.net/treaty/page/notice.html"
     ></web-view>
   </div>
 </template>
