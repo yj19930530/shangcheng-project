@@ -6,7 +6,7 @@
         <Buy v-for="(item, index) in showList" :key="index" :showObj="item" />
       </div>
     </div>
-    <div class="fl-cen mr-b-30" v-if="!more">
+    <div class="fl-cen nomore-box" v-if="!more">
       <text class="fz-12 fc-999">没有更多了</text>
     </div>
   </div>
@@ -56,8 +56,8 @@ export default {
     async getCommentPage() {
       toast.showLoading("加载中");
       const { data } = await this.$api.findGoodCommentPage({
-        pageNo: 1,
-        pageSize: 3,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
         oiId: this.gid,
       });
       this.showList = this.showList.concat(data.list);
@@ -86,5 +86,9 @@ page {
 .buy-row-show-center {
   margin: auto;
   width: 710rpx;
+}
+.nomore-box {
+  padding-top: 30rpx;
+  padding-bottom: 30rpx;
 }
 </style>

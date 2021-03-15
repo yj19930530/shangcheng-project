@@ -7,7 +7,7 @@
     <div class="buy-text-box">
       <text class="fz-14">{{detailData.content}}</text>
     </div>
-    <div class="buy-show-img">
+    <div class="buy-show-img" v-if="showObj.imageUrl.length">
       <image
         mode="aspectFill"
         class="show-img-item"

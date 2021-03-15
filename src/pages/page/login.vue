@@ -71,7 +71,7 @@ export default {
                   uni.setStorageSync("userno", res.data.user.userno);
                   if (_this.shopId) {
                     uni.reLaunch({
-                      url: `${_this.url}?shopId=${data.shopId}`,
+                      url: `${_this.url}?shopId=${_this.shopId}`,
                     });
                   } else {
                     uni.switchTab({

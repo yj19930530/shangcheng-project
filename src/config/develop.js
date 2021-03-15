@@ -1,4 +1,4 @@
-let http = '', httpImg = '', circleNoteUrl = '', userImgUrl = '', httpDetailImg = '', uploadImgUrl = "", atcImgUrl = "", url = "https://www.chuyinxiang.net/erpManageSystem";
+let http = '', httpImg = '', circleNoteUrl = '', httpReturn = '', userImgUrl = '', httpDetailImg = '', uploadImgUrl = "", atcImgUrl = "", url = "https://www.chuyinxiang.net/erpManageSystem";
 const env = process.env.NODE_ENV;
 switch (env) {
     case 'test': {
@@ -15,6 +15,7 @@ switch (env) {
         http = url;
         httpImg = url + '/static/images/upload/goods/';
         httpDetailImg = url + '/static/images/upload/goodDetails/';
+        httpReturn = url + '/static/images/upload/returnApply';
         uploadImgUrl = url + '/static/images/upload/smallProgram/';
         atcImgUrl = url + '/static/images/upload/smallProgram/article/';
         circleNoteUrl = url + '/static/images/upload/impressNote/';
@@ -26,6 +27,7 @@ module.exports = {
     http,
     httpImg,
     httpDetailImg,
+    httpReturn,
     uploadImgUrl,
     atcImgUrl,
     circleNoteUrl,

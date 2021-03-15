@@ -1,5 +1,7 @@
 <template>
-  <div :class="[iPhoneType === -1 ? 'comfirm-container' : 'comfirm-container2']">
+  <div
+    :class="[iPhoneType === -1 ? 'comfirm-container' : 'comfirm-container2']"
+  >
     <div style="height: 32rpx"></div>
     <!-- 头部地址 -->
     <div class="fl-fc address-edit-box">
@@ -142,7 +144,7 @@ export default {
     this.userno = uni.getStorageSync("userno");
     if (!this.userno) {
       uni.reLaunch({
-        url: `/pages/page/login?shopId=${data.shopId}&url=subPackages/shop/orderComfim`,
+        url: `/pages/page/login?shopId=${data.shopId}&url=/subPackages/shop/orderComfim`,
       });
       return;
     }

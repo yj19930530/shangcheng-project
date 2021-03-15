@@ -144,7 +144,7 @@ export default {
     };
   },
   onLoad() {
-    this.userno = uni.getStorageSync("userno");
+    this.userno = uni.getStorageSync("userno");  
     this.uid = uni.getStorageSync("uid");
     if (!this.userno) {
       uni.reLaunch({

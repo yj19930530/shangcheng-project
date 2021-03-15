@@ -115,9 +115,7 @@
                       >
                     </div>
                     <div class="mr-t-10">
-                      <text class="fz-17"
-                        >总价：¥{{ item.items[0].amount }}</text
-                      >
+                      <text class="fz-17">总价：¥{{ item.payAmountNew }}</text>
                     </div>
                     <div class="border-btn-list">
                       <div class="border-btn-list-center">
@@ -196,10 +194,7 @@
                 </div>
               </div>
             </div>
-            <div
-              class="fl-cen"
-              v-if="!orderListData.length"
-            >
+            <div class="fl-cen" v-if="!orderListData.length">
               <text class="fz-12 fc-999">没有订单</text>
             </div>
           </scroll-view>
@@ -288,6 +283,13 @@ export default {
         // soId:'20200907141719883'
       });
       this.orderListData = data;
+      this.orderListData.forEach((item) => {
+        if (item.discount) {
+          item.payAmountNew = parseInt(item.payAmount * item.discount);
+        } else {
+          item.payAmountNew = item.payAmount * 1;
+        }
+      });
       uni.hideLoading();
     },
     // tar 切换type

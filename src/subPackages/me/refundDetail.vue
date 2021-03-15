@@ -57,7 +57,7 @@
             v-for="(img, inx) in returnData.returnImg"
             :key="inx"
             class="ping-img-item mr-r-20"
-            :src="httpDetailImg + img"
+            :src="httpReturn + img"
           />
         </div>
       </div>
@@ -82,7 +82,7 @@
 </template>
 <script>
 const { toast, common } = require("../../utils/index");
-const { httpImg, httpDetailImg } = require("../../config/develop");
+const { httpImg, httpReturn } = require("../../config/develop");
 export default {
   data() {
     return {
@@ -93,7 +93,7 @@ export default {
       frontReturnNo: "",
       returnData: {},
       httpImg: httpImg,
-      httpDetailImg: httpDetailImg,
+      httpReturn: httpReturn,
       iPhoneType: -1,
     };
   },

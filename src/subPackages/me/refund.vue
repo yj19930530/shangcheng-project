@@ -154,7 +154,7 @@ export default {
     },
     // 上传凭证
     async uploadPing() {
-      const imgObj = await common.updataImg(6, "商品详情初始化");
+      const imgObj = await common.updataImg(6, "退款申请");
       this.imgList = this.imgList.concat(imgObj);
     },
   },
