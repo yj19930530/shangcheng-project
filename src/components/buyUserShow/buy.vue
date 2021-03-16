@@ -57,7 +57,9 @@ export default {
 </script>
 <style scoped>
 .buy-item-box {
-  padding-top: 20rpx;
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  background-color: #fff;
 }
 .buy-header-img {
   width: 60rpx;
@@ -71,7 +73,6 @@ export default {
 .buy-show-img {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 14rpx;
 }
 .show-img-item {
   margin-right: 20rpx;

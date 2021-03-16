@@ -287,7 +287,7 @@ export default {
     async getCommentPage(row) {
       const { data } = await this.$api.findGoodCommentPage({
         pageNo: 1,
-        pageSize: 3,
+        pageSize: 1,
         oiId: row.gid,
       });
       this.showList = data.list;

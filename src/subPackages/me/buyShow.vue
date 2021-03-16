@@ -1,10 +1,8 @@
 <template>
   <div class="buy-contianer">
-    <div style="height: 30rpx"></div>
+    <div style="height: 20rpx"></div>
     <div class="buy-row-show">
-      <div class="buy-row-show-center">
-        <Buy v-for="(item, index) in showList" :key="index" :showObj="item" />
-      </div>
+      <Buy v-for="(item, index) in showList" :key="index" :showObj="item" />
     </div>
     <div class="fl-cen nomore-box" v-if="!more">
       <text class="fz-12 fc-999">没有更多了</text>
@@ -81,14 +79,8 @@ page {
 .buy-row-show {
   padding: 0rpx 0 30rpx;
   width: 100%;
-  background-color: #fff;
-}
-.buy-row-show-center {
-  margin: auto;
-  width: 710rpx;
 }
 .nomore-box {
-  padding-top: 30rpx;
   padding-bottom: 30rpx;
 }
 </style>
