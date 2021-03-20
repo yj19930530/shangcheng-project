@@ -315,17 +315,17 @@ export default {
       labelList: [],
       gspecList: [
         {
-          name: "一只装(直降70元)",
+          name: "一支装(直降70元)",
           price: 199,
           num: 1
         },
         {
-          name: "两只装(送¥289葡糖苷洗面奶1支)",
+          name: "两支装(送¥289葡糖苷洗面奶1支)",
           price: 398,
           num: 2
         },
         {
-          name: "三只装(送¥199正装凝胶1支)",
+          name: "三支装(送同款¥398正装凝胶1支)",
           price: 597,
           num: 3
         }
