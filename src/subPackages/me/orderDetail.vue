@@ -4,11 +4,20 @@
     <!-- 订单列表 -->
     <div class="order-list-coentent">
       <div class="order-detail-coentent">
-        <div class="fl-al" v-if="orderData.state === 1">
-          <image class="fk-success-icon mr-l-20" src="../../static/me/fk.png" />
+        <div
+          class="fl-al"
+          v-if="orderData.state === 1"
+        >
+          <image
+            class="fk-success-icon mr-l-20"
+            src="../../static/me/fk.png"
+          />
           <text class="fz-15 fc-fff mr-l-20">等待付款</text>
         </div>
-        <div class="fl-al" v-if="orderData.state === 2">
+        <div
+          class="fl-al"
+          v-if="orderData.state === 2"
+        >
           <image
             class="fk-success-icon mr-l-20"
             src="../../static/me/dfh2.png"
@@ -19,10 +28,16 @@
           class="fl-al"
           v-if="orderData.state === 5 || orderData.state === 4"
         >
-          <image class="fk-success-icon mr-l-20" src="../../static/me/ok.png" />
+          <image
+            class="fk-success-icon mr-l-20"
+            src="../../static/me/ok.png"
+          />
           <text class="fz-15 fc-fff mr-l-20">交易成功</text>
         </div>
-        <div class="fl-al" v-if="orderData.state === 3">
+        <div
+          class="fl-al"
+          v-if="orderData.state === 3"
+        >
           <image
             class="fk-success-icon mr-l-20"
             src="../../static/me/dsh2.png"
@@ -35,20 +50,24 @@
           @tap="navPathTo('wuliu')"
           v-if="orderData.state === 3 || orderData.state === 2"
         >
-          <image class="wuliu-icon" src="../../static/me/wuliu.png" />
+          <image
+            class="wuliu-icon"
+            src="../../static/me/wuliu.png"
+          />
           <div class="wuliu-title-box fl-fc">
-            <text class="fz-14 fw-bold"
-              >您的商品需要从供应商采购，我们会尽快处理，请耐心等待</text
-            >
+            <text class="fz-14 fw-bold">您的商品需要从供应商采购，我们会尽快处理，请耐心等待</text>
             <text class="fz-12 fc-999 mr-t-10">{{
               timeTextShow(orderData.sendDate)
-            }}</text>
+              }}</text>
           </div>
           <text class="iconfont iconyoujiantou fz-15 mr-r-20"></text>
         </div>
         <!-- 地址 -->
         <div class="wuliu-box-detail fl-bt mr-t-20">
-          <image class="wuliu-icon" src="../../static/me/dizhi2.png" />
+          <image
+            class="wuliu-icon"
+            src="../../static/me/dizhi2.png"
+          />
           <div class="wuliu-title-box">
             <div class="fl-al">
               <text class="fz-14 fw-bold">{{ orderData.receiverName }}</text>
@@ -61,7 +80,10 @@
       </div>
       <!-- 订单 -->
       <div class="mr-t-20 order-list-detail fl-al">
-        <image class="title-home-icon" src="../../static/shop/home.png" />
+        <image
+          class="title-home-icon"
+          src="../../static/shop/home.png"
+        />
         <text class="fc-15 fw-bold mr-l-14">初印象Firstyinas</text>
       </div>
       <div
@@ -70,7 +92,10 @@
         :key="item.gId"
       >
         <div class="order-row-left fl-fc">
-          <image class="row-left-img" :src="httpImg + item.pic" />
+          <image
+            class="row-left-img"
+            :src="httpImg + item.pic"
+          />
         </div>
         <div class="order-row-right">
           <div class="fz-15 text-lang-dian2">{{ item.name }}</div>
@@ -79,9 +104,12 @@
             <text class="fz-14 fc-999 mr-r-24">x{{ item.qty }}</text>
           </div>
           <div class="mr-t-10">
-            <text class="fz-17">总价：¥{{ item.basePrice }}</text>
+            <text class="fz-17">总价：¥{{ item.basePrice*item.qty }}</text>
           </div>
-          <div class="border-btn-list" v-if="orderData.state === 4">
+          <div
+            class="border-btn-list"
+            v-if="orderData.state === 4"
+          >
             <div class="border-btn-list-center">
               <div
                 v-if="item.commentState === 0"
@@ -90,7 +118,10 @@
               >
                 <text class="fz-14 fc-999">评价</text>
               </div>
-              <div v-else class="fl-cen order-comfirm-btn btn-border-999">
+              <div
+                v-else
+                class="fl-cen order-comfirm-btn btn-border-999"
+              >
                 <text class="fz-14 fc-999">已评价</text>
               </div>
             </div>
@@ -98,7 +129,10 @@
         </div>
       </div>
       <!-- 创建时间 -->
-      <div class="order-create-time fl-al" v-if="orderData.state === 1">
+      <div
+        class="order-create-time fl-al"
+        v-if="orderData.state === 1"
+      >
         <text class="fz-15 fc-666 mr-l-60">创建时间</text>
         <text class="fz-15 mr-l-70">{{ timeTextShow(orderData.created) }}</text>
       </div>
@@ -119,19 +153,19 @@
           <text class="fz-15 fc-666 mr-l-40">下单时间</text>
           <text class="fz-15 mr-l-70">{{
             timeTextShow(orderData.created)
-          }}</text>
+            }}</text>
         </div>
         <div class="pay-row-detail fl-al">
           <text class="fz-15 fc-666 mr-l-40">支付时间</text>
           <text class="fz-15 mr-l-70">{{
             timeTextShow(orderData.payDate)
-          }}</text>
+            }}</text>
         </div>
         <div class="pay-row-detail fl-al">
           <text class="fz-15 fc-666 mr-l-40">发货时间</text>
           <text class="fz-15 mr-l-70">{{
             timeTextShow(orderData.sendDate)
-          }}</text>
+            }}</text>
         </div>
       </div>
       <div
@@ -218,7 +252,7 @@ export default {
     return {
       orderData: {},
       totalPrice: 0,
-      httpImg: httpImg, // 图片url
+      httpImg: httpImg // 图片url
     };
   },
   onLoad(obj) {
@@ -226,7 +260,7 @@ export default {
     this.iPhoneType = t ? -1 : 0;
     uni.setNavigationBarColor({
       frontColor: "#ffffff",
-      backgroundColor: "#333333",
+      backgroundColor: "#333333"
     });
     this.orderId = obj.id;
   },
@@ -235,22 +269,22 @@ export default {
   },
   onShareAppMessage() {
     return {
-      path: `/pages/page/home`,
+      path: `/pages/page/home`
     };
   },
   computed: {
     phoneModel() {
       return getApp().globalData.model;
-    },
+    }
   },
   methods: {
     // 获取详情
     async getDetail() {
       toast.showLoading("加载中");
       const { data } = await this.$api.getOrderInfo({
-        id: this.orderId,
+        id: this.orderId
       });
-      data.items.forEach((item) => {
+      data.items.forEach(item => {
         this.totalPrice += item.qty * item.basePrice;
       });
       this.orderData = data;
@@ -268,25 +302,27 @@ export default {
       switch (name) {
         case "log": {
           uni.navigateTo({
-            url: `/subPackages/me/orderDetail?id=${row.oid}`,
+            url: `/subPackages/me/orderDetail?id=${row.oid}`
           });
           break;
         }
         case "goods": {
           uni.navigateTo({
-            url: `/subPackages/home/shopDetail?gId=${row.gid}`,
+            url: `/subPackages/home/shopDetail?gId=${row.gid}`
           });
           break;
         }
         case "show": {
           uni.navigateTo({
-            url: `/subPackages/me/comment?id=${row.oiId}&soId=${this.orderData.soId}`,
+            url: `/subPackages/me/comment?id=${row.oiId}&soId=${
+              this.orderData.soId
+            }`
           });
           break;
         }
         case "tk": {
           uni.navigateTo({
-            url: `/subPackages/me/refund`,
+            url: `/subPackages/me/refund`
           });
           break;
         }
@@ -295,39 +331,39 @@ export default {
           uni.showModal({
             title: "提示",
             content: "是否要取消订单",
-            success: async function (res) {
+            success: async function(res) {
               if (res.confirm) {
                 toast.showLoading("取消中");
                 await _this.$api.deleteOrder({
                   oid: row.oid,
                   state: 6,
-                  soId: row.soId,
+                  soId: row.soId
                 });
                 toast.showToast("取消成功");
                 uni.navigateBack();
                 uni.hideLoading();
               }
-            },
+            }
           });
 
           break;
         }
         case "pay": {
           uni.navigateTo({
-            url: `/subPackages/shop/payment?soId=${row.soId}&state=${row.state}`,
+            url: `/subPackages/shop/payment?soId=${row.soId}&state=${row.state}`
           });
           break;
         }
         case "car": {
           // 添加购物车
-          row.items.forEach((item) => {
+          row.items.forEach(item => {
             this.$api
               .addShopCar({
                 gid: item.gId,
                 spec: item.propertiesValue,
-                cartQty: item.qty,
+                cartQty: item.qty
               })
-              .then((res) => {
+              .then(res => {
                 if (res.state === 200) {
                   toast.showToast("添加成功");
                 } else {
@@ -343,17 +379,17 @@ export default {
           uni.showModal({
             title: "提示",
             content: "是否确认收货",
-            success: async function (res) {
+            success: async function(res) {
               if (res.confirm) {
                 toast.showLoading("确认中");
                 await _this.$api.confirmReceipt({
-                  orderNo: row.soId,
+                  orderNo: row.soId
                 });
                 toast.showToast("确认成功");
                 uni.navigateBack();
                 uni.hideLoading();
               }
-            },
+            }
           });
           break;
         }
@@ -365,7 +401,9 @@ export default {
         }
         case "wuliu": {
           uni.navigateTo({
-            url: `/subPackages/me/wuliu?id=${this.orderData.lid}&name=${this.orderData.logisticsCompany}`,
+            url: `/subPackages/me/wuliu?id=${this.orderData.lid}&name=${
+              this.orderData.logisticsCompany
+            }`
           });
           break;
         }
@@ -373,8 +411,8 @@ export default {
           break;
         }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style>
@@ -418,7 +456,7 @@ page {
   border: 1px solid #999;
 }
 .btn-border-f1 {
-  border: 1px solid #A4423F;
+  border: 1px solid #a4423f;
 }
 .border-btn-list {
   display: flex;
