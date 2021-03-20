@@ -1,13 +1,20 @@
 <template>
-  <div
-    :class="[iPhoneType === -1 ? 'comfirm-container' : 'comfirm-container2']"
-  >
+  <div :class="[iPhoneType === -1 ? 'comfirm-container' : 'comfirm-container2']">
     <div style="height: 32rpx"></div>
     <!-- 头部地址 -->
     <div class="fl-fc address-edit-box">
-      <div class="fl-bt address-top-box" @tap="chooseAddress">
-        <image class="address-icon" src="../../static/shop/dizhi.png" />
-        <div class="fl-fc" v-if="addressListData.length">
+      <div
+        class="fl-bt address-top-box"
+        @tap="chooseAddress"
+      >
+        <image
+          class="address-icon"
+          src="../../static/shop/dizhi.png"
+        />
+        <div
+          class="fl-fc"
+          v-if="addressListData.length"
+        >
           <div class="fz-15 fw-bold address-title text-lang-dian">
             {{ addressListData[0].provinceName }}{{ addressListData[0].cityName
             }}{{ addressListData[0].countyName
@@ -17,20 +24,29 @@
             <text class="fz-15">{{ addressListData[0].userName }}</text>
             <text class="fz-15 mr-l-50">{{
               addressListData[0].telNumber
-            }}</text>
+              }}</text>
           </div>
         </div>
-        <div class="fl-al address-title" v-else>
+        <div
+          class="fl-al address-title"
+          v-else
+        >
           <text class="fz-15 fw-bold">宝贝还没有收货地址哦~</text>
         </div>
         <text class="iconfont iconyoujiantou fz-14 fc-999 mr-r-20"></text>
       </div>
-      <image class="heng-style" src="../../static/shop/heng.png" />
+      <image
+        class="heng-style"
+        src="../../static/shop/heng.png"
+      />
     </div>
     <!-- 订单内容 -->
     <div class="comfirm-list-box">
       <div class="comfirm-row-title fl-al">
-        <image class="row-title-icon" src="../../static/shop/home.png" />
+        <image
+          class="row-title-icon"
+          src="../../static/shop/home.png"
+        />
         <text class="fz-15 fw-bold mr-l-10">初印象Firstyinas</text>
       </div>
       <div
@@ -39,7 +55,10 @@
         :key="index"
         @tap="navToDetail(item.good.gid)"
       >
-        <image class="row-left-img mr-l-40" :src="httpImg + item.good.gimg" />
+        <image
+          class="row-left-img mr-l-40"
+          :src="httpImg + item.good.gimg"
+        />
         <div class="row-right-box">
           <text class="fz-15">{{ item.good.gtitle }}</text>
           <div class="fl-bt mr-t-20">
@@ -48,9 +67,10 @@
           </div>
           <div class="mr-t-20">
             <text class="fz-17 fc-f1 fw-bold">¥{{ item.good.bprice }}</text>
-            <text v-if="item.good.price4" class="fz-14 fc-999 td-text mr-l-10"
-              >¥{{ item.good.price4 }}</text
-            >
+            <text
+              v-if="item.good.price4"
+              class="fz-14 fc-999 td-text mr-l-10"
+            >¥{{ item.good.price4 }}</text>
           </div>
         </div>
       </div>
@@ -82,24 +102,17 @@
       <div class="buy-know-content">
         <div><span class="fz-15 fc-666">购买须知：</span></div>
         <div class="mr-t-30">
-          <span class="fz-11 fc-666"
-            >1.【关于下单及发货时间】请在拍下产品后15分钟内完成支付即算下单成功。自订单付款时间起，现货均可在24小时内发货，如产品紧急缺货或为预售产品需要延期发货，我们将会第一时间通知您。
+          <span class="fz-11 fc-666">1.【关于下单及发货时间】请在拍下产品后15分钟内完成支付即算下单成功。自订单付款时间起，现货均可在24小时内发货，如产品紧急缺货或为预售产品需要延期发货，我们将会第一时间通知您。
           </span>
         </div>
         <div class="mr-t-50">
-          <span class="fz-11 fc-666"
-            >2.【关于易碎品及快递损害】包裹必须本人检查所收货物完好、订购的产品及数量一致后当面签收，如发现产品不符或损坏可直接拒签返回。由于别人代签或没有检查好等自身原因导致的问题需自行承担哦！</span
-          >
+          <span class="fz-11 fc-666">2.【关于易碎品及快递损害】包裹必须本人检查所收货物完好、订购的产品及数量一致后当面签收，如发现产品不符或损坏可直接拒签返回。由于别人代签或没有检查好等自身原因导致的问题需自行承担哦！</span>
         </div>
         <div class="mr-t-50">
-          <span class="fz-11 fc-666"
-            >3.【关于7天无理由退换货】产品已拆封或已使用的情况下均不在7天无理由退换货范围内；无理由退换货产生的来回快递运费需自行承担哦！</span
-          >
+          <span class="fz-11 fc-666">3.【关于7天无理由退换货】产品已拆封或已使用的情况下均不在7天无理由退换货范围内；无理由退换货产生的来回快递运费需自行承担哦！</span>
         </div>
         <div class="mr-t-50">
-          <span class="fz-11 fc-666"
-            >小贴士：在收到产品后，请联系我们的线上护肤导师，我们将会结合您的皮肤情况给到最专业的使用指南，若您对这次的服务满意，请别忘了给予我们好评支持，若不满意或有何意见或建议，敬请告知我们，以便改进。</span
-          >
+          <span class="fz-11 fc-666">小贴士：在收到产品后，请联系我们的线上护肤导师，我们将会结合您的皮肤情况给到最专业的使用指南，若您对这次的服务满意，请别忘了给予我们好评支持，若不满意或有何意见或建议，敬请告知我们，以便改进。</span>
         </div>
         <!-- <div class="mr-t-30">
           <span class="fz-12 fc-666">提交订单并表示同意</span>
@@ -116,7 +129,10 @@
         <text class="fz-15">合计</text>
         <text class="fz-17 fc-f1 fw-bold mr-l-10">¥{{ totalPrice }}</text>
       </div>
-      <div class="fl-cen right-btn-submit" @tap="submtPay">
+      <div
+        class="fl-cen right-btn-submit"
+        @tap="submtPay"
+      >
         <text class="fc-fff fz-14">提交订单</text>
       </div>
     </div>
@@ -136,6 +152,7 @@ export default {
       addressListData: [], // 收货地址
       cpCode: "",
       iPhoneType: -1,
+      sepcNumber: null
     };
   },
   async onLoad(data) {
@@ -144,17 +161,24 @@ export default {
     this.userno = uni.getStorageSync("userno");
     if (!this.userno) {
       uni.reLaunch({
-        url: `/pages/page/login?shopId=${data.shopId}&url=/subPackages/shop/orderComfim`,
+        url: `/pages/page/login?shopId=${
+          data.shopId
+        }&url=/subPackages/shop/orderComfim`
       });
       return;
     }
     if (data.shopId) {
       const getObj = await this.$api.findShareCartList({
-        shareNo: data.shopId,
+        shareNo: data.shopId
       });
       this.shopList = getObj.data;
     } else {
       let objData = JSON.parse(data.obj);
+      if (objData.sepcNumber) {
+        this.sepcNumber = objData.sepcNumber;
+      } else {
+        this.sepcNumber = null;
+      }
       if (objData.type === "car") {
         this.shopList = objData.data;
       } else {
@@ -164,8 +188,8 @@ export default {
             cartQty: objData.count,
             good: buyData,
             spec: buyData.gspec,
-            gid: buyData.gid,
-          },
+            gid: buyData.gid
+          }
         ];
       }
     }
@@ -198,19 +222,19 @@ export default {
   computed: {
     phoneModel() {
       return getApp().globalData.model;
-    },
+    }
   },
   methods: {
     // 获取收货地址
     async addressList() {
       const { data } = await this.$api.getAddressList({
-        isdefault: 1,
+        isdefault: 1
       });
       this.addressListData = data;
     },
     // 计算价格
     priceCompute() {
-      this.shopList.forEach((item) => {
+      this.shopList.forEach(item => {
         this.totalPrice += item.good.bprice * item.cartQty;
         this.totalNumber += item.cartQty;
       });
@@ -218,18 +242,18 @@ export default {
     // 选择收货地址
     chooseAddress() {
       uni.navigateTo({
-        url: "/subPackages/me/goodsArdressList",
+        url: "/subPackages/me/goodsArdressList"
       });
     },
     navToDetail(id) {
       uni.navigateTo({
-        url: `/subPackages/home/shopDetail?gId=${id}`,
+        url: `/subPackages/home/shopDetail?gId=${id}`
       });
     },
     // 跳转购买须知
     buyGoodsKnow() {
       uni.navigateTo({
-        url: "/subPackages/me/userBuyKnow",
+        url: "/subPackages/me/userBuyKnow"
       });
     },
     // 跳转付款页面
@@ -237,7 +261,7 @@ export default {
       if (!this.addressListData.length)
         return toast.showToast("请添加收货地址");
       let goodsArr = [];
-      this.shopList.forEach((item) => {
+      this.shopList.forEach(item => {
         if (item.uid) {
           this.recommendId = item.uid;
         } else {
@@ -247,11 +271,11 @@ export default {
           gId: item.gid,
           cId: item.id ? item.id : "",
           gQty: item.cartQty,
-          gSpec: item.spec,
+          gSpec: item.spec
         });
       });
       if (this.recommendId !== "") {
-        goodsArr.forEach((item) => {
+        goodsArr.forEach(item => {
           delete item.cId;
         });
       }
@@ -266,18 +290,19 @@ export default {
           listOrderGoodInfo: JSON.stringify(goodsArr),
           addressId: this.addressListData[0].id,
           recommendId: this.recommendId,
+          sepcNumber: this.sepcNumber
         })
-        .then((res) => {
+        .then(res => {
           uni.hideLoading();
           uni.navigateTo({
-            url: `/subPackages/shop/payment?soId=${res.data.code}&state=1`,
+            url: `/subPackages/shop/payment?soId=${res.data.code}&state=1`
           });
         })
         .catch(() => {
           uni.hideLoading();
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style >

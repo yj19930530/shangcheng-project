@@ -7,7 +7,7 @@
       </div>
       <div class="pay-top-row fl-bt">
         <text class="fz-15 fc-666 mr-l-30">订单名称</text>
-        <text class="fz-15 mr-r-30">{{ orderDetail.items[0].name }}</text>
+        <div style="width:540rpx" class="fz-15 mr-r-30 text-lang-dian2">{{ orderDetail.items[0].name }}</div>
       </div>
       <div class="pay-top-row fl-bt">
         <text class="fz-15 fc-666 mr-l-30">订单金额</text>
@@ -76,9 +76,10 @@ export default {
         soId: this.soId,
       });
       this.orderDetail = data[0];
-      this.orderDetail.items.forEach((item) => {
-        this.totalPrice += item.basePrice * item.qty;
-      });
+      // this.orderDetail.items.forEach((item) => {
+      //   this.totalPrice += item.basePrice * item.qty;
+      // });
+      this.totalPrice = this.orderDetail.payAmount;
       uni.hideLoading();
     },
     async submtPay() {
