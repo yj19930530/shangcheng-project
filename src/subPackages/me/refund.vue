@@ -13,7 +13,9 @@
           <text class="fz-14 fc-999">已选{{ item.propertiesValue }}</text>
           <text class="fz-14 fc-999">x{{ item.qty }}</text>
         </div>
-        <text class="mr-t-10 fz-17">总价：¥{{ item.basePrice }}</text>
+        <text class="mr-t-10 fz-17"
+          >总价：¥{{ item.basePrice * item.qty }}</text
+        >
       </div>
     </div>
     <picker @change="bindPickerChange" :value="index" :range="reasonList">
@@ -116,9 +118,7 @@ export default {
       const { data } = await this.$api.getOrderInfo({
         id: this.oid,
       });
-      data.items.forEach((item) => {
-        this.totalPrice += item.qty * item.basePrice;
-      });
+      this.totalPrice = data.payAmount;
       this.orderData = data;
       this.orderRefund.orderNo = data.soId;
       this.orderRefund.returnAmount = this.totalPrice;

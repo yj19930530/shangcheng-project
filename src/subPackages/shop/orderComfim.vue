@@ -152,7 +152,7 @@ export default {
       addressListData: [], // 收货地址
       cpCode: "",
       iPhoneType: -1,
-      sepcNumber: null
+      sepcNumber: 1
     };
   },
   async onLoad(data) {
@@ -177,7 +177,7 @@ export default {
       if (objData.sepcNumber) {
         this.sepcNumber = objData.sepcNumber;
       } else {
-        this.sepcNumber = null;
+        this.sepcNumber = 1;
       }
       if (objData.type === "car") {
         this.shopList = objData.data;

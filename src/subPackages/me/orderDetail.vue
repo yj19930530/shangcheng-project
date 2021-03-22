@@ -284,9 +284,7 @@ export default {
       const { data } = await this.$api.getOrderInfo({
         id: this.orderId
       });
-      data.items.forEach(item => {
-        this.totalPrice += item.qty * item.basePrice;
-      });
+      this.totalPrice = data.payAmount;
       this.orderData = data;
       uni.hideLoading();
     },
@@ -422,7 +420,7 @@ page {
 </style>
 <style scoped>
 .order-center-container {
-  padding-bottom: 110rpx;
+  padding-bottom: 165rpx;
 }
 .order-list-coentent {
   margin: -128rpx auto 0;
