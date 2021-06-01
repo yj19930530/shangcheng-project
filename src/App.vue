@@ -1,6 +1,4 @@
 <script>
-import Vue from "vue";
-import { toast } from "./utils/index";
 export default {
   globalData: {
     navHeight: 0,
